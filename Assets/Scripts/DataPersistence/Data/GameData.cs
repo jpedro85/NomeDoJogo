@@ -13,6 +13,11 @@ namespace DataPersistence.Data
         public double playerCoins;
         public double currentPlayerPositionOnLvl;
 
+        // if you want to add scriptable objects to the game data thats going to be save use the mirrored class
+        // [SerializeField] private ExampleOfScriptableObject ExampleOfScriptableObject;
+        // And add to the constructor as well
+        // On the object you are using the scriptable object implement the IDataPersistence as you would normally and 
+        // import or export the values of the class that was serialized or deserialized
 
         // the values defined in this constructor will be the default values
         // the game starts with when there is no data to load
