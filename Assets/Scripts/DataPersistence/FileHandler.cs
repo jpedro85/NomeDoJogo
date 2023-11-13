@@ -22,7 +22,6 @@ namespace DataPersistence
         {
             string fullPath = Path.Combine(dirPath, dataFileName);
             GameData loadedData = null;
-            Debug.Log(fullPath);
             if (File.Exists(fullPath))
             {
                 try
