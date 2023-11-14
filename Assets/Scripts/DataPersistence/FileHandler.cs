@@ -20,7 +20,7 @@ namespace DataPersistence
             this.useEncryption = useEncryption;
         }
 
-        public GameData load(bool allowRestoreFronBackup = true)
+        public GameData load(bool allowRestoreFromBackup = true)
         {
             string fullPath = Path.Combine(dirPath, dataFileName);
             GameData loadedData = null;
@@ -52,7 +52,7 @@ namespace DataPersistence
                 {
                     // Since we're calling load(..) recursively, we need to account for the case the rollback succeeds, 
                     // but data is still failing to load for some reason, which without this check may cause a infinite loop
-                    if (allowRestoreFronBackup)
+                    if (allowRestoreFromBackup)
                     {
                         Debug.LogWarning("Failed to load data file. Attempting to roll back.\n" + e);
                         bool rollBackupSuccess = attemptRollBack(fullPath);
