@@ -11,6 +11,7 @@ public class AnalogicManager : MonoBehaviour
     public GameObject AnalogicoBlur;
     public GameObject BackgoundRun;
     public GameObject BackgoundWalk;
+    public float raio = 70;
 
     private bool running = false;
     private Vector2 initialPosition;
@@ -18,7 +19,6 @@ public class AnalogicManager : MonoBehaviour
     private Touch analogicoTouch;
     private Vector2 sizeHalf;
     private Vector2 directionVector;
-    private float raio;
     private float walkLimite;
 
     public bool isRunning
@@ -52,7 +52,7 @@ public class AnalogicManager : MonoBehaviour
         sizeHalf.x = Analogico.rect.width / 2;
         sizeHalf.y = Analogico.rect.height / 2;
 
-        raio = GameObject.FindWithTag("AnalogicoConteiner").GetComponent<RectTransform>().rect.width / 2;
+        raio = (GameObject.FindWithTag("AnalogicoConteiner").GetComponent<RectTransform>().rect.width * GameObject.FindWithTag("PlayUICanvas").GetComponent<Transform>().localScale.x) / 2;
         walkLimite = BackgoundWalk.GetComponent<RectTransform>().rect.width / 2;
 
         analogicoTouch = new Touch { fingerId = -1 };

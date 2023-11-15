@@ -8,8 +8,8 @@ TagManager:
   - AnalogicBlur
   - Analogico
   - Analogico_BackgroundRun
-  - PlayUICanvas
   - AnalogicoConteiner
+  - PlayUICanvas
   layers:
   - Default
   - TransparentFX
