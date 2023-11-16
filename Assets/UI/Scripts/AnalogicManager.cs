@@ -21,17 +21,22 @@ public class AnalogicManager : MonoBehaviour
     private Vector2 directionVector;
     private float walkLimite;
 
+    public float speed
+    {
+        get { return (directionVector.magnitude / raio); }
+    }
+
     public bool isRunning
     {
         get { return running; }
     }
     public float deltaX
     {
-        get { return atualPosition.x - initialPosition.x; }
+        get { return (atualPosition.x - initialPosition.x) / raio; }
     }
     public float deltaY
     {
-        get { return atualPosition.y - initialPosition.y; }
+        get { return (atualPosition.y - initialPosition.y) / raio; }
     }
 
     public Vector2 direction
@@ -39,10 +44,14 @@ public class AnalogicManager : MonoBehaviour
         get { return directionVector; }
     }
 
+    public float angle
+    {
+        get { return Vector2.Angle(directionVector, Vector2.up);  }
+    }
+
     public void Start()
     {
-        directionVector.x = 0;
-        directionVector.y = 0;
+        directionVector = Vector2.zero;
 
         Analogico = transform.GetComponent<RectTransform>();
         initialPosition.x = transform.position.x;
@@ -102,12 +111,14 @@ public class AnalogicManager : MonoBehaviour
                     atualPosition = initialPosition;
                     Analogico.position = initialPosition;
                     AnalogicoBlur.transform.position = initialPosition;
+                    directionVector = Vector2.zero;
                     AnalogicoBlur.SetActive(false);
                     BackgoundRun.SetActive(false);
                 }
                 else
                 {
-                    directionVector = analogicoTouch.position - initialPosition;
+                    directionVector = (analogicoTouch.position - initialPosition );
+
                     atualPosition = initialPosition + Vector2.ClampMagnitude(directionVector, raio);
                     Analogico.position = atualPosition;
                     AnalogicoBlur.transform.position = atualPosition;
