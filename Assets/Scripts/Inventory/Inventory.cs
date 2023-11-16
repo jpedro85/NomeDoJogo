@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using DataPersistence;
+using DataPersistence.Data;
 using Scriptable_Objects.Items.Scripts;
 using UnityEngine;
 
 namespace Inventory
 {
-    public class Inventory : MonoBehaviour
+    public class Inventory : MonoBehaviour, IDataPersistence
     {
         #region Singleton
 
@@ -50,6 +52,16 @@ namespace Inventory
             items.Remove(item);
             if (OnItemChangedCallBack != null)
                 OnItemChangedCallBack.Invoke();
+        }
+
+        public void loadData(GameData gameData)
+        {
+            this.items = gameData.playerInventory.items;
+        }
+
+        public void saveData(GameData gameData)
+        {
+            gameData.playerInventory.items = this.items;
         }
     }
 }
