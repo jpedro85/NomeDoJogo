@@ -1,6 +1,7 @@
 ﻿using System;
 using Inventory;
 using Scriptable_Objects.Inventory.Scipts;
+using Scriptable_Objects.Items.Scripts;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -13,12 +14,16 @@ namespace CharacterManager
 
         public void OnTriggerEnter(Collider other)
         {
-            var item = other.GetComponent<GameItem>();
+            var item = other.GetComponent<Item>();
             if (item)
             {
                 Debug.Log("Its touching");
-                inventory.addItem(item.item, 1);
-                Destroy(other.gameObject);
+                bool wasPickup = Inventory.Inventory.instance.add(item);
+
+                if (wasPickup)
+                {
+                    Destroy(other.gameObject);
+                }
             }
         }
     }
