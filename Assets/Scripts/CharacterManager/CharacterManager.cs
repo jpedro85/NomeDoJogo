@@ -8,6 +8,7 @@ namespace CharacterManager
     {
         public void OnTriggerEnter(Collider other)
         {
+            // TODO needs to be tested to see if gets the right scriptable object instead of the super class Item
             var item = other.GetComponent<Item>();
             if (item)
             {
