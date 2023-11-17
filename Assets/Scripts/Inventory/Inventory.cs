@@ -4,11 +4,8 @@ using System.Linq;
 using DataPersistence;
 using DataPersistence.Data;
 using Scriptable_Objects.Items.Scripts;
-using UnityEditor;
 using UnityEngine;
 
-// TODO change inventory slot to show items amount
-// TODO change save and loading to come withs its amount
 
 namespace Inventory
 {

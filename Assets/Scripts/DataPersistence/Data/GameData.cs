@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using Scriptable_Objects.Inventory.Scipts;
 using Scriptable_Objects.Items.Scripts;
 using UnityEditor;
 
