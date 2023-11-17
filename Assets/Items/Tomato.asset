@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 005633ec03724edeadf4e7e2bca55fb9, type: 3}
   m_Name: Tomato
   m_EditorClassIdentifier: 
-  itemName: 
-  amount: 0
-  icon: {fileID: 0}
-  itemDescription: 
-  restoreHealthValue: 0
+  itemName: Pera
+  amount: 12
+  icon: {fileID: 21300000, guid: ad15bd2d360d3ec4a84c702215ab4319, type: 3}
+  itemDescription: This is not relevant ot the story
+  restoreHealthValue: 23

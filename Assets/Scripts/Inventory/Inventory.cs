@@ -4,6 +4,8 @@ using System.Linq;
 using DataPersistence;
 using DataPersistence.Data;
 using Scriptable_Objects.Items.Scripts;
+using Unity.VisualScripting;
+using UnityEditor;
 using UnityEngine;
 
 
@@ -71,35 +73,30 @@ namespace Inventory
 
         public void loadData(GameData gameData)
         {
-            foreach (var item in gameData.playerInventory.items)
+            this.items = gameData.playerInventory.items.Select(itemData =>
             {
-                items.Add(item.Value);
-            }
-            // this.items = gameData.playerInventory.items;
-            // this.items = gameData.playerInventory.items.Select(itemData => 
-            // {
-            //     Item newItem = ScriptableObject.CreateInstance<Item>();
-            //     newItem.itemName = itemData.itemName;
-            //     newItem.amount = itemData.amount;
-            //     // newItem.icon = ItemData.ConvertBytesToSprite(itemData.icon);
-            //     newItem.icon = AssetDatabase.LoadAssetAtPath<Sprite>(itemData.iconPath);
-            //     newItem.itemDescription = itemData.itemDescription;
-            //     return newItem;
-            // }).ToList();
+                Item newItem;
+                if (itemData.itemType == ItemType.Food)
+                {
+                    newItem = ScriptableObject.CreateInstance<FoodObject>();
+                }
+                else
+                {
+                    newItem = ScriptableObject.CreateInstance<Item>();
+                }
+
+                newItem.itemName = itemData.itemName;
+                newItem.amount = itemData.amount;
+                newItem.icon = itemData.icon;
+                newItem.itemDescription = itemData.itemDescription;
+
+                return newItem;
+            }).ToList();
         }
 
         public void saveData(GameData gameData)
         {
-            Dictionary<string, Item> savedInventory = new Dictionary<string, Item>();
-
-            foreach (var item in this.items)
-            {
-                savedInventory.Add(item.itemName,item);
-            }
-
-            gameData.playerInventory.items = savedInventory;
-            // gameData.playerInventory.items = this.items;
-            // gameData.playerInventory.items = this.items.Select(item => new ItemData(item)).ToList();
+            gameData.playerInventory.items = this.items.Select(item => new ItemData(item)).ToList();
         }
     }
 }

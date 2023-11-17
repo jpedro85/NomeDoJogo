@@ -27,9 +27,9 @@ namespace DataPersistence.Data
             this.deathCount = 0;
             this.playerCoins = 0;
             this.currentPlayerPositionOnLvl = 0;
-            // this.playerInventory = new InventoryData(new List<ItemData>());
+            this.playerInventory = new InventoryData(new List<ItemData>());
             // this.playerInventory = new InventoryData(new List<Item>());
-            this.playerInventory = new InventoryData(new Dictionary<string, Item>());
+            // this.playerInventory = new InventoryData(new Dictionary<string, Item>());
         }
 
         public GameData(int stepsTaken, int deathCount, double playerCoins, double currentPlayerPositionOnLvl, InventoryData playerInventory)

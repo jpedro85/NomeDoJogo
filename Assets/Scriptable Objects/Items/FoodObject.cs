@@ -1,17 +1,16 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Scriptable_Objects.Items.Scripts
 {
-    [CreateAssetMenu(fileName = "New Food Object", menuName = "Inventory System/Items/Food")]
+    [CreateAssetMenu(fileName = "New Food Object", menuName = "Item/Create New Food")]
     public class FoodObject : Item
     {
         public int restoreHealthValue;
-
+        
         public override void use()
         {
+            // TODO implement the actual functionality for the use of the food like displaying the item description on touch
             Debug.Log("Regenerated");
         }
-        
     }
 }
