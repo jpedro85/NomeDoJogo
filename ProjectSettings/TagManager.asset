@@ -10,6 +10,7 @@ TagManager:
   - Analogico_BackgroundRun
   - AnalogicoConteiner
   - PlayUICanvas
+  - Wall
   layers:
   - Default
   - TransparentFX

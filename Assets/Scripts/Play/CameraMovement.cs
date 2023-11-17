@@ -6,47 +6,71 @@ public class CameraMovement : MonoBehaviour
 {
     private AnalogicManager analogic;
     private Transform player;
-    public float speed = 200;
-    public float distance = 100;
+    private float maxSpeed;
+    private float speed;
+    public float minSpeed = 50;
+    public float percaVelocidade = 10;
+    public float minDistance = 500;
+    public float maxDistance = 1000;
     public float tolerance = 20;
+    public float teste = 1;
+    private bool rotated = false;
+    public BoxCollider boxColider;
 
     void Start()
     {
         analogic = GameObject.FindWithTag("Analogico").GetComponent<AnalogicManager>();
         player = GameObject.FindWithTag("Player").GetComponent<Transform>();
+        maxSpeed = player.GetComponent<PlayerMovement>().maxSpeed;
+        speed = maxSpeed;
     }
 
     void LateUpdate()
     {
 
-        Vector3 a = new Vector3(transform.position.x,0 ,transform.position.z);
-        Vector3 b = new Vector3(player.transform.position.x, 0,player.transform.position.z);
-        Vector3 dist = a - b;
-
-        float aprocimationSpeed = speed;
-
-        if(analogic.direction != Vector2.zero)
+        float angle  = Vector3.Angle(transform.forward,-Vector3.up);
+         
+        if (analogic.deltaY < -0.8 && analogic.deltaX < 0.1 && analogic.deltaX > -0.1 && !rotated)
         {
-            aprocimationSpeed = analogic.speed * speed;
+            transform.RotateAround(player.position, player.transform.up, 180 );
+            player.forward = -player.forward;
+            rotated = true;
         }
+        else if (analogic.deltaY >= 0)
+            rotated = false;
 
 
-        //if( distance + tolerance > dist.magnitude && dist.magnitude > distance - tolerance)
+        float dist = Vector3.Distance(transform.position,player.transform.position);
+        Debug.Log("a:" + speed + " d:" + dist + " A: " + angle);
+
+        //if (analogic.deltaY < 0)
         //{
-
-        //} 
-        //else
-        //{
-
-        //    if (dist.magnitude > distance)
-        //    {
-        //        transform.position = transform.position + (dist.normalized * -aprocimationSpeed * Time.deltaTime);
-        //    }
-        //    else if (dist.magnitude < distance)
-        //    {
-        //        transform.position = transform.position + (dist.normalized * aprocimationSpeed * Time.deltaTime);
-        //    }
+        //    speed = analogic.deltaX * maxSpeed;
         //}
+
+        //if (analogic.deltaY > 0 && angle > 25)
+        //{
+        //    speed = maxSpeed;
+        //}
+
+        speed = Mathf.Clamp(speed, minSpeed, maxSpeed);
+
+        if ( dist < maxDistance && dist > minDistance)
+        {
+
+        }
+        else
+        {
+            if (dist < minDistance )
+            {
+                transform.position = transform.position + (transform.forward * -speed * Time.deltaTime);
+            }
+            else if (dist > maxDistance)
+            {
+                transform.position = transform.position + (transform.forward * speed * Time.deltaTime);
+            }
+        }
+        
 
 
 
@@ -57,9 +81,34 @@ public class CameraMovement : MonoBehaviour
         Vector3 point = pointAux + (forward.normalized * analogic.deltaY);
         Vector3 velocity = (point - transform.position);
 
-        transform.position = transform.position + (velocity * Time.deltaTime * speed * analogic.speed);
+        transform.position = transform.position + (velocity * Time.deltaTime * speed * analogic.speed * teste);
 
         transform.forward = player.position - transform.position;
 
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.tag == "Wall")
+        {
+
+        }
+
+    }
+
+    private void OnCollisionStay(Collision collision)
+    {
+        if (collision.gameObject.tag == "Wall")
+        {
+
+        }
+    }
+
+    private void OnCollisionExit(Collision collision)
+    {
+        if (collision.gameObject.tag == "Wall")
+        {
+
+        }
     }
 }
