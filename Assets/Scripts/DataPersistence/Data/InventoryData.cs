@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using Scriptable_Objects.Items.Scripts;
 
 namespace DataPersistence.Data
 {

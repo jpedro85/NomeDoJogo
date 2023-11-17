@@ -1,9 +1,5 @@
-﻿using System;
+﻿using UnityEngine;
 using Scriptable_Objects.Items.Scripts;
-using Unity.VisualScripting;
-using UnityEditor;
-using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace DataPersistence.Data
 {

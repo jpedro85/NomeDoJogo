@@ -1,7 +1,4 @@
 ﻿using System.Collections.Generic;
-using Scriptable_Objects.Items.Scripts;
-using UnityEditor;
-
 namespace DataPersistence.Data
 {
     [System.Serializable]
@@ -28,8 +25,6 @@ namespace DataPersistence.Data
             this.playerCoins = 0;
             this.currentPlayerPositionOnLvl = 0;
             this.playerInventory = new InventoryData(new List<ItemData>());
-            // this.playerInventory = new InventoryData(new List<Item>());
-            // this.playerInventory = new InventoryData(new Dictionary<string, Item>());
         }
 
         public GameData(int stepsTaken, int deathCount, double playerCoins, double currentPlayerPositionOnLvl, InventoryData playerInventory)
