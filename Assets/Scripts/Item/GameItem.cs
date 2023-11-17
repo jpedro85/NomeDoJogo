@@ -6,6 +6,6 @@ namespace Test
     // to be able to use the scriptable objects 
     public class GameItem : MonoBehaviour
     {
-        public ItemObject item;
+        public Item item;
     }
 }

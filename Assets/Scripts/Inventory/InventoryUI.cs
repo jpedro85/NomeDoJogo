@@ -22,7 +22,7 @@ namespace Inventory
 
         private void Update()
         {
-            // updateUI();
+            updateUI();
             // implement show inventory with button and close on other button
         }
 

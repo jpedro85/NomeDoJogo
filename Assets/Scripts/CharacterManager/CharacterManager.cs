@@ -18,7 +18,7 @@ namespace CharacterManager
             if (item)
             {
                 Debug.Log("Its touching");
-                bool wasPickup = Inventory.Inventory.instance.add(item);
+                bool wasPickup = Inventory.Inventory.instance.addToInventory(item);
 
                 if (wasPickup)
                 {
