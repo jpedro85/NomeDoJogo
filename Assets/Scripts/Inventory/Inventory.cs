@@ -4,8 +4,6 @@ using System.Linq;
 using DataPersistence;
 using DataPersistence.Data;
 using Scriptable_Objects.Items.Scripts;
-using Unity.VisualScripting;
-using UnityEditor;
 using UnityEngine;
 
 
@@ -49,9 +47,8 @@ namespace Inventory
             // if it doesnt it adds to the inventory with its amount
             try
             {
-                Item inventoryItem = items.First(itemsItem => itemsItem.itemName == item.itemName);
+                var inventoryItem = items.First(itemsItem => itemsItem.itemName == item.itemName);
 
-                Debug.Log(inventoryItem);
                 inventoryItem.amount += item.amount;
                 OnItemChangedCallBack?.Invoke();
                 return true;
@@ -67,23 +64,33 @@ namespace Inventory
 
         public void removeFromInventory(Item item)
         {
-            items.Remove(item);
-            OnItemChangedCallBack?.Invoke();
+            // Going to search the inventory for the item and check whether if used is going to be removed or just decrease its amount
+            try
+            {
+                var inventoryItem = items.First(itemsItem => itemsItem.itemName == item.itemName);
+
+                if (inventoryItem.amount - 1 == 0)
+                {
+                    items.Remove(item);
+                    OnItemChangedCallBack?.Invoke();
+                }
+                else
+                {
+                    inventoryItem.amount -= 1;
+                    OnItemChangedCallBack?.Invoke();
+                }
+            }
+            catch (Exception e)
+            {
+                Debug.LogWarning("Item does not exist and you trying to remove it.\n"+e);
+            }
         }
 
         public void loadData(GameData gameData)
         {
             this.items = gameData.playerInventory.items.Select(itemData =>
             {
-                Item newItem;
-                if (itemData.itemType == ItemType.Food)
-                {
-                    newItem = ScriptableObject.CreateInstance<FoodObject>();
-                }
-                else
-                {
-                    newItem = ScriptableObject.CreateInstance<Item>();
-                }
+                var newItem = itemData.itemType == ItemType.Food ? ScriptableObject.CreateInstance<FoodItem>() : ScriptableObject.CreateInstance<Item>();
 
                 newItem.itemName = itemData.itemName;
                 newItem.amount = itemData.amount;
