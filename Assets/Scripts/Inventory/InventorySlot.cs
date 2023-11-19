@@ -1,6 +1,7 @@
 ﻿using Scriptable_Objects.Items.Scripts;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace Inventory
@@ -10,6 +11,8 @@ namespace Inventory
         public TMP_Text amountText;
         public Image icon;
         Item item;
+
+        public ItemDescripton itemDescriptonOverlay;
         
         public void addItem(Item newItem)
         {
@@ -33,12 +36,15 @@ namespace Inventory
             Inventory.instance.removeFromInventory(item);
         }
 
-        public void useItem()
+        public void displayItemInfo()
         {
-            if (item != null)
+            if (item==null)
             {
-                item.use();
+                Debug.Log("Item Null");
             }
+
+            Debug.Log("before"+item.name);
+            itemDescriptonOverlay.displayItemInfo(item);
         }
     }
 }

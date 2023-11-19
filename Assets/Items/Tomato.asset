@@ -12,8 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 005633ec03724edeadf4e7e2bca55fb9, type: 3}
   m_Name: Tomato
   m_EditorClassIdentifier: 
-  itemName: Pera
-  amount: 12
-  icon: {fileID: 21300000, guid: ad15bd2d360d3ec4a84c702215ab4319, type: 3}
-  itemDescription: This is not relevant ot the story
-  restoreHealthValue: 23
+  itemName: Tomato
+  amount: 13
+  icon: {fileID: 21300000, guid: ba72bb656e99b7b40a8afa6b668fc978, type: 3}
+  itemType: 0
+  itemDescription: this is for the item description thats going to talk about the
+    the item and give hints about for the quizzes so stay alert for something alerting
+    ot highlightable llike this sentece that has nothing to do with the item
+  restoreHealthValue: 15
