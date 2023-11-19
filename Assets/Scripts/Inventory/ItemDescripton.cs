@@ -38,6 +38,8 @@ public class ItemDescripton : MonoBehaviour
         else
         {
             item.use();
+            overlay.SetActive(!overlay.activeSelf);
+            item = null;
         }
     }
 }
