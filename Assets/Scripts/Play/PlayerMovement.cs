@@ -1,8 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
-using TreeEditor;
 using UnityEngine;
-using UnityEngine.UIElements;
+
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -10,6 +9,14 @@ public class PlayerMovement : MonoBehaviour
 
     private AnalogicManager analogic;
     private Camera mainCamera;
+    public Rigidbody rigidBody;
+    public float forceBack = 5;
+    private bool coliding = false;
+
+    public bool isColiding
+    {
+        get { return coliding; }
+    }
     // Start is called before the first frame update
     void Start()
     {
@@ -23,13 +30,53 @@ public class PlayerMovement : MonoBehaviour
 
         if (analogic.direction != Vector2.zero)
         {
-            Vector3 forward = new Vector3(mainCamera.transform.forward.x, 0, mainCamera.transform.forward.z);
-            Vector3 pointAux = mainCamera.transform.position + (mainCamera.transform.right.normalized * analogic.deltaX );
+            Vector3 forward = new Vector3(mainCamera.transform.forward.x,0, mainCamera.transform.forward.z);
+            Vector3 rigth = new Vector3(mainCamera.transform.right.x,0, mainCamera.transform.right.z);
+           // Vector2 cameraPosition = new Vector2(mainCamera.transform.position.x, mainCamera.transform.position.z);
+
+            Vector3 pointAux = mainCamera.transform.position + (rigth.normalized * analogic.deltaX );
             Vector3 point = pointAux + (forward.normalized * analogic.deltaY );
             transform.forward = (point - mainCamera.transform.position);
+            Debug.Log("mmmmmmmmmmmmmmmmmmmmmmmmm: " + transform.forward.x + ":" + transform.forward.y + ":" + transform.forward.z);
         }
 
+        if(!coliding)
         transform.position = transform.position + (transform.forward * Time.deltaTime * maxSpeed * analogic.speed);
 
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.tag == "Wall")
+        {
+            coliding = true;
+        }
+
+    }
+
+    private void OnCollisionStay(Collision collision)
+    {
+        if (collision.gameObject.tag == "Wall")
+        {
+            foreach (ContactPoint contact in collision.contacts)
+            {
+                //Vector3 awayFromCollision = contact.normal * forceBack;
+                Vector3 awayFromCollision = new Vector3(transform.forward.x, transform.forward.y, transform.forward.z).normalized;
+                transform.position = transform.position + (-awayFromCollision * forceBack);
+              //  Vector3 cameraforward = new Vector3(mainCamera.transform.forward.x, mainCamera.transform.forward.y, mainCamera.transform.forward.z);
+              // mainCamera.transform.position = -cameraforward.normalized * forceBack;
+
+                break;
+            }
+        }
+
+    }
+
+    private void OnCollisionExit(Collision collision)
+    {
+        if (collision.gameObject.tag == "Wall")
+        {
+            coliding = false;
+        }
     }
 }
