@@ -7,14 +7,14 @@ namespace Inventory
     {
         public Transform itemsParent;
         public GameObject inventoryUI;
-        
+
         Inventory inventory;
 
         InventorySlot[] slots;
-        
+
         private void Start()
         {
-            inventory= Inventory.instance;
+            inventory = Inventory.instance;
             inventory.OnItemChangedCallBack += updateUI;
 
             slots = itemsParent.GetComponentsInChildren<InventorySlot>();
@@ -26,7 +26,7 @@ namespace Inventory
             // implement show inventory with button and close on other button
         }
 
-        void updateUI()
+        private void updateUI()
         {
             for (int i = 0; i < slots.Length; i++)
             {
