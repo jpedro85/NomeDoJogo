@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class HomeScreeToLevel : MonoBehaviour
+public class HomeScreenToLevel : MonoBehaviour
 {
    public void PlayButton()
    {
