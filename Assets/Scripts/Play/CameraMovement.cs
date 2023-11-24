@@ -41,7 +41,7 @@ public class CameraMovement : MonoBehaviour
     private float time;
 
 
-    public float margem = 5;
+    public float margem = 10;
 
     void Start()
     {
@@ -56,6 +56,8 @@ public class CameraMovement : MonoBehaviour
         maxDistanceY = minDistanceY + 10;
         distanceX = minDistanceX;
         distanceY = minDistanceY;
+
+        Debug.Log("maxY:" + maxDistanceX + " maxX" + maxDistanceX);
 
     }
 
@@ -92,6 +94,8 @@ public class CameraMovement : MonoBehaviour
                 atualSpeed = maxSpeed;
 
         }
+
+        zoom();
 
         Debug.Log("dy:" + distY + " dx:" + distX + "aa::" + atualSpeed);
 
@@ -260,6 +264,7 @@ public class CameraMovement : MonoBehaviour
 
             stabelizedY = false;
         }
+        Debug.Log("s:" + stabelizedY);
     }
 
 }
