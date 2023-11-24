@@ -1,8 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEditor.ShaderGraph.Serialization;
-using UnityEngine;
-
+﻿using System.Collections.Generic;
 namespace DataPersistence.Data
 {
     [System.Serializable]
@@ -12,7 +8,8 @@ namespace DataPersistence.Data
         public int deathCount;
         public double playerCoins;
         public double currentPlayerPositionOnLvl;
-
+        public InventoryData playerInventory;
+        
         // if you want to add scriptable objects to the game data thats going to be save use the mirrored class
         // [SerializeField] private ExampleOfScriptableObject ExampleOfScriptableObject;
         // And add to the constructor as well
@@ -27,14 +24,16 @@ namespace DataPersistence.Data
             this.deathCount = 0;
             this.playerCoins = 0;
             this.currentPlayerPositionOnLvl = 0;
+            this.playerInventory = new InventoryData(new List<ItemData>());
         }
 
-        public GameData(int stepsTaken, int deathCount, double playerCoins, double currentPlayerPositionOnLvl)
+        public GameData(int stepsTaken, int deathCount, double playerCoins, double currentPlayerPositionOnLvl, InventoryData playerInventory)
         {
             this.stepsTaken = stepsTaken;
             this.deathCount = deathCount;
             this.playerCoins = playerCoins;
             this.currentPlayerPositionOnLvl = currentPlayerPositionOnLvl;
+            this.playerInventory = new InventoryData(playerInventory.items);
         }
         
     }

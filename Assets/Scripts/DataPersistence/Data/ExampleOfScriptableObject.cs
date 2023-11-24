@@ -1,7 +1,7 @@
 ﻿// if you want to save data from a scriptable object its better to have a mirror classes so we can seriazlize the data needed 
 // for the save 
 
-namespace DataPersistence
+namespace DataPersistence.Data
 {
     [System.Serializable]
     public class ExampleOfScriptableObject
