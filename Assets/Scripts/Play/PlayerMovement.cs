@@ -66,7 +66,7 @@ public class PlayerMovement : MonoBehaviour
 
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider collision)
     {
         if (collision.gameObject.tag == "Wall")
         {
@@ -75,25 +75,25 @@ public class PlayerMovement : MonoBehaviour
 
     }
 
-    private void OnCollisionStay(Collision collision)
+    private void OnTriggerStay(Collider collision)
     {
         if (collision.gameObject.tag == "Wall")
         {
-            foreach (ContactPoint contact in collision.contacts)
-            {
+            //foreach (ContactPoint contact in collision.contacts)
+            //{
                 //Vector3 awayFromCollision = contact.normal * forceBack;
                 Vector3 awayFromCollision = new Vector3(transform.forward.x, transform.forward.y, transform.forward.z).normalized;
                 transform.position = transform.position + (-awayFromCollision * forceBack);
               //  Vector3 cameraforward = new Vector3(mainCamera.transform.forward.x, mainCamera.transform.forward.y, mainCamera.transform.forward.z);
               // mainCamera.transform.position = -cameraforward.normalized * forceBack;
 
-                break;
-            }
+            //    break;
+            //}
         }
 
     }
 
-    private void OnCollisionExit(Collision collision)
+    private void OnTriggerExit(Collider collision)
     {
         if (collision.gameObject.tag == "Wall")
         {

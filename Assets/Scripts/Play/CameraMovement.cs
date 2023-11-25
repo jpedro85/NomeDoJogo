@@ -25,7 +25,6 @@ public class CameraMovement : MonoBehaviour
 
     public float offsetY;
     private bool rotated = false;
-    public BoxCollider boxColider;
     private Rigidbody rigidBody;
     public float forceBack = 100;
 
@@ -41,7 +40,7 @@ public class CameraMovement : MonoBehaviour
     private float time;
 
 
-    public float margem = 10;
+    public float margem = 25;
 
     void Start()
     {
@@ -52,26 +51,16 @@ public class CameraMovement : MonoBehaviour
         atualSpeed = maxSpeed;
         speed = maxSpeed;
 
-        maxDistanceX = minDistanceX + 10;
-        maxDistanceY = minDistanceY + 10;
+        maxDistanceX = minDistanceX + margem;
+        maxDistanceY = minDistanceY + margem;
         distanceX = minDistanceX;
         distanceY = minDistanceY;
-
-        Debug.Log("maxY:" + maxDistanceX + " maxX" + maxDistanceX);
-
     }
 
     public int teste = 0;
 
     void Update()
     {
-
-        checkInvert();
-        Vector2 transformPosition2D = new Vector2(transform.position.x, transform.position.z);
-        Vector2 playerTransformPosition2D = new Vector2(player.transform.position.x, player.transform.position.z);
-        float distX = Vector2.Distance(playerTransformPosition2D, transformPosition2D);
-        float distY = transform.position.y - offsetY;
-
 
         if (zoomOutActive && !zooming && teste == 0)
         {
@@ -95,9 +84,26 @@ public class CameraMovement : MonoBehaviour
 
         }
 
-        zoom();
+        Vector3 forward = new Vector3(transform.forward.x, 0, transform.forward.z);
+        Vector3 rigth = new Vector3(transform.right.x, 0, transform.right.z);
+        Vector3 pointAux = transform.position + (-rigth.normalized * analogic.deltaX);
+        Vector3 point = pointAux + (forward.normalized * analogic.deltaY);
+        Vector3 velocity = (point - transform.position);
 
-        Debug.Log("dy:" + distY + " dx:" + distX + "aa::" + atualSpeed);
+        if (!coliding)
+        {
+            transform.position = transform.position + (velocity * Time.deltaTime * atualSpeed * analogic.speed);
+        }
+
+        transform.forward = new Vector3(player.position.x, offsetY, player.position.z) - transform.position;
+
+        checkInvert();
+        Vector2 transformPosition2D = new Vector2(transform.position.x, transform.position.z);
+        Vector2 playerTransformPosition2D = new Vector2(player.transform.position.x, player.transform.position.z);
+        float distX = Vector2.Distance(playerTransformPosition2D, transformPosition2D);
+        float distY = transform.position.y - offsetY;
+
+        zoom();
 
         if (!coliding)
             updateDistanceX(distX, atualSpeed);
@@ -108,25 +114,6 @@ public class CameraMovement : MonoBehaviour
         {
             zooming = false;
         }
-
-        // if (!playerMov.isColiding)
-        //  {
-
-        Vector3 forward = new Vector3(transform.forward.x, 0, transform.forward.z);
-            Vector3 rigth = new Vector3(transform.right.x, 0, transform.right.z);
-            Vector3 pointAux = transform.position + (-rigth.normalized * analogic.deltaX);
-            Vector3 point = pointAux + (forward.normalized * analogic.deltaY);
-            Vector3 velocity = (point - transform.position);
-            if (!coliding)
-            {
-                transform.position = transform.position + (velocity * Time.deltaTime * atualSpeed * analogic.speed);
-            }
-
-            transform.forward = new Vector3(player.position.x, offsetY, player.position.z) - transform.position;
-           // transform.right = new Vector3(transform.right.x, 0, transform.right.z);
-
-       // }
-
     }
 
     private void checkInvert()
@@ -151,33 +138,29 @@ public class CameraMovement : MonoBehaviour
         }
     }
 
-    private void OnCollisionStay(Collision collision)
+    private void OnTriggerStay(Collider collision)
     {
         if (collision.gameObject.tag == "Wall")
         {
+            Debug.Log("Cameracolision");
             Vector3 cameraForward = new Vector3(transform.forward.x, transform.forward.y, transform.forward.z).normalized;
             transform.position = transform.position + cameraForward * forceBack;
 
             distanceX -= forceBack;
             maxDistanceX = distanceX + margem;
-
-            //foreach (ContactPoint contact in collision.contacts)
-            //{
-
-            //    Vector3 awayFromCollision = contact.normal * forceBack;
-            //    transform.position = transform.position + awayFromCollision;
-
-            //}
         }
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider collision)
     {
+        Debug.Log("Cameracolision1");
         coliding = true;
     }
 
-    private void OnCollisionExit(Collision collision)
+    private void OnTriggerExit(Collider collision)
     {
+
+        Debug.Log("Cameracolision2");
         if (collision.gameObject.tag == "Wall")
         {
             distanceX = minDistanceX;
@@ -207,16 +190,17 @@ public class CameraMovement : MonoBehaviour
         zooming = true;
     }
 
-
     public void zoom()
     {
-        if (analogic.direction == Vector2.zero)
+        if (analogic.direction == Vector2.zero && !zooming)
         {
             distanceX = startMovingDistance;
             maxDistanceX = distanceX + margem;
+            zooming = true;
         }
-        else
+        else if(!zooming)
         {
+            zooming = false;
             distanceX = minDistanceX;
             maxDistanceX = distanceX + margem;
         }
@@ -224,6 +208,7 @@ public class CameraMovement : MonoBehaviour
 
     private void updateDistanceX(float dist, float speed)
     {
+        Vector3 forward = new Vector3(transform.forward.x, 0, transform.forward.z);
         if (dist < maxDistanceX && dist > distanceX)
         {
             stabelizedX = true;
@@ -232,12 +217,11 @@ public class CameraMovement : MonoBehaviour
         {
             if (dist < distanceX)
             {
-                transform.position = transform.position + (transform.forward * -speed * Time.deltaTime);
+                transform.position = transform.position + (forward * -speed * Time.deltaTime);
             }
-
-            if (dist > maxDistanceX)
+            else if (dist > maxDistanceX)
             {
-                transform.position = transform.position + (transform.forward * speed * Time.deltaTime);
+                transform.position = transform.position + (forward  * speed * Time.deltaTime);
             }
 
             stabelizedX = false;
@@ -246,25 +230,23 @@ public class CameraMovement : MonoBehaviour
 
     private void updateDistanceY(float dist, float speed)
     {
-        if (transform.position.y < maxDistanceY && transform.position.y > distanceY)
+        if (dist < maxDistanceY && dist > distanceY)
         {
             stabelizedY = true;
         }
         else
         {
-            if (transform.position.y < distanceY)
+            if (dist < distanceY)
             {
-                transform.position = new Vector3(transform.position.x, transform.position.y + (speed * Time.deltaTime), transform.position.z);
+                transform.position = transform.position + Vector3.up * (speed * Time.deltaTime);
             }
-            
-            if (transform.position.y > maxDistanceY)
+            else if (dist > maxDistanceY)
             {
-                transform.position = new Vector3(transform.position.x, transform.position.y - (speed * Time.deltaTime), transform.position.z);
+                transform.position = transform.position + Vector3.up * (-speed * Time.deltaTime);
             }
 
             stabelizedY = false;
         }
-        Debug.Log("s:" + stabelizedY);
     }
 
 }
