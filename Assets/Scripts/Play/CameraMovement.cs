@@ -1,7 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
+using Unity.Burst.CompilerServices;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CameraMovement : MonoBehaviour
 {
@@ -31,8 +30,10 @@ public class CameraMovement : MonoBehaviour
 
     private bool stabelizedX = false;
     private bool stabelizedY = false;
-    public bool zooming = false;
-    public bool zoomOutActive = false;
+    private bool zooming = false;
+    private bool zoomOutActive = false;
+    private float zoomTime = 0;
+    public float HintTime = 10 ;
     public float zoomOutSpeed = 500;
     private bool coliding = false;
 
@@ -58,21 +59,61 @@ public class CameraMovement : MonoBehaviour
     }
 
     public int teste = 0;
+    private Toggle pistabutton;
+    private Sprite spriteOff;
+
+    public void pista(Toggle button,Sprite off)
+    {
+        pistabutton = button;
+        spriteOff = off;
+        if (!zoomOutActive)
+        {
+            zoomOutActive = true;
+        }
+        else
+        {
+            button.isOn = true;
+        }
+
+    }
+
+    public bool isPista
+    {
+        get { return zoomOutActive;}
+    }
 
     void Update()
     {
 
-        if (zoomOutActive && !zooming && teste == 0)
+        if (zoomOutActive)
         {
-            toPistaView();
-            teste++;
+            if (!zooming && zoomTime == 0)
+                toPistaView();
+            else
+                zoomTime += Time.deltaTime;
         }
-        else if (!zoomOutActive && teste > 0)
+
+        if(zoomTime >= HintTime && !zooming)
         {
+            zoomOutActive = false;
             toNormalView();
-            teste = 0;
+            pistabutton.isOn = false;
+            pistabutton.image.sprite = spriteOff;
+            zoomTime = 0;
+
         }
-     
+
+        //if (zoomOutActive && !zooming && teste == 0)
+        //{
+        //    toPistaView();
+        //    teste++;
+        //}
+        //else if (!zoomOutActive && teste > 0)
+        //{
+        //    toNormalView();
+        //    teste = 0;
+        //}
+
         if (playerMov.isColiding)
             atualSpeed = 10;
         else

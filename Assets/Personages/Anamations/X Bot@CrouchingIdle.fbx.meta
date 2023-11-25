@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 88fd358019b99e24a9e4a16dbf177cfb
+guid: 95441b6701e415144bd7e2b7e8435b83
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
@@ -33,11 +33,11 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: Crouching Idle
+      name: CrouchingIdle
       takeName: mixamo.com
       internalID: -203655887218126122
       firstFrame: 0
-      lastFrame: 75
+      lastFrame: 95
       wrapMode: 0
       orientationOffsetY: 0
       level: 0

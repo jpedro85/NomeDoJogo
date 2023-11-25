@@ -38,7 +38,7 @@ public class PlayerMovement : MonoBehaviour
             animator.SetBool("isMoving",true);
             animator.SetBool("isRunning", analogic.isRunning);
             animator.SetBool("isWalking", !analogic.isRunning);
-           idleTime = 0;
+            idleTime = 0;
      
 
 
@@ -64,6 +64,16 @@ public class PlayerMovement : MonoBehaviour
         if (!coliding)
         transform.position = transform.position + (transform.forward * Time.deltaTime * maxSpeed * analogic.speed);
 
+    }
+
+    public void setCrouched(bool Crouching)
+    {
+        animator.SetBool("isCrouched", Crouching);
+    }
+
+    public void setCrawling(bool Crawling)
+    {
+        animator.SetBool("isCrawling", Crawling);
     }
 
     private void OnTriggerEnter(Collider collision)

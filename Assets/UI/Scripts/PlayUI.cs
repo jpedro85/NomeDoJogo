@@ -34,18 +34,22 @@ public class NewBehaviourScript : MonoBehaviour
     private float Bar_Hapinesss_maxLenght;
     public float HapinessRegenerationSpeed = 1;
    
-    public GameObject obj_MoedasConvertidas;
-    public GameObject obj_NumeroDePistas;
-    private TextMeshPro MoedasConvertidas;
-    private TextMeshPro NumeroDePistas;
+    public TextMeshProUGUI MoedasConvertidas;
+    public TextMeshProUGUI NumeroDePistas;
 
     //buttons
     public Toggle Inventory;
     public Sprite InventoryOff;
     public Sprite InventoryOn;
+
+    public GameObject obj_Inventory;
+    public AnalogicManager Analogic;
+    public CameraMovement camera;
+    public PlayerMovement player;
     public void ClickButtonInventario()
     {
         Inventory.image.sprite = (Inventory.isOn) ? InventoryOn : InventoryOff;
+        obj_Inventory.SetActive(Inventory.isOn);
     }
 
     public Toggle Crawling;
@@ -53,17 +57,16 @@ public class NewBehaviourScript : MonoBehaviour
     public Sprite CrawlingOn;
     public void ClickButtonCrawling()
     {
+        if (Crouching.isOn)
+        {
+            Crouching.isOn = false;
+            Crouching.image.sprite = CrouchingOff;
+            player.setCrouched(false);
+        }
+
         Crawling.image.sprite = (Crawling.isOn) ? CrawlingOn : CrawlingOff;
-        if (Crawling.isOn)
-        {
-            // Toggle is ON
-            Debug.Log("Crawling is ON");
-        }
-        else
-        {
-            // Toggle is OFF
-            Debug.Log("Crawling is OFF");
-        }
+        player.setCrawling(Crawling.isOn);
+
     }
 
     public Toggle Crouching;
@@ -71,25 +74,40 @@ public class NewBehaviourScript : MonoBehaviour
     public Sprite CrouchingOn;
     public  void ClickButtonCrounching()
     {
-        Crouching.image.sprite = (Crouching.isOn) ? CrouchingOn : CrouchingOff;
-        if (Crouching.isOn)
+        if (Crawling.isOn)
         {
-            // Toggle is ON
-            Debug.Log("Crouching is ON");
+            Crawling.isOn = false;
+            Crawling.image.sprite = CrawlingOff;
+            player.setCrawling(false);
+        }
+
+        Crouching.image.sprite = (Crouching.isOn) ? CrouchingOn : CrouchingOff;
+        player.setCrouched(Crouching.isOn);
+
+    }
+
+    public Toggle Hint;
+    public Sprite HintOff;
+    public Sprite HintOn;
+    private int Hints;
+    private  bool last = false;
+    public void ClickButtonHint()
+    {
+
+        if (Hints > 0 && !last)
+        {
+            Hint.image.sprite = (Hint.isOn) ? HintOn : HintOff;
+            camera.pista(Hint, HintOff);
+            Hints--;
+            NumeroDePistas.text = Hints.ToString();
+            last = true;
         }
         else
         {
-            // Toggle is OFF
-            Debug.Log("Crouching is OFF");
+            Hint.isOn = false;
+            last = false;
         }
-    }
-
-    public Button Hint;
-    public Sprite HintOff;
-    public Sprite HintOn;
-    public  void ClickButtonHint()
-    {
-       // Hint.image.sprite = (Hint.is) ? HintOn : HintOff;
+    
     }
 
 
@@ -118,9 +136,6 @@ public class NewBehaviourScript : MonoBehaviour
         Hapiness = 100;
         HapinessCharging = 100;
         
-        MoedasConvertidas = obj_MoedasConvertidas.GetComponent<TextMeshPro>();
-        NumeroDePistas = obj_NumeroDePistas.GetComponent<TextMeshPro>();
-        
         Bar_Health_maxLenght = Bk_Bar_Health.sizeDelta.x * Bk_Bar_Health_Atual.localScale.x;
         Bar_Energy_maxLenght= Bk_Bar_Energy.sizeDelta.x * Bk_Bar_Health_Atual.localScale.x;
         Bar_Hapinesss_maxLenght = Bk_Bar_Hapinesss.sizeDelta.x * Bk_Bar_Health_Atual.localScale.x;
@@ -128,6 +143,12 @@ public class NewBehaviourScript : MonoBehaviour
         resizaBar(Bk_Bar_Health_Atual, Health, Bar_Health_maxLenght);
         resizaBar(Bk_Bar_Energy_Atual, Health, Bar_Energy_maxLenght);
         resizaBar(Bk_Bar_Hapinesss_Atual, Health, Bar_Hapinesss_maxLenght);
+
+
+        obj_Inventory.SetActive(false);
+
+        Hints = 10;
+        NumeroDePistas.text = Hints.ToString();
     }
 
     // Update is called once per frame
