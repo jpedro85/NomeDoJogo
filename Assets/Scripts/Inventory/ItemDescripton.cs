@@ -14,10 +14,14 @@ public class ItemDescripton : MonoBehaviour
 
     public void displayItemInfo(Item item)
     {
-        Debug.Log(item.name);
+        // Check if the overlay is already active, if it is it just updates the contents else it activates the popup
+        if (!overlay.activeSelf)
+        {
+            overlay.SetActive(!overlay.activeSelf);
+        }
+        
         this.itemName.text = item.itemName;
         this.itemDescription.text = item.itemDescription;
-        overlay.SetActive(!overlay.activeSelf);
         this.item = item;
     }
 

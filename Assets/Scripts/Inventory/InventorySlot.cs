@@ -40,10 +40,9 @@ namespace Inventory
         {
             if (item==null)
             {
-                Debug.Log("Item Null");
+                return;
             }
 
-            Debug.Log("before"+item.name);
             itemDescriptonOverlay.displayItemInfo(item);
         }
     }
