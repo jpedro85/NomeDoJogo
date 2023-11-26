@@ -123,15 +123,15 @@ public class CameraMovement : MonoBehaviour
     {
         fadeIn = true;
         fadeOut = false;
+        fade_maxin = maxin;
 
         fadeInterval = speed;
         fadeTime = 0;
         fade_nextime = fadeTime + fadeInterval;
 
-        fade_maxin = maxin;
     }
 
-    public void starfadeOut(int maxout, float speed)
+    public void startfadeOut(int maxout, float speed)
     {
         fadeOut = true; 
         fadeIn = false;
@@ -147,10 +147,12 @@ public class CameraMovement : MonoBehaviour
     {
         if (fadeOut)
         {
+            Debug.Log("aa_" + fade_atual);
             if (fade_atual == fade_maxout && fadeTime >= fade_nextime)
             {
-                fade_atual = fade_maxin;
+                fade_atual = fade_maxout;
                 fadeOut = false;
+                Debug.Log("ddd");
             }
             else if (fade_atual >= fade_maxout && fadeTime >= fade_nextime)
             {
@@ -162,9 +164,14 @@ public class CameraMovement : MonoBehaviour
                     fades[fade_atual].SetActive(true);
 
                 fade_nextime = fadeTime + fadeInterval;
+                Debug.Log("ccc");
+            }
+            else
+            {
 
-            }else
                 fadeTime += Time.deltaTime;
+                Debug.Log("bb");
+            }
         }
     }
 
@@ -172,10 +179,12 @@ public class CameraMovement : MonoBehaviour
     {
         if (fadeIn)
         {
+            Debug.Log("aa1_"+ fade_atual);
             if (fade_atual == fade_maxin && fadeTime >= fade_nextime)
             {
                 fade_atual = fade_maxin;
                 fadeIn = false;
+                Debug.Log("ddd2");
             }
             else if (fade_atual < fade_maxin && fadeTime >= fade_nextime)
             {
@@ -186,9 +195,13 @@ public class CameraMovement : MonoBehaviour
                 fades[fade_atual].SetActive(true);
 
                 fade_nextime = fadeTime + fadeInterval;
+                Debug.Log("ccc2");
             }
             else
+            {
+                Debug.Log("bbb2");
                 fadeTime += Time.deltaTime;
+            }
         }
     }
 
@@ -214,8 +227,8 @@ public class CameraMovement : MonoBehaviour
 
         if (fadeo_sin)
         {
-            startfadeIn(fadeo_min, fadeo_s);
-            fade_sin = false;
+            startfadeOut(fadeo_min, fadeo_s);
+            fadeo_sin = false;
         }
 
         auxiliarFadeIn();
