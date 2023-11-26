@@ -1,3 +1,4 @@
+using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -33,8 +34,7 @@ public class NewBehaviourScript : MonoBehaviour
     private float HapinessCharging;
     private float Bar_Hapinesss_maxLenght;
     public float HapinessRegenerationSpeed = 1;
-   
-    public TextMeshProUGUI MoedasConvertidas;
+
     public TextMeshProUGUI NumeroDePistas;
 
     //buttons
@@ -44,7 +44,7 @@ public class NewBehaviourScript : MonoBehaviour
 
     public GameObject obj_Inventory;
     public AnalogicManager Analogic;
-    public CameraMovement camera;
+    public CameraMovement mcamera;
     public PlayerMovement player;
     public void ClickButtonInventario()
     {
@@ -57,15 +57,19 @@ public class NewBehaviourScript : MonoBehaviour
     public Sprite CrawlingOn;
     public void ClickButtonCrawling()
     {
-        if (Crouching.isOn)
-        {
-            Crouching.isOn = false;
-            Crouching.image.sprite = CrouchingOff;
-            player.setCrouched(false);
-        }
 
-        Crawling.image.sprite = (Crawling.isOn) ? CrawlingOn : CrawlingOff;
-        player.setCrawling(Crawling.isOn);
+        if (!player.isJumping)
+        {
+            if (Crouching.isOn && Crawling.isOn)
+            {
+                Crouching.isOn = false;
+                Crouching.image.sprite = CrouchingOff;
+                player.setCrouched(false);
+            }
+
+            Crawling.image.sprite = (Crawling.isOn) ? CrawlingOn : CrawlingOff;
+            player.setCrawling(Crawling.isOn);
+        }
 
     }
 
@@ -74,6 +78,23 @@ public class NewBehaviourScript : MonoBehaviour
     public Sprite CrouchingOn;
     public  void ClickButtonCrounching()
     {
+        if (!player.isJumping)
+        {
+            if (Crawling.isOn && Crouching.isOn)
+            {
+                Crawling.isOn = false;
+                Crawling.image.sprite = CrawlingOff;
+                player.setCrawling(false);
+            }
+
+            Crouching.image.sprite = (Crouching.isOn) ? CrouchingOn : CrouchingOff;
+            player.setCrouched(Crouching.isOn);
+        }
+    }
+
+    public Button Jumping;
+    public void ClickButtonJumping()
+    {
         if (Crawling.isOn)
         {
             Crawling.isOn = false;
@@ -81,33 +102,31 @@ public class NewBehaviourScript : MonoBehaviour
             player.setCrawling(false);
         }
 
-        Crouching.image.sprite = (Crouching.isOn) ? CrouchingOn : CrouchingOff;
-        player.setCrouched(Crouching.isOn);
-
+        if (Crouching.isOn)
+        {
+            Crouching.isOn = false;
+            Crouching.image.sprite = CrouchingOff;
+            player.setCrouched(false);
+        }
+        player.setJumping(true);
     }
 
-    public Toggle Hint;
+    public Button Hint;
     public Sprite HintOff;
     public Sprite HintOn;
     private int Hints;
-    private  bool last = false;
     public void ClickButtonHint()
     {
 
-        if (Hints > 0 && !last)
+        if (Hints > 0 && !mcamera.isPista)
         {
-            Hint.image.sprite = (Hint.isOn) ? HintOn : HintOff;
-            camera.pista(Hint, HintOff);
+            Hint.image.sprite = HintOn;
+            mcamera.pista(Hint, HintOff);
             Hints--;
             NumeroDePistas.text = Hints.ToString();
-            last = true;
         }
-        else
-        {
-            Hint.isOn = false;
-            last = false;
-        }
-    
+       
+ 
     }
 
 
@@ -241,7 +260,6 @@ public class NewBehaviourScript : MonoBehaviour
             return atual;
 
         float step = speed * Time.deltaTime;
-        Debug.Log("s:" + step);
         if (atual + step >= 100)
         {
             atual = 100;

@@ -15,6 +15,9 @@ public class PlayerMovement : MonoBehaviour
     public float forceBack = 5;
     private bool coliding = false;
     private float idleTime = 0;
+    private Vector3 jumpingStart;
+    public float jumpingSpeed = 250;
+    public float jumpDistance = 100;
 
     public bool isColiding
     {
@@ -49,20 +52,37 @@ public class PlayerMovement : MonoBehaviour
             Vector3 pointAux = mainCamera.transform.position + (rigth.normalized * analogic.deltaX );
             Vector3 point = pointAux + (forward.normalized * analogic.deltaY );
             transform.forward = (point - mainCamera.transform.position);
-            Debug.Log("mmmmmmmmmmmmmmmmmmmmmmmmm: " + transform.forward.x + ":" + transform.forward.y + ":" + transform.forward.z);
         }
         else
         {
-            transform.rotation = Quaternion.identity;
+            transform.rotation = new Quaternion(0, transform.rotation.y, 0, transform.rotation.w);
             animator.SetBool("isMoving", false);
+            animator.SetBool("isRunning", false);
             idleTime += Time.deltaTime;
             if(idleTime > 2)
                 animator.SetBool("IdleTime",true);
         }
 
-
+        
         if (!coliding)
-        transform.position = transform.position + (transform.forward * Time.deltaTime * maxSpeed * analogic.speed);
+        {
+            if (isJumping)
+            {
+                if (Vector3.Distance(jumpingStart, transform.position)  < jumpDistance)
+                {
+                    float sp = maxSpeed * analogic.speed;
+                    transform.position = transform.position + transform.forward * ((sp) + (jumpingSpeed - sp)) * Time.deltaTime;
+                }
+                else
+                {
+                    isJumping = false;
+                    animator.SetBool("isJumping", false);
+                }
+
+            }else
+                transform.position = transform.position + (transform.forward * Time.deltaTime * maxSpeed * analogic.speed);
+
+        }
 
     }
 
@@ -74,6 +94,13 @@ public class PlayerMovement : MonoBehaviour
     public void setCrawling(bool Crawling)
     {
         animator.SetBool("isCrawling", Crawling);
+    }
+    public bool isJumping = false;
+    public void setJumping(bool jumping)
+    {
+        animator.SetBool("isJumping", jumping);
+        isJumping = true;
+        jumpingStart = transform.position;
     }
 
     private void OnTriggerEnter(Collider collision)

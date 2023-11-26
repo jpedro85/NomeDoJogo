@@ -1,5 +1,7 @@
+using System;
 using Unity.Burst.CompilerServices;
 using UnityEngine;
+using UnityEngine.Experimental.Rendering.RenderGraphModule;
 using UnityEngine.UI;
 
 public class CameraMovement : MonoBehaviour
@@ -32,6 +34,7 @@ public class CameraMovement : MonoBehaviour
     private bool stabelizedY = false;
     private bool zooming = false;
     private bool zoomOutActive = false;
+    private bool zoomInActive = false;
     private float zoomTime = 0;
     public float HintTime = 10 ;
     public float zoomOutSpeed = 500;
@@ -39,7 +42,6 @@ public class CameraMovement : MonoBehaviour
 
     public float timeToInvert = 2;
     private float time;
-
 
     public float margem = 25;
 
@@ -59,10 +61,10 @@ public class CameraMovement : MonoBehaviour
     }
 
     public int teste = 0;
-    private Toggle pistabutton;
+    private Button pistabutton;
     private Sprite spriteOff;
 
-    public void pista(Toggle button,Sprite off)
+    public void pista(Button button,Sprite off)
     {
         pistabutton = button;
         spriteOff = off;
@@ -72,7 +74,7 @@ public class CameraMovement : MonoBehaviour
         }
         else
         {
-            button.isOn = true;
+            button.image.sprite = off ;
         }
 
     }
@@ -82,9 +84,8 @@ public class CameraMovement : MonoBehaviour
         get { return zoomOutActive;}
     }
 
-    void Update()
+    private void auxiliarpista()
     {
-
         if (zoomOutActive)
         {
             if (!zooming && zoomTime == 0)
@@ -93,15 +94,132 @@ public class CameraMovement : MonoBehaviour
                 zoomTime += Time.deltaTime;
         }
 
-        if(zoomTime >= HintTime && !zooming)
+        if (zoomTime >= HintTime && !zooming && !zoomInActive)
+        {
+            zoomInActive = true;
+            toNormalView();
+        }
+
+        if (zoomInActive && !zooming)
         {
             zoomOutActive = false;
-            toNormalView();
-            pistabutton.isOn = false;
+            zoomInActive = false;
             pistabutton.image.sprite = spriteOff;
             zoomTime = 0;
-
         }
+    }
+
+    public GameObject[] fades;
+    private bool fadeIn = false, fadeOut = false;
+    public float fadeInterval;
+    private float fadeTime = 0;
+    private float fade_nextime = 0;
+    private int fade_atual = 1;
+
+    private int fade_maxin = 0;
+    private int fade_maxout = 0;
+
+    public void startfadeIn(int maxin, float speed)
+    {
+        fadeIn = true;
+        fadeOut = false;
+
+        fadeInterval = speed;
+        fadeTime = 0;
+        fade_nextime = fadeTime + fadeInterval;
+
+        fade_maxin = maxin;
+    }
+
+    public void starfadeOut(int maxout, float speed)
+    {
+        fadeOut = true; 
+        fadeIn = false;
+        fade_maxout = maxout;
+
+        fadeInterval = speed;
+        
+        fadeTime = 0;
+        fade_nextime = fadeTime + fadeInterval;
+    }
+
+    private void auxiliarFadeOut()
+    {
+        if (fadeOut)
+        {
+            if (fade_atual == fade_maxout && fadeTime >= fade_nextime)
+            {
+                fade_atual = fade_maxin;
+                fadeOut = false;
+            }
+            else if (fade_atual >= fade_maxout && fadeTime >= fade_nextime)
+            {
+               
+                fades[fade_atual].SetActive(false);
+
+                fade_atual--;
+                if (fade_atual - 1 > 0)
+                    fades[fade_atual].SetActive(true);
+
+                fade_nextime = fadeTime + fadeInterval;
+
+            }else
+                fadeTime += Time.deltaTime;
+        }
+    }
+
+    private void auxiliarFadeIn()
+    {
+        if (fadeIn)
+        {
+            if (fade_atual == fade_maxin && fadeTime >= fade_nextime)
+            {
+                fade_atual = fade_maxin;
+                fadeIn = false;
+            }
+            else if (fade_atual < fade_maxin && fadeTime >= fade_nextime)
+            {
+                if (fade_atual - 1 > 0)
+                    fades[fade_atual].SetActive(false);
+
+                fade_atual++;
+                fades[fade_atual].SetActive(true);
+
+                fade_nextime = fadeTime + fadeInterval;
+            }
+            else
+                fadeTime += Time.deltaTime;
+        }
+    }
+
+    public float fade_s = (float)0.5;
+    public bool fade_sin = false;
+    public int fade_max = 10;
+
+    public float fadeo_s = (float)0.5;
+    public bool fadeo_sin = false;
+    public int fadeo_min = 10;
+
+    void Update()
+    {
+
+        auxiliarpista();
+
+        //cameraEfects
+        if (fade_sin)
+        {
+            startfadeIn(fade_max, fade_s);
+            fade_sin = false ;
+        }
+
+        if (fadeo_sin)
+        {
+            startfadeIn(fadeo_min, fadeo_s);
+            fade_sin = false;
+        }
+
+        auxiliarFadeIn();
+        auxiliarFadeOut();
 
         //if (zoomOutActive && !zooming && teste == 0)
         //{
@@ -183,7 +301,6 @@ public class CameraMovement : MonoBehaviour
     {
         if (collision.gameObject.tag == "Wall")
         {
-            Debug.Log("Cameracolision");
             Vector3 cameraForward = new Vector3(transform.forward.x, transform.forward.y, transform.forward.z).normalized;
             transform.position = transform.position + cameraForward * forceBack;
 
@@ -194,14 +311,12 @@ public class CameraMovement : MonoBehaviour
 
     private void OnTriggerEnter(Collider collision)
     {
-        Debug.Log("Cameracolision1");
         coliding = true;
     }
 
     private void OnTriggerExit(Collider collision)
     {
 
-        Debug.Log("Cameracolision2");
         if (collision.gameObject.tag == "Wall")
         {
             distanceX = minDistanceX;
