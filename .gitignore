@@ -25,6 +25,9 @@
 
 # Visual Studio cache directory
 .vs/
+.vscode/
+.idea/
+Assets/TextMesh Pro
 
 # Gradle cache directory
 .gradle/
