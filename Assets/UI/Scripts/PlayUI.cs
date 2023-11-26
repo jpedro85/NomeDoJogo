@@ -1,3 +1,4 @@
+using Inventory;
 using System;
 using TMPro;
 using UnityEngine;
@@ -5,6 +6,7 @@ using UnityEngine.UI;
 
 public class NewBehaviourScript : MonoBehaviour
 {
+    public InventoryUI iventoryUi;
     //bar health
     public RectTransform Bk_Bar_Health;
     public RectTransform Bk_Bar_Health_Change;
@@ -50,6 +52,7 @@ public class NewBehaviourScript : MonoBehaviour
     {
         Inventory.image.sprite = (Inventory.isOn) ? InventoryOn : InventoryOff;
         obj_Inventory.SetActive(Inventory.isOn);
+        iventoryUi.updateUI();
     }
 
     public Toggle Crawling;
