@@ -15,6 +15,7 @@ namespace Scriptable_Objects.Items.Scripts
         public int amount;
         public Sprite icon;
         public ItemType itemType;
+
         [TextArea(15, 20)] public string itemDescription;
 
         public virtual void use()

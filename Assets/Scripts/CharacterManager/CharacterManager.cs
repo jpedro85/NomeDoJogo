@@ -1,5 +1,6 @@
 ﻿using Scriptable_Objects.Items.Scripts;
 using UnityEngine;
+using Scripts.Item;
 
 namespace CharacterManager
 {
@@ -9,11 +10,11 @@ namespace CharacterManager
         public void OnTriggerEnter(Collider other)
         {
             // TODO needs to be tested to see if gets the right scriptable object instead of the super class Item
-            var item = other.GetComponent<Item>();
+            var item = other.GetComponent<GameItem>();
             if (item)
             {
                 Debug.Log("Its touching");
-                bool wasPickup = Inventory.Inventory.instance.addToInventory(item);
+                bool wasPickup = Inventory.Inventory.instance.addToInventory(item.item);
 
                 if (wasPickup)
                 {

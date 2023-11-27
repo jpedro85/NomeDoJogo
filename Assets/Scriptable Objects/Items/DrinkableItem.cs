@@ -5,7 +5,8 @@ namespace Scriptable_Objects.Items.Scripts
     [CreateAssetMenu(fileName = "New Drinkable Object", menuName = "Item/Create New Drink")]
     public class DrinkableItem : Item
     {
-        public int restoreHealthValue;
+        public float health;
+        public float energy;
 
         public override void use()
         {
