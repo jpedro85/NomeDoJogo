@@ -111,7 +111,7 @@ public class NewBehaviourScript : MonoBehaviour
             Crouching.image.sprite = CrouchingOff;
             player.setCrouched(false);
         }
-        player.setJumping(true);
+        player.setJumping();
     }
 
     public Button Hint;

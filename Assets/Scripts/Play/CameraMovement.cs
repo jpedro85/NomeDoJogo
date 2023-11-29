@@ -1,7 +1,10 @@
 using System;
+using System.Data.Common;
+using System.Threading;
 using Unity.Burst.CompilerServices;
 using UnityEngine;
 using UnityEngine.Experimental.Rendering.RenderGraphModule;
+using UnityEngine.Rendering.Universal;
 using UnityEngine.UI;
 
 public class CameraMovement : MonoBehaviour
@@ -9,9 +12,6 @@ public class CameraMovement : MonoBehaviour
     private AnalogicManager analogic;
     private Transform player;
     private PlayerMovement playerMov;
-    private float maxSpeed;
-    private float speed;
-    private float atualSpeed;
 
     public float startMovingDistance = 1400;
     public float minDistanceX = 500;
@@ -30,34 +30,39 @@ public class CameraMovement : MonoBehaviour
     public float forceBack = 100;
 
 
-    private bool stabelizedX = false;
+    public bool stabelizedX = false;
     private bool stabelizedY = false;
     private bool zooming = false;
     private bool zoomOutActive = false;
     private bool zoomInActive = false;
     private float zoomTime = 0;
     public float HintTime = 10 ;
-    public float zoomOutSpeed = 500;
+
     private bool coliding = false;
 
     public float timeToInvert = 2;
+    public float timeStopDistanceManager = 2;
     private float time;
 
     public float margem = 25;
+    private float playSpeed;
+    public float zoomOutSpeed = 3;
+    public float zoomSpeed = 1;
+    public float AtualzoomSpeed = 1;
 
     void Start()
     {
         analogic = GameObject.FindWithTag("Analogico").GetComponent<AnalogicManager>();
         player = GameObject.FindWithTag("Player").GetComponent<Transform>();
         playerMov = GameObject.FindWithTag("Player").GetComponent<PlayerMovement>();
-        maxSpeed = player.GetComponent<PlayerMovement>().maxSpeed;
-        atualSpeed = maxSpeed;
-        speed = maxSpeed;
+        playSpeed = player.GetComponent<PlayerMovement>().maxSpeed;
 
         maxDistanceX = minDistanceX + margem;
         maxDistanceY = minDistanceY + margem;
         distanceX = minDistanceX;
         distanceY = minDistanceY;
+
+        Physics.IgnoreCollision(GetComponent<Collider>(), GameObject.FindWithTag("Player").GetComponent<Collider>());
     }
 
     public int teste = 0;
@@ -147,12 +152,12 @@ public class CameraMovement : MonoBehaviour
     {
         if (fadeOut)
         {
-            Debug.Log("aa_" + fade_atual);
+   
             if (fade_atual == fade_maxout && fadeTime >= fade_nextime)
             {
                 fade_atual = fade_maxout;
                 fadeOut = false;
-                Debug.Log("ddd");
+    
             }
             else if (fade_atual >= fade_maxout && fadeTime >= fade_nextime)
             {
@@ -164,13 +169,12 @@ public class CameraMovement : MonoBehaviour
                     fades[fade_atual].SetActive(true);
 
                 fade_nextime = fadeTime + fadeInterval;
-                Debug.Log("ccc");
+
             }
             else
             {
 
                 fadeTime += Time.deltaTime;
-                Debug.Log("bb");
             }
         }
     }
@@ -179,12 +183,11 @@ public class CameraMovement : MonoBehaviour
     {
         if (fadeIn)
         {
-            Debug.Log("aa1_"+ fade_atual);
+
             if (fade_atual == fade_maxin && fadeTime >= fade_nextime)
             {
                 fade_atual = fade_maxin;
                 fadeIn = false;
-                Debug.Log("ddd2");
             }
             else if (fade_atual < fade_maxin && fadeTime >= fade_nextime)
             {
@@ -195,11 +198,9 @@ public class CameraMovement : MonoBehaviour
                 fades[fade_atual].SetActive(true);
 
                 fade_nextime = fadeTime + fadeInterval;
-                Debug.Log("ccc2");
             }
             else
             {
-                Debug.Log("bbb2");
                 fadeTime += Time.deltaTime;
             }
         }
@@ -245,14 +246,23 @@ public class CameraMovement : MonoBehaviour
         //    teste = 0;
         //}
 
-        if (playerMov.isColiding)
-            atualSpeed = 10;
-        else
+        //if (playerMov.isColiding)
+        //{
+        //    AtualzoomSpeed = zoomSpeed/2;
+        //    //sppeed when coliding ?
+        //}
+        if(!playerMov.isColiding)
         {
             if (analogic.direction == Vector2.zero && zooming)
-                atualSpeed = zoomOutSpeed;
+            {
+                AtualzoomSpeed = zoomOutSpeed;
+            }
             else
-                atualSpeed = maxSpeed;
+            {
+
+                AtualzoomSpeed = zoomSpeed;
+            }
+            
 
         }
 
@@ -262,30 +272,37 @@ public class CameraMovement : MonoBehaviour
         Vector3 point = pointAux + (forward.normalized * analogic.deltaY);
         Vector3 velocity = (point - transform.position);
 
-        if (!coliding)
+        if (!coliding && !playerMov.isColiding)
         {
-            transform.position = transform.position + (velocity * Time.deltaTime * atualSpeed * analogic.speed);
+            transform.position = transform.position + (velocity.normalized * Time.deltaTime * playSpeed * analogic.speed);
         }
 
         transform.forward = new Vector3(player.position.x, offsetY, player.position.z) - transform.position;
 
         checkInvert();
-        Vector2 transformPosition2D = new Vector2(transform.position.x, transform.position.z);
-        Vector2 playerTransformPosition2D = new Vector2(player.transform.position.x, player.transform.position.z);
-        float distX = Vector2.Distance(playerTransformPosition2D, transformPosition2D);
+        float distX = calDistance();
         float distY = transform.position.y - offsetY;
 
         zoom();
 
-        if (!coliding)
-            updateDistanceX(distX, atualSpeed);
+       // if (!coliding)
+        {
+            updateDistanceX(distX, AtualzoomSpeed);
+            updateDistanceY(distY, AtualzoomSpeed);
+        }
 
-        updateDistanceY(distY, atualSpeed);
 
         if (stabelizedX && stabelizedY)
         {
             zooming = false;
         }
+    }
+
+    private float calDistance()
+    {
+        Vector2 transformPosition2D = new Vector2(transform.position.x, transform.position.z);
+        Vector2 playerTransformPosition2D = new Vector2(player.transform.position.x, player.transform.position.z);
+        return Vector2.Distance(playerTransformPosition2D, transformPosition2D);
     }
 
     private void checkInvert()
@@ -310,35 +327,35 @@ public class CameraMovement : MonoBehaviour
         }
     }
 
-    private void OnTriggerStay(Collider collision)
+    private void OnCollisionStay(Collision collision)
     {
         if (collision.gameObject.tag == "Wall")
         {
             Vector3 cameraForward = new Vector3(transform.forward.x, transform.forward.y, transform.forward.z).normalized;
-            transform.position = transform.position + cameraForward * forceBack;
+            transform.position = transform.position + cameraForward * forceBack;            
+        }
+    }
 
-            distanceX -= forceBack;
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.tag == "Wall")
+        {
+            coliding = true;
+            distanceX = calDistance();
             maxDistanceX = distanceX + margem;
         }
     }
 
-    private void OnTriggerEnter(Collider collision)
-    {
-        coliding = true;
-    }
-
-    private void OnTriggerExit(Collider collision)
+    private void OnCollisionExit(Collision collision)
     {
 
         if (collision.gameObject.tag == "Wall")
         {
             distanceX = minDistanceX;
             maxDistanceX = distanceX + margem;
+            coliding = false;
         }
-
-        coliding = false;
     }
-
 
     public void toPistaView()
     {
@@ -386,13 +403,12 @@ public class CameraMovement : MonoBehaviour
         {
             if (dist < distanceX)
             {
-                transform.position = transform.position + (forward * -speed * Time.deltaTime);
+                transform.position = transform.position + (forward.normalized * -speed * Time.deltaTime);
             }
             else if (dist > maxDistanceX)
             {
-                transform.position = transform.position + (forward  * speed * Time.deltaTime);
+                transform.position = transform.position + (forward.normalized * speed * Time.deltaTime);
             }
-
             stabelizedX = false;
         }
     }

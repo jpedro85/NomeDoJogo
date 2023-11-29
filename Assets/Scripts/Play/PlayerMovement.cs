@@ -29,6 +29,7 @@ public class PlayerMovement : MonoBehaviour
         analogic = GameObject.FindWithTag("Analogico").GetComponent<AnalogicManager>();
         mainCamera = GameObject.FindWithTag("MainCamera").GetComponent<Camera>();
         animator = GameObject.Find("Armature").GetComponent<Animator>();
+        Physics.IgnoreCollision(mainCamera.GetComponent<Collider>(), GetComponent<Collider>());
     }
 
     // Update is called once per frame
@@ -43,8 +44,6 @@ public class PlayerMovement : MonoBehaviour
             animator.SetBool("isWalking", !analogic.isRunning);
             idleTime = 0;
      
-
-
             Vector3 forward = new Vector3(mainCamera.transform.forward.x,0, mainCamera.transform.forward.z);
             Vector3 rigth = new Vector3(mainCamera.transform.right.x,0, mainCamera.transform.right.z);
            // Vector2 cameraPosition = new Vector2(mainCamera.transform.position.x, mainCamera.transform.position.z);
@@ -55,7 +54,7 @@ public class PlayerMovement : MonoBehaviour
         }
         else
         {
-            transform.rotation = new Quaternion(0, transform.rotation.y, 0, transform.rotation.w);
+          //  transform.rotation = new Quaternion(0, transform.rotation.y, 0, transform.rotation.w);
             animator.SetBool("isMoving", false);
             animator.SetBool("isRunning", false);
             idleTime += Time.deltaTime;
@@ -96,14 +95,14 @@ public class PlayerMovement : MonoBehaviour
         animator.SetBool("isCrawling", Crawling);
     }
     public bool isJumping = false;
-    public void setJumping(bool jumping)
+    public void setJumping()
     {
-        animator.SetBool("isJumping", jumping);
+        animator.SetBool("isJumping", true);
         isJumping = true;
         jumpingStart = transform.position;
     }
 
-    private void OnTriggerEnter(Collider collision)
+    private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.tag == "Wall")
         {
@@ -111,30 +110,31 @@ public class PlayerMovement : MonoBehaviour
         }
 
     }
-
-    private void OnTriggerStay(Collider collision)
-    {
-        if (collision.gameObject.tag == "Wall")
-        {
-            //foreach (ContactPoint contact in collision.contacts)
-            //{
-                //Vector3 awayFromCollision = contact.normal * forceBack;
-                Vector3 awayFromCollision = new Vector3(transform.forward.x, transform.forward.y, transform.forward.z).normalized;
-                transform.position = transform.position + (-awayFromCollision * forceBack);
-              //  Vector3 cameraforward = new Vector3(mainCamera.transform.forward.x, mainCamera.transform.forward.y, mainCamera.transform.forward.z);
-              // mainCamera.transform.position = -cameraforward.normalized * forceBack;
-
-            //    break;
-            //}
-        }
-
-    }
-
-    private void OnTriggerExit(Collider collision)
+    private void OnCollisionExit(Collision collision)
     {
         if (collision.gameObject.tag == "Wall")
         {
             coliding = false;
         }
     }
+
+    //private void OnTriggerStay(Collider collision)
+    //{
+    //    Debug.Log("b");
+    //    if (collision.gameObject.tag == "Wall")
+    //    {
+    //        //foreach (ContactPoint contact in collision.contacts)
+    //        //{
+    //        //Vector3 awayFromCollision = contact.normal * forceBack;
+    //        Vector3 awayFromCollision = new Vector3(transform.forward.x, transform.forward.y, transform.forward.z).normalized;
+    //        transform.position = transform.position + (-awayFromCollision * forceBack);
+    //        //  Vector3 cameraforward = new Vector3(mainCamera.transform.forward.x, mainCamera.transform.forward.y, mainCamera.transform.forward.z);
+    //        // mainCamera.transform.position = -cameraforward.normalized * forceBack;
+
+    //        //    break;
+    //        //}
+    //    }
+
+    //}
+
 }
