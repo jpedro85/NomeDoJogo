@@ -1,8 +1,6 @@
-using System;
-using System.Drawing;
 using UnityEngine;
-//using UnityEngine.InputSystem;
-using UnityEngine.UI;
+using UnityEngine.InputSystem.Android;
+using static UnityEditor.Experimental.AssetDatabaseExperimental.AssetDatabaseCounters;
 
 public class AnalogicManager : MonoBehaviour
 {
@@ -30,13 +28,15 @@ public class AnalogicManager : MonoBehaviour
     {
         get { return running; }
     }
+
     public float deltaX
     {
         get { return (atualPosition.x - initialPosition.x) / raio; }
     }
+
     public float deltaY
     {
-        get { return (atualPosition.y - initialPosition.y) / raio; }
+        get { return (atualPosition.y - initialPosition.y) / raio ; }
     }
 
     public Vector2 direction
@@ -117,7 +117,7 @@ public class AnalogicManager : MonoBehaviour
                 }
                 else
                 {
-                    directionVector = (analogicoTouch.position - initialPosition );
+                    directionVector = (analogicoTouch.position - initialPosition);
 
                     atualPosition = initialPosition + Vector2.ClampMagnitude(directionVector, raio);
                     Analogico.position = atualPosition;

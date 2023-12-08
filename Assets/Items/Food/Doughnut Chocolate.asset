@@ -17,5 +17,5 @@ MonoBehaviour:
   icon: {fileID: 21300000, guid: 0bf75edea9dff1144942dc214d361648, type: 3}
   itemType: 0
   itemDescription: this is Doughnut Chocolate
-  health: -30
-  energy: 50
+  health: -70
+  energy: 60

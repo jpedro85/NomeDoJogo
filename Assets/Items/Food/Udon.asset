@@ -17,5 +17,5 @@ MonoBehaviour:
   icon: {fileID: 21300000, guid: 93e303a8acdb1264e91f0fb85059c737, type: 3}
   itemType: 0
   itemDescription: this is udon
-  health: 4
-  energy: 4
+  health: -40
+  energy: 30

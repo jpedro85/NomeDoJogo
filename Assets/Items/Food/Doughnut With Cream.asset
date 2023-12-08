@@ -17,5 +17,5 @@ MonoBehaviour:
   icon: {fileID: 21300000, guid: 27bd5774a17dbf5479e2ff9d634422ba, type: 3}
   itemType: 0
   itemDescription: this is Doughnut With Cream
-  health: -30
-  energy: 50
+  health: -70
+  energy: 60

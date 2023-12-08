@@ -13,11 +13,11 @@ MonoBehaviour:
   m_Name: Tomato
   m_EditorClassIdentifier: 
   itemName: Tomato
-  amount: 13
+  amount: 1
   icon: {fileID: 21300000, guid: ba72bb656e99b7b40a8afa6b668fc978, type: 3}
   itemType: 0
+  health: 58
+  energy: 16
   itemDescription: this is for the item description thats going to talk about the
     the item and give hints about for the quizzes so stay alert for something alerting
     ot highlightable llike this sentece that has nothing to do with the item
-  health: 4
-  energy: 4

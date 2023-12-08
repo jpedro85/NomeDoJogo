@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Scriptable_Objects.Items.Scripts
@@ -5,14 +6,19 @@ namespace Scriptable_Objects.Items.Scripts
     [CreateAssetMenu(fileName = "New Drinkable Object", menuName = "Item/Create New Drink")]
     public class DrinkableItem : Item
     {
-        public float health;
-        public float energy;
+
+        private static PlayUI playUI = null;
 
         public override void use()
         {
-            // TODO implement the actual functionality for the use of the food like displaying the item description on touch
-            Debug.Log("Regenerated");
+            if (playUI == null)
+                playUI = GameObject.Find("UI_Buttons").GetComponent<PlayUI>();
+
+            playUI.addDeltaEnergy(energy);
+            playUI.addDeltaHealth(health);
+            Debug.Log("h:" + health + "e:" + energy);
             Inventory.Inventory.instance.removeFromInventory(this);
         }
+
     }
 }

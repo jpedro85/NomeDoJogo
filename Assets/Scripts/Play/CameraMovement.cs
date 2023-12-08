@@ -115,7 +115,17 @@ public class CameraMovement : MonoBehaviour
     }
 
     public GameObject[] fades;
+    public GameObject turveEfect;
     private bool fadeIn = false, fadeOut = false;
+    public bool isFadeOut
+    {
+        get { return fadeOut; }
+    }
+
+    public bool isFadeIn
+    {
+        get { return fadeIn; }
+    }
     public float fadeInterval;
     private float fadeTime = 0;
     private float fade_nextime = 0;
@@ -123,6 +133,11 @@ public class CameraMovement : MonoBehaviour
 
     private int fade_maxin = 0;
     private int fade_maxout = 0;
+
+    public void setTurveEfect(bool set)
+    {
+        turveEfect.SetActive(set);
+    }
 
     public void startfadeIn(int maxin, float speed)
     {
@@ -272,9 +287,12 @@ public class CameraMovement : MonoBehaviour
         Vector3 point = pointAux + (forward.normalized * analogic.deltaY);
         Vector3 velocity = (point - transform.position);
 
-        if (!coliding && !playerMov.isColiding)
+        if (!coliding && !playerMov.isColiding  || ( playerMov.isDizziness && !playerMov.isColiding) )
         {
-            transform.position = transform.position + (velocity.normalized * Time.deltaTime * playSpeed * analogic.speed);
+            if(playerMov.isDizziness && analogic.direction == Vector2.zero)
+                transform.position = transform.position + (velocity.normalized * Time.deltaTime * playSpeed * 0.25f);
+            else
+                transform.position = transform.position + (velocity.normalized * Time.deltaTime * playSpeed * analogic.speed);
         }
 
         transform.forward = new Vector3(player.position.x, offsetY, player.position.z) - transform.position;

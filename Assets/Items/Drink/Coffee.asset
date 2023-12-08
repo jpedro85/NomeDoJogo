@@ -17,5 +17,5 @@ MonoBehaviour:
   icon: {fileID: 21300000, guid: 8be6251c0e00c9f47b13fc8604f6b89a, type: 3}
   itemType: 0
   itemDescription: this is Coffee
-  health: 0
-  energy: 60
+  health: -10
+  energy: 50

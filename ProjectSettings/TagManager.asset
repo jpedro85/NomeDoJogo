@@ -11,6 +11,7 @@ TagManager:
   - AnalogicoConteiner
   - PlayUICanvas
   - Wall
+  - PersonageTrigger
   layers:
   - Default
   - TransparentFX

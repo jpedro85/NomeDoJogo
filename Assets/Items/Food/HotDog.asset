@@ -17,5 +17,5 @@ MonoBehaviour:
   icon: {fileID: 21300000, guid: 73f59b9c62209c24392a4669b77f51aa, type: 3}
   itemType: 0
   itemDescription: this is HotDog
-  health: -50
-  energy: 80
+  health: -45
+  energy: 40

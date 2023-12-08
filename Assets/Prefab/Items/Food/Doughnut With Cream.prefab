@@ -11,17 +11,17 @@ PrefabInstance:
     - target: {fileID: 3990576710844553890, guid: e4f3387dd249a6f42b208bdf329867b1,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 60
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 3990576710844553890, guid: e4f3387dd249a6f42b208bdf329867b1,
         type: 3}
       propertyPath: m_LocalScale.y
-      value: 60
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 3990576710844553890, guid: e4f3387dd249a6f42b208bdf329867b1,
         type: 3}
       propertyPath: m_LocalScale.z
-      value: 60
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 3990576710844553890, guid: e4f3387dd249a6f42b208bdf329867b1,
         type: 3}
@@ -81,7 +81,7 @@ PrefabInstance:
     - target: {fileID: 4335471984611049496, guid: e4f3387dd249a6f42b208bdf329867b1,
         type: 3}
       propertyPath: m_Name
-      value: Doughnut With Cream Variant
+      value: Doughnut With Cream
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

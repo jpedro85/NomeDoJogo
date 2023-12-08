@@ -568,8 +568,8 @@ RectTransform:
   - {fileID: 3834609896585745601}
   - {fileID: 6546619085141143695}
   - {fileID: 2540276535924026010}
-  - {fileID: 9088254887872379213}
   - {fileID: 5278286558705716765}
+  - {fileID: 9088254887872379213}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.45613638}
@@ -591,6 +591,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: {fileID: 5261455511117497449}
   itemDescription: {fileID: 943156397810355046}
+  DeltaHealth: {fileID: 0}
+  DeltaEnergy: {fileID: 0}
   overlay: {fileID: 7604120135909842699}
 --- !u!1 &8975878891126020084
 GameObject:

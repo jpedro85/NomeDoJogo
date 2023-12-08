@@ -17,5 +17,5 @@ MonoBehaviour:
   icon: {fileID: 21300000, guid: a089b19ce974e184f97ac46b80ff0cc9, type: 3}
   itemType: 0
   itemDescription: this is cherries
-  health: 9
-  energy: 9
+  health: 40
+  energy: 22

@@ -17,5 +17,5 @@ MonoBehaviour:
   icon: {fileID: 21300000, guid: a0c90d116bc0ead49bb3399ff6b8e956, type: 3}
   itemType: 0
   itemDescription: this is watermelon
-  health: 10
-  energy: 10
+  health: 47
+  energy: 23

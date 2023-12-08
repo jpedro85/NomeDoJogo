@@ -90,14 +90,29 @@ namespace Inventory
         {
             this.items = gameData.playerInventory.items.Select(itemData =>
             {
-                var newItem = itemData.itemType == ItemType.Food ? ScriptableObject.CreateInstance<FoodItem>() : ScriptableObject.CreateInstance<Item>();
+                Item item = ScriptableObject.CreateInstance<Item>();
+                switch (itemData.itemType)
+                {
+                    case ItemType.Food:
+                        item = ScriptableObject.CreateInstance<FoodItem>();
+                        break;
+                    case ItemType.Drink:
+                        item = ScriptableObject.CreateInstance<DrinkableItem>();
+                        break;
+                    default:
+                        item = ScriptableObject.CreateInstance<Item>();
+                        break;
+                }
 
-                newItem.itemName = itemData.itemName;
-                newItem.amount = itemData.amount;
-                newItem.icon = itemData.icon;
-                newItem.itemDescription = itemData.itemDescription;
+                item.itemName = itemData.itemName;
+                item.amount = itemData.amount;
+                item.icon = itemData.icon;
+                item.itemDescription = itemData.itemDescription;
+                item.health = itemData.health;
+                item.energy = itemData.energy;
 
-                return newItem;
+                return item;
+
             }).ToList();
         }
 

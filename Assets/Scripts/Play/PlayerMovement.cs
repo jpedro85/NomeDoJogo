@@ -19,6 +19,15 @@ public class PlayerMovement : MonoBehaviour
     public float jumpingSpeed = 250;
     public float jumpDistance = 100;
 
+
+    public float dizzinessX = (float)0.5;
+    public float dizzinessY = (float)0.5;
+    public bool isDizziness = false;
+    private float activedizzinessX = 0;
+    private float activedizzinessY = 0;
+    private float counterSgnalChange = 0;
+    private short mult = 1;
+
     public bool isColiding
     {
         get { return coliding; }
@@ -36,7 +45,33 @@ public class PlayerMovement : MonoBehaviour
     void Update()
     {
 
-        if (analogic.direction != Vector2.zero)
+
+        if (isDizziness)
+        {
+            if (counterSgnalChange >= Random.Range(2, 6))
+            {
+                activedizzinessX = 0;
+                activedizzinessY = 0;
+                counterSgnalChange = 0;
+                mult = (mult == 1) ? (short)-1 : (short)1;
+            }
+            else
+                counterSgnalChange += Time.deltaTime;
+
+            if (counterSgnalChange == 0)
+            {
+                activedizzinessX += Random.Range(0, dizzinessX);
+                activedizzinessY += Random.Range(0, dizzinessY);
+                activedizzinessX *= mult;
+            }
+        }
+        else
+        {
+            activedizzinessX = 0;
+            activedizzinessY = 0;
+        }
+
+        if (analogic.direction != Vector2.zero )
         {
             animator.SetBool("IdleTime", false);
             animator.SetBool("isMoving",true);
@@ -46,20 +81,27 @@ public class PlayerMovement : MonoBehaviour
      
             Vector3 forward = new Vector3(mainCamera.transform.forward.x,0, mainCamera.transform.forward.z);
             Vector3 rigth = new Vector3(mainCamera.transform.right.x,0, mainCamera.transform.right.z);
-           // Vector2 cameraPosition = new Vector2(mainCamera.transform.position.x, mainCamera.transform.position.z);
-
-            Vector3 pointAux = mainCamera.transform.position + (rigth.normalized * analogic.deltaX );
-            Vector3 point = pointAux + (forward.normalized * analogic.deltaY );
+            Vector3 pointAux = mainCamera.transform.position + (rigth.normalized * (analogic.deltaX + activedizzinessX));
+            Vector3 point = pointAux + (forward.normalized * (analogic.deltaY + activedizzinessY) );
             transform.forward = (point - mainCamera.transform.position);
         }
         else
         {
-          //  transform.rotation = new Quaternion(0, transform.rotation.y, 0, transform.rotation.w);
             animator.SetBool("isMoving", false);
             animator.SetBool("isRunning", false);
             idleTime += Time.deltaTime;
             if(idleTime > 2)
                 animator.SetBool("IdleTime",true);
+
+            if (isDizziness)
+            {
+                Vector3 forward = new Vector3(mainCamera.transform.forward.x, 0, mainCamera.transform.forward.z);
+                Vector3 rigth = new Vector3(mainCamera.transform.right.x, 0, mainCamera.transform.right.z);
+                Vector3 pointAux = mainCamera.transform.position + (rigth.normalized * (analogic.deltaX + activedizzinessX));
+                Vector3 point = pointAux + (forward.normalized * (analogic.deltaY + activedizzinessY));
+                transform.forward = (point - mainCamera.transform.position);
+            }
+            
         }
 
         
@@ -78,8 +120,21 @@ public class PlayerMovement : MonoBehaviour
                     animator.SetBool("isJumping", false);
                 }
 
-            }else
-                transform.position = transform.position + (transform.forward * Time.deltaTime * maxSpeed * analogic.speed);
+            }
+            else
+            {
+                if (isDizziness && (analogic.direction == Vector2.zero) ) 
+                {
+                    animator.SetBool("isMoving", true);
+                    animator.SetBool("isWalking", true);
+                    animator.SetBool("isRunning", false);
+                    transform.position = transform.position + (transform.forward * Time.deltaTime * maxSpeed * 0.25f );
+                }
+                else
+                {
+                    transform.position = transform.position + (transform.forward * Time.deltaTime * maxSpeed * analogic.speed);
+                }
+            }
 
         }
 

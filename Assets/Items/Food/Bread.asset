@@ -16,6 +16,6 @@ MonoBehaviour:
   amount: 1
   icon: {fileID: 21300000, guid: fb8622f73cb74c34592016371fd64f6c, type: 3}
   itemType: 0
+  health: -55
+  energy: 32
   itemDescription: this is Bread
-  health: 8
-  energy: 12

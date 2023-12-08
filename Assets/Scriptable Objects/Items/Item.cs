@@ -15,6 +15,8 @@ namespace Scriptable_Objects.Items.Scripts
         public int amount;
         public Sprite icon;
         public ItemType itemType;
+        public float health;
+        public float energy;
 
         [TextArea(15, 20)] public string itemDescription;
 

@@ -17,5 +17,5 @@ MonoBehaviour:
   icon: {fileID: 21300000, guid: ad15bd2d360d3ec4a84c702215ab4319, type: 3}
   itemType: 0
   itemDescription: This is not relevant ot the story
-  health: 3
-  energy: 3
+  health: 38
+  energy: 29

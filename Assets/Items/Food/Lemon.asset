@@ -17,5 +17,5 @@ MonoBehaviour:
   icon: {fileID: 21300000, guid: 4d0593c99ebd4ee48860ce34b10e3c7f, type: 3}
   itemType: 0
   itemDescription: this is Lemon
-  health: 8
-  energy: 8
+  health: 35
+  energy: 25

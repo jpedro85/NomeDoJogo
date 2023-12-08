@@ -9,6 +9,8 @@ public class ItemDescripton : MonoBehaviour
 
     public TMP_Text itemName;
     public TMP_Text itemDescription;
+    public TMP_Text DeltaHealth;
+    public TMP_Text DeltaEnergy;
     public GameObject overlay;
     private Item item;
 
@@ -23,6 +25,31 @@ public class ItemDescripton : MonoBehaviour
         this.itemName.text = item.itemName;
         this.itemDescription.text = item.itemDescription;
         this.item = item;
+
+        if (item.health >= 0)
+        {
+            this.DeltaHealth.text = "+";
+            this.DeltaHealth.color = Color.green;
+        }
+        else
+        {
+            this.DeltaHealth.text = "-";
+            this.DeltaHealth.color = Color.red;
+        }
+
+        if (item.energy >= 0)
+        {
+            this.DeltaEnergy.text = "+";
+            this.DeltaEnergy.color = Color.green;
+        }
+        else
+        {
+            this.DeltaEnergy.text = "-";
+            this.DeltaEnergy.color = Color.red;
+        }
+
+        this.DeltaHealth.text += item.health.ToString() + " %";
+        this.DeltaEnergy.text += item.energy.ToString() + " %";
     }
 
     #endregion

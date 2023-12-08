@@ -3,8 +3,9 @@ using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using static UnityEngine.EventSystems.EventTrigger;
 
-public class NewBehaviourScript : MonoBehaviour
+public class PlayUI : MonoBehaviour
 {
     public InventoryUI iventoryUi;
     //bar health
@@ -16,7 +17,12 @@ public class NewBehaviourScript : MonoBehaviour
     private float HealthCharging;
     private float Bar_Health_maxLenght;
     public float HealthRegenerationSpeed = 1;
-  
+
+    public float AtualHealth
+    {
+        get { return Health; }
+    }
+
     //bar Energy
     public RectTransform Bk_Bar_Energy;
     public RectTransform Bk_Bar_Energy_Change;
@@ -26,9 +32,14 @@ public class NewBehaviourScript : MonoBehaviour
     private float EnergyCharging;
     private float Bar_Energy_maxLenght;
     public float EnergyRegenerationSpeed = 1;
- 
-    //bar Hapinesss
-    public RectTransform Bk_Bar_Hapinesss;
+
+    public float AtualEneergy
+    {
+        get { return Energy; }
+    }
+
+//bar Hapinesss
+public RectTransform Bk_Bar_Hapinesss;
     public RectTransform Bk_Bar_Hapinesss_Change;
     public RectTransform Bk_Bar_Hapinesss_Atual;
 
@@ -36,6 +47,12 @@ public class NewBehaviourScript : MonoBehaviour
     private float HapinessCharging;
     private float Bar_Hapinesss_maxLenght;
     public float HapinessRegenerationSpeed = 1;
+
+    public float AtualHapiness 
+    { 
+        get { return Hapiness; }
+    }
+
 
     public TextMeshProUGUI NumeroDePistas;
 
@@ -173,6 +190,13 @@ public class NewBehaviourScript : MonoBehaviour
         NumeroDePistas.text = Hints.ToString();
     }
 
+    public void resetToAfterDeadHealth()
+    {
+        Health = 50;
+        HealthCharging = 50;
+        resizaBar(Bk_Bar_Health_Atual, Health, Bar_Health_maxLenght);
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -257,30 +281,37 @@ public class NewBehaviourScript : MonoBehaviour
         bar.sizeDelta = new Vector2(max * newPercentage /100, bar.sizeDelta.y);
     }
 
-    private float updateBar(RectTransform bar,float atual,float change, float max,float speed)
+    private float updateBar(RectTransform bar,float actual,float change, float max,float speed)
     {
-        if (atual == change)
-            return atual;
+        if (actual == change)
+        {
+            return actual;
+        }
 
         float step = speed * Time.deltaTime;
-        if (atual + step >= 100)
+
+        change = (change > 100) ? 100 : change;
+        //if (actual + step >= 100)
+        //{
+        //    Debug.Log("actual >= change");
+        //    actual = 100;
+        //}
+        //else if (actual - step < 0)
+        //{
+        //    Debug.Log("actual = 0");
+        //    actual = 0;
+        //}
+
+        if (actual < change)
         {
-            atual = 100;
+            actual = (actual + step >= change) ? change : actual + step;
         }
-        else if (atual - step < 0)
+        else if(actual > change)
         {
-            atual = 0;
-        }
-        else if(atual < change)
-        {
-            atual += step;
-        }
-        else if(atual > change)
-        {
-            atual -= step;
+            actual =  (actual - step < 0) ? 0 :  actual - step;
         }
 
-        resizaBar(bar, atual, max);
-        return atual;
+        resizaBar(bar, actual, max);
+        return actual;
     }
 }
