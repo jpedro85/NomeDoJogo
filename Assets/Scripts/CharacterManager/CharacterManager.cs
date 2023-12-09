@@ -20,6 +20,7 @@ namespace CharacterManager
         public float faintStart = 25;
         private float faintCounter = 0;
         private float turveVision = 5;
+        private bool hasEnteredHitbox = false;
 
         public float standUpMov = 0.11111111f;
         public float standUpRunningMov = 0.22222222f;
@@ -206,17 +207,15 @@ namespace CharacterManager
         public void OnTriggerEnter(Collider other)
         {
             var item = other.GetComponent<GameItem>();
-            if (item)
-            {
-                Debug.Log("itemName" + item.name);
-                Debug.Log(inventory);
-                Debug.Log("item" + item.item);
-                bool wasPickup = inventory.addToInventory(item.item);
+            if (!item || hasEnteredHitbox) return;
+            
+            hasEnteredHitbox = true;
+            bool wasPickup = inventory.addToInventory(item.item);
 
-                if (wasPickup)
-                {
-                    Destroy(other.gameObject);
-                }
+            if (wasPickup)
+            {
+                Destroy(other.gameObject);
+                hasEnteredHitbox = false;
             }
         }
     }

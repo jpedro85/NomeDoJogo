@@ -12,7 +12,7 @@ namespace Scriptable_Objects.Items.Scripts
     public class Item : ScriptableObject
     {
         public string itemName;
-        public int amount;
+        public int amount = 1;
         public Sprite icon;
         public ItemType itemType;
         public float health;
