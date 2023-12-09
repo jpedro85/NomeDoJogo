@@ -159,7 +159,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.tag == "Wall")
+        if (collision.gameObject.tag == "Wall" || collision.gameObject.tag == "Obj")
         {
             coliding = true;
         }
@@ -167,7 +167,7 @@ public class PlayerMovement : MonoBehaviour
     }
     private void OnCollisionExit(Collision collision)
     {
-        if (collision.gameObject.tag == "Wall")
+        if (collision.gameObject.tag == "Wall" || collision.gameObject.tag == "Obj")
         {
             coliding = false;
         }

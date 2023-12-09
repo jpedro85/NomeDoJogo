@@ -12,6 +12,7 @@ TagManager:
   - PlayUICanvas
   - Wall
   - PersonageTrigger
+  - Obj
   layers:
   - Default
   - TransparentFX

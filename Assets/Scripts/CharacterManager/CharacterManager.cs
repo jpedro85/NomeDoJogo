@@ -14,6 +14,7 @@ namespace CharacterManager
         private Animator animator;
         private GameObject player;
         private GameObject camera;
+        private Inventory.Inventory inventory;
 
         public float dizzinessLevel = 30;
         public float faintStart = 25;
@@ -30,6 +31,11 @@ namespace CharacterManager
         public float updateIntervale;
 
         public Vector3 []responPoints;
+
+        public void Start()
+        {
+            inventory =  Inventory.Inventory.instance;
+        }
 
 
         public void Awake()
@@ -202,7 +208,10 @@ namespace CharacterManager
             var item = other.GetComponent<GameItem>();
             if (item)
             {
-                bool wasPickup = Inventory.Inventory.instance.addToInventory(item.item);
+                Debug.Log("itemName" + item.name);
+                Debug.Log(inventory);
+                Debug.Log("item" + item.item);
+                bool wasPickup = inventory.addToInventory(item.item);
 
                 if (wasPickup)
                 {

@@ -49,7 +49,9 @@ namespace Inventory
             {
                 var inventoryItem = items.First(itemsItem => itemsItem.itemName == item.itemName);
 
+                Debug.LogWarning("before:" + inventoryItem.name + ":" + inventoryItem.amount);
                 inventoryItem.amount += item.amount;
+                Debug.LogWarning("after:" + inventoryItem.name + ":"  + inventoryItem.amount);
                 OnItemChangedCallBack?.Invoke();
                 return true;
             }

@@ -16,6 +16,6 @@ MonoBehaviour:
   amount: 1
   icon: {fileID: 21300000, guid: 5a6dd49f8c6079f47b5988a2a6fe143d, type: 3}
   itemType: 0
-  itemDescription: This is Apple
   health: 50
   energy: 10
+  itemDescription: This is Apple

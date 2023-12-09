@@ -4751,6 +4751,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: Plant (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 516882290165103431, guid: 049bb9a26bd5ab240981884b68b180ac,
+        type: 3}
+      propertyPath: m_TagString
+      value: Obj
+      objectReference: {fileID: 0}
+    - target: {fileID: 526327132662190352, guid: 049bb9a26bd5ab240981884b68b180ac,
+        type: 3}
+      propertyPath: m_TagString
+      value: Obj
+      objectReference: {fileID: 0}
     - target: {fileID: 1203709296960445369, guid: 049bb9a26bd5ab240981884b68b180ac,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -9776,6 +9786,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: sofa_001
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: b2bfb3f987d345b4388c7173f6f9649c,
+        type: 3}
+      propertyPath: m_TagString
+      value: Obj
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -13826,6 +13841,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: sofa_001 (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: b2bfb3f987d345b4388c7173f6f9649c,
+        type: 3}
+      propertyPath: m_TagString
+      value: Obj
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -29562,6 +29582,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: sofa_001 (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: b2bfb3f987d345b4388c7173f6f9649c,
+        type: 3}
+      propertyPath: m_TagString
+      value: Obj
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -33418,6 +33443,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Plant (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 516882290165103431, guid: 049bb9a26bd5ab240981884b68b180ac,
+        type: 3}
+      propertyPath: m_TagString
+      value: Obj
+      objectReference: {fileID: 0}
+    - target: {fileID: 526327132662190352, guid: 049bb9a26bd5ab240981884b68b180ac,
+        type: 3}
+      propertyPath: m_TagString
+      value: Obj
       objectReference: {fileID: 0}
     - target: {fileID: 1203709296960445369, guid: 049bb9a26bd5ab240981884b68b180ac,
         type: 3}
@@ -42153,6 +42188,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: Plant (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 516882290165103431, guid: 049bb9a26bd5ab240981884b68b180ac,
+        type: 3}
+      propertyPath: m_TagString
+      value: Obj
+      objectReference: {fileID: 0}
+    - target: {fileID: 526327132662190352, guid: 049bb9a26bd5ab240981884b68b180ac,
+        type: 3}
+      propertyPath: m_TagString
+      value: Obj
+      objectReference: {fileID: 0}
     - target: {fileID: 1203709296960445369, guid: 049bb9a26bd5ab240981884b68b180ac,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -42212,6 +42257,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalPosition.z
       value: -2229.925
+      objectReference: {fileID: 0}
+    - target: {fileID: 8792665878166912652, guid: 049bb9a26bd5ab240981884b68b180ac,
+        type: 3}
+      propertyPath: m_TagString
+      value: Untagged
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -58293,6 +58343,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Plant (5)
+      objectReference: {fileID: 0}
+    - target: {fileID: 516882290165103431, guid: 049bb9a26bd5ab240981884b68b180ac,
+        type: 3}
+      propertyPath: m_TagString
+      value: Obj
+      objectReference: {fileID: 0}
+    - target: {fileID: 526327132662190352, guid: 049bb9a26bd5ab240981884b68b180ac,
+        type: 3}
+      propertyPath: m_TagString
+      value: Obj
       objectReference: {fileID: 0}
     - target: {fileID: 1203709296960445369, guid: 049bb9a26bd5ab240981884b68b180ac,
         type: 3}
@@ -80211,6 +80271,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Secretaria
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 956cb47f862d91845b95e3dbed73a1ba,
+        type: 3}
+      propertyPath: m_TagString
+      value: Obj
+      objectReference: {fileID: 0}
     - target: {fileID: 4083501151425157549, guid: 956cb47f862d91845b95e3dbed73a1ba,
         type: 3}
       propertyPath: m_LocalScale.x
@@ -84074,7 +84139,7 @@ PrefabInstance:
     - target: {fileID: 753663183209625772, guid: f85fe2e43ecff284d849ed47ddc5eac5,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.0000009536743
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 753663183209625772, guid: f85fe2e43ecff284d849ed47ddc5eac5,
         type: 3}
@@ -85368,6 +85433,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Plant (4)
+      objectReference: {fileID: 0}
+    - target: {fileID: 516882290165103431, guid: 049bb9a26bd5ab240981884b68b180ac,
+        type: 3}
+      propertyPath: m_TagString
+      value: Obj
+      objectReference: {fileID: 0}
+    - target: {fileID: 526327132662190352, guid: 049bb9a26bd5ab240981884b68b180ac,
+        type: 3}
+      propertyPath: m_TagString
+      value: Obj
       objectReference: {fileID: 0}
     - target: {fileID: 1203709296960445369, guid: 049bb9a26bd5ab240981884b68b180ac,
         type: 3}
@@ -88023,6 +88098,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: sofa_001 (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: b2bfb3f987d345b4388c7173f6f9649c,
+        type: 3}
+      propertyPath: m_TagString
+      value: Obj
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -92445,6 +92525,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Plant
+      objectReference: {fileID: 0}
+    - target: {fileID: 516882290165103431, guid: 049bb9a26bd5ab240981884b68b180ac,
+        type: 3}
+      propertyPath: m_TagString
+      value: Obj
+      objectReference: {fileID: 0}
+    - target: {fileID: 526327132662190352, guid: 049bb9a26bd5ab240981884b68b180ac,
+        type: 3}
+      propertyPath: m_TagString
+      value: Obj
       objectReference: {fileID: 0}
     - target: {fileID: 1203709296960445369, guid: 049bb9a26bd5ab240981884b68b180ac,
         type: 3}
