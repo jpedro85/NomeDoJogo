@@ -16,6 +16,8 @@ MonoBehaviour:
   amount: 1
   icon: {fileID: 21300000, guid: 291054b3bdde0ba4cb3bb9e66c61bc9d, type: 3}
   itemType: 0
-  itemDescription: this is Pizzza
   health: -70
   energy: 80
+  itemDescription: The nutritional content of pizza varies widely depending on toppings
+    and crust. On average, a slice may contain 300 calories, 15 grams of fat, 30
+    grams of carbohydrates, and 15 grams of protein.

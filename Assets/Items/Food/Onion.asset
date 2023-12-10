@@ -16,6 +16,7 @@ MonoBehaviour:
   amount: 1
   icon: {fileID: 21300000, guid: 9ecc8732c04b37849b753c6b9dc826b0, type: 3}
   itemType: 0
-  itemDescription: this is Onion
   health: 43
   energy: 28
+  itemDescription: Onions are rich in antioxidants, vitamins, and minerals. They
+    may boost heart health, support immune function, and have anti-inflammatory properties.

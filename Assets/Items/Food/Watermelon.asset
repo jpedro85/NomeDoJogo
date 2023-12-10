@@ -16,6 +16,9 @@ MonoBehaviour:
   amount: 1
   icon: {fileID: 21300000, guid: a0c90d116bc0ead49bb3399ff6b8e956, type: 3}
   itemType: 0
-  itemDescription: this is watermelon
   health: 47
   energy: 23
+  itemDescription: Watermelon is hydrating and rich in vitamins A and C. Watermelon
+    is typically in season during the summer months, from May to September in the
+    Northern Hemisphere. However, the exact timing can vary depending on the region
+    and local climate.
