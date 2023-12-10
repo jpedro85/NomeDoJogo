@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using Unity.VisualScripting;
+using UnityEditor.Rendering;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -13,19 +14,48 @@ public class questionsUI : MonoBehaviour
 
     private Question currentQuestion;
     private Answer currentAnswer;
+    public GameObject dialog;
 
     private bool guessClicked;
     private string input;
+    private int chances;
+    public TextMeshProUGUI TxtErro;
 
 
-    [SerializeField]
-    private TextMeshProUGUI questionText;
-    private Button guessButton;
+    public TextMeshProUGUI questionText;
+    private float closeDelay;
 
     private void Start()
     {
         guessClicked = false;
+        chances = 3;
         getRandomQuestion();
+        TxtErro.text = " ";
+        input = "";
+        closeDelay = 0;
+    }
+
+    public void Update()
+    {
+        if (closeDelay != 0 && !guessClicked && closeDelay  <= 1)
+        {
+            closeDelay += Time.deltaTime;
+        }
+        else if(!guessClicked && closeDelay >= 1)
+        {
+            dialog.SetActive(false);
+        }
+    }
+
+    public void open()
+    {
+        guessClicked = false;
+        chances = 3;
+        getRandomQuestion();
+        dialog.SetActive(true);
+        TxtErro.text = " ";
+        input = "";
+        closeDelay = 0;
     }
 
     void getRandomQuestion()
@@ -46,21 +76,44 @@ public class questionsUI : MonoBehaviour
     public void getAnswer(string ans)
     {
         input = ans;
-        Debug.Log(input);
     }
 
     void checkAnswer()
     {
-        if (guessClicked)
+
+
+        if (guessClicked && input != "" )
         {
-            if(input.ToLower()==currentAnswer.answers.ToLower())
-            {
-                //int++
+            if(chances > 0){
+
+                if (input.ToLower() == currentAnswer.answers.ToLower())
+                {
+                    TxtErro.color = Color.green;
+                    TxtErro.text = "Correct";
+                    guessClicked = false;
+                    closeDelay = 0.01f;
+                }
+                else
+                {
+                    chances--;
+                    TxtErro.color = Color.red;
+                    TxtErro.text = "Remaining attempts: " + chances.ToString();
+
+                }
             }
             else
             {
-                //close UI
+                guessClicked = false;
+                closeDelay = 0.01f;
             }
         }
+        else
+        {
+            
+
+        }
+    
+            
     }
+    
 }
