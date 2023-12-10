@@ -11,17 +11,17 @@ PrefabInstance:
     - target: {fileID: 1565791120669197183, guid: 5ebdbc030ec57844d95ccb60b8223fd7,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 50
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 1565791120669197183, guid: 5ebdbc030ec57844d95ccb60b8223fd7,
         type: 3}
       propertyPath: m_LocalScale.y
-      value: 50
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 1565791120669197183, guid: 5ebdbc030ec57844d95ccb60b8223fd7,
         type: 3}
       propertyPath: m_LocalScale.z
-      value: 50
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 1565791120669197183, guid: 5ebdbc030ec57844d95ccb60b8223fd7,
         type: 3}
@@ -81,7 +81,7 @@ PrefabInstance:
     - target: {fileID: 2229596374276676037, guid: 5ebdbc030ec57844d95ccb60b8223fd7,
         type: 3}
       propertyPath: m_Name
-      value: Hotdog Variant
+      value: Hotdog
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -95,6 +95,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 66132161730022393}
+    - targetCorrespondingSourceObject: {fileID: 2229596374276676037, guid: 5ebdbc030ec57844d95ccb60b8223fd7,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7772996707498696365}
   m_SourcePrefab: {fileID: 100100000, guid: 5ebdbc030ec57844d95ccb60b8223fd7, type: 3}
 --- !u!1 &6299557003338579232 stripped
 GameObject:
@@ -136,3 +140,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   item: {fileID: 11400000, guid: 6aa5b594ac539db4a88800209e0ed2af, type: 2}
+--- !u!111 &7772996707498696365
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6299557003338579232}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 7400000, guid: 4b0d91cc79c4bf24a983dc2f95f97d95, type: 2}
+  m_Animations:
+  - {fileID: 7400000, guid: 4b0d91cc79c4bf24a983dc2f95f97d95, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 1
+  m_AnimatePhysics: 0
+  m_CullingType: 0

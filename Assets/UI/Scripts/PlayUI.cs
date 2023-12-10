@@ -135,6 +135,12 @@ public RectTransform Bk_Bar_Hapinesss;
     public Sprite HintOff;
     public Sprite HintOn;
     private int Hints;
+
+    public  void addHint(int hint = 1)
+    {
+        Hints += hint;
+        NumeroDePistas.text = Hints.ToString();
+    }
     public void ClickButtonHint()
     {
 

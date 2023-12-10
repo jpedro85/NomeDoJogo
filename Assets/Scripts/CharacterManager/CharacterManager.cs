@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using Scripts.Item;
-using UnityEngineInternal;
+using System.Collections.Generic;
 
 namespace CharacterManager
 {
@@ -15,6 +15,7 @@ namespace CharacterManager
         private GameObject player;
         private GameObject camera;
         private Inventory.Inventory inventory;
+        private questionsUI questionUi;
 
         public float dizzinessLevel = 30;
         public float faintStart = 25;
@@ -32,10 +33,12 @@ namespace CharacterManager
         public float updateIntervale;
 
         public Vector3 []responPoints;
+        private List<GameObject> gameObjectGameItemList;
 
         public void Start()
         {
             inventory =  Inventory.Inventory.instance;
+            gameObjectGameItemList = new List<GameObject>();
         }
 
 
@@ -47,6 +50,9 @@ namespace CharacterManager
             playUI = GameObject.Find("UI_Buttons").GetComponent<PlayUI>();
             player = GameObject.FindWithTag("Player");
             playerMovement = player.GetComponent<PlayerMovement>();
+            questionUi = GameObject.FindWithTag("questionManager").GetComponent<questionsUI>();
+            questionUi.answer += afterQuestionResult;
+            questionUi.backEvent += afterBack;
 
         }
 
@@ -206,16 +212,60 @@ namespace CharacterManager
 
         public void OnTriggerEnter(Collider other)
         {
-            var item = other.GetComponent<GameItem>();
-            if (!item || hasEnteredHitbox) return;
-            
-            hasEnteredHitbox = true;
-            bool wasPickup = inventory.addToInventory(item.item);
-
-            if (wasPickup)
+            if(!questionUi.isOpen)
             {
-                Destroy(other.gameObject);
-                hasEnteredHitbox = false;
+
+                if (other.GetComponent<GameItem>() != null)
+                {
+                    if ( !gameObjectGameItemList.Contains(other.gameObject) )
+                    {
+                        gameObjectGameItemList.Add(other.gameObject);
+                        questionUi.open();
+                    }
+
+                }
+
+            }
+          //  if (!item || hasEnteredHitbox) return;
+            
+           // hasEnteredHitbox = true;
+           
+
+
+            //bool wasPickup = inventory.addToInventory(item.item);
+
+            //if (wasPickup)
+            //{
+            //    Destroy(other.gameObject);
+            // //   hasEnteredHitbox = false;
+            //}
+        }
+
+
+        public virtual void afterQuestionResult(bool result)
+        {
+            if (gameObjectGameItemList.Count > 0)
+            {
+                if (inventory.addToInventory(gameObjectGameItemList[0].GetComponent<GameItem>().item))
+                {
+                    Destroy(gameObjectGameItemList[0].gameObject);
+                    gameObjectGameItemList.RemoveAt(0);
+                    //   hasEnteredHitbox = false;
+
+                    if (result)
+                    {
+                        playUI.addHint();
+                    }
+                }
+            }
+            
+        }
+
+        public virtual void afterBack()
+        {
+            if (gameObjectGameItemList.Count > 0)
+            {
+                gameObjectGameItemList.RemoveAt(0);
             }
         }
     }

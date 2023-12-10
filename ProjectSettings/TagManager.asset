@@ -13,6 +13,7 @@ TagManager:
   - Wall
   - PersonageTrigger
   - Obj
+  - questionManager
   layers:
   - Default
   - TransparentFX

@@ -25,8 +25,23 @@ public class questionsUI : MonoBehaviour
     public TextMeshProUGUI questionText;
     private float closeDelay;
 
+
+    public bool isOpen
+    {
+        get { return dialog.activeSelf; }
+    }
+
+
+    public delegate void answerDelegate(bool result);
+    public event answerDelegate answer;
+
+
+    public delegate void back();
+    public event back backEvent;
+
     private void Start()
     {
+        dialog.SetActive(false);
         guessClicked = false;
         chances = 3;
         getRandomQuestion();
@@ -54,7 +69,7 @@ public class questionsUI : MonoBehaviour
         getRandomQuestion();
         dialog.SetActive(true);
         TxtErro.text = " ";
-        input = "";
+        input = " ";
         closeDelay = 0;
     }
 
@@ -92,6 +107,8 @@ public class questionsUI : MonoBehaviour
                     TxtErro.text = "Correct";
                     guessClicked = false;
                     closeDelay = 0.01f;
+                    Debug.Log(answer.Target);
+                    answer?.Invoke(true);
                 }
                 else
                 {
@@ -103,8 +120,10 @@ public class questionsUI : MonoBehaviour
             }
             else
             {
+                Debug.Log(answer.Target);
                 guessClicked = false;
                 closeDelay = 0.01f;
+                answer?.Invoke(false);
             }
         }
         else
@@ -114,6 +133,11 @@ public class questionsUI : MonoBehaviour
         }
     
             
+    }
+
+    public void backFuntion()
+    {
+        backEvent?.Invoke();
     }
     
 }

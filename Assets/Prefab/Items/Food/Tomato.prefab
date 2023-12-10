@@ -61,10 +61,36 @@ PrefabInstance:
     - target: {fileID: 3452694226032689571, guid: 7d297ce6a487c0247b5edccce4ece3c6,
         type: 3}
       propertyPath: m_Name
-      value: Tomato (1) Variant
+      value: Tomato
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 3452694226032689571, guid: 7d297ce6a487c0247b5edccce4ece3c6,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1922076943001934022}
   m_SourcePrefab: {fileID: 100100000, guid: 7d297ce6a487c0247b5edccce4ece3c6, type: 3}
+--- !u!1 &8580227149183670322 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3452694226032689571, guid: 7d297ce6a487c0247b5edccce4ece3c6,
+    type: 3}
+  m_PrefabInstance: {fileID: 6411287740074809745}
+  m_PrefabAsset: {fileID: 0}
+--- !u!111 &1922076943001934022
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8580227149183670322}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 7400000, guid: 4b0d91cc79c4bf24a983dc2f95f97d95, type: 2}
+  m_Animations:
+  - {fileID: 7400000, guid: 4b0d91cc79c4bf24a983dc2f95f97d95, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 1
+  m_AnimatePhysics: 0
+  m_CullingType: 0

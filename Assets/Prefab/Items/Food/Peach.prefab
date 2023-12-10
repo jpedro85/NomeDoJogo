@@ -11,17 +11,17 @@ PrefabInstance:
     - target: {fileID: 7331409804145478616, guid: c5240644e1df8364aa4cea385c7cf092,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 120
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7331409804145478616, guid: c5240644e1df8364aa4cea385c7cf092,
         type: 3}
       propertyPath: m_LocalScale.y
-      value: 120
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7331409804145478616, guid: c5240644e1df8364aa4cea385c7cf092,
         type: 3}
       propertyPath: m_LocalScale.z
-      value: 120
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7331409804145478616, guid: c5240644e1df8364aa4cea385c7cf092,
         type: 3}
@@ -95,6 +95,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 1606005322018590524}
+    - targetCorrespondingSourceObject: {fileID: 7995497868466590050, guid: c5240644e1df8364aa4cea385c7cf092,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5018941412299464425}
   m_SourcePrefab: {fileID: 100100000, guid: c5240644e1df8364aa4cea385c7cf092, type: 3}
 --- !u!1 &4397974208590114788 stripped
 GameObject:
@@ -136,3 +140,19 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.40542182, y: 0.39457124, z: 0.32231313}
   m_Center: {x: 0.041552186, y: 0.19728622, z: -0.00000010430813}
+--- !u!111 &5018941412299464425
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4397974208590114788}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 7400000, guid: 4b0d91cc79c4bf24a983dc2f95f97d95, type: 2}
+  m_Animations:
+  - {fileID: 7400000, guid: 4b0d91cc79c4bf24a983dc2f95f97d95, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 1
+  m_AnimatePhysics: 0
+  m_CullingType: 0

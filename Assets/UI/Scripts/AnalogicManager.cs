@@ -117,9 +117,9 @@ public class AnalogicManager : MonoBehaviour
                 }
                 else
                 {
-                    directionVector = (analogicoTouch.position - initialPosition);
+                    directionVector = Vector2.ClampMagnitude( (analogicoTouch.position - initialPosition) , raio);
 
-                    atualPosition = initialPosition + Vector2.ClampMagnitude(directionVector, raio);
+                    atualPosition = initialPosition + directionVector;
                     Analogico.position = atualPosition;
                     AnalogicoBlur.transform.position = atualPosition;
 
