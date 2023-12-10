@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class LeaveButton : MonoBehaviour
 {
-    public void LeaveGame()
+public void LeaveGame()
     {
         SceneManager.LoadScene(1);
     }

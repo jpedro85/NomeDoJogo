@@ -652,7 +652,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 452589948}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1312670980}
+        m_TargetAssemblyTypeName: HomeToPlay, Assembly-CSharp
+        m_MethodName: GoToPlay
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &452589948
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1573,6 +1585,7 @@ GameObject:
   - component: {fileID: 1312670976}
   - component: {fileID: 1312670975}
   - component: {fileID: 1312670979}
+  - component: {fileID: 1312670980}
   m_Layer: 5
   m_Name: LevelScreen
   m_TagString: Untagged
@@ -1684,6 +1697,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b54a2e9add6b25f4bbbbc93145d35839, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1312670980
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1312670974}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c7392a07f6bab4e4cbc57f37e610883f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1611219381
