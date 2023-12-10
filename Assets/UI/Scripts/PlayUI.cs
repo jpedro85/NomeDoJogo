@@ -1,11 +1,11 @@
+using DataPersistence;
+using DataPersistence.Data;
 using Inventory;
-using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using static UnityEngine.EventSystems.EventTrigger;
 
-public class PlayUI : MonoBehaviour
+public class PlayUI : MonoBehaviour, IDataPersistence
 {
     public InventoryUI iventoryUi;
     //bar health
@@ -38,8 +38,8 @@ public class PlayUI : MonoBehaviour
         get { return Energy; }
     }
 
-//bar Hapinesss
-public RectTransform Bk_Bar_Hapinesss;
+    //bar Happiness
+    public RectTransform Bk_Bar_Hapinesss;
     public RectTransform Bk_Bar_Hapinesss_Change;
     public RectTransform Bk_Bar_Hapinesss_Atual;
 
@@ -174,7 +174,7 @@ public RectTransform Bk_Bar_Hapinesss;
     {
         Health = 100;
         HealthCharging = 100;
-
+        
         Energy = 100;
         EnergyCharging = 100;
 
@@ -319,5 +319,25 @@ public RectTransform Bk_Bar_Hapinesss;
 
         resizaBar(bar, actual, max);
         return actual;
+    }
+
+    public void loadData(GameData gameData)
+    {
+        this.Health = gameData.playerHealth;
+        this.HealthCharging = gameData.playerHealthToRegen;
+
+        this.Energy = gameData.playerEnergy;
+        this.EnergyCharging = gameData.playerEnergyToRegen;
+    }
+
+    public void saveData(GameData gameData)
+    {
+        
+        gameData.playerHealth = this.Health;
+        gameData.playerHealthToRegen = this.HealthCharging;
+
+        gameData.playerEnergy = this.Energy;
+        gameData.playerEnergy = this.EnergyCharging;
+        
     }
 }

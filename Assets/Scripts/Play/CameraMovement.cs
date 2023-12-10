@@ -1,13 +1,9 @@
-using System;
-using System.Data.Common;
-using System.Threading;
-using Unity.Burst.CompilerServices;
+using DataPersistence;
+using DataPersistence.Data;
 using UnityEngine;
-using UnityEngine.Experimental.Rendering.RenderGraphModule;
-using UnityEngine.Rendering.Universal;
 using UnityEngine.UI;
 
-public class CameraMovement : MonoBehaviour
+public class CameraMovement : MonoBehaviour, IDataPersistence
 {
     private AnalogicManager analogic;
     private Transform player;
@@ -36,7 +32,7 @@ public class CameraMovement : MonoBehaviour
     private bool zoomOutActive = false;
     private bool zoomInActive = false;
     private float zoomTime = 0;
-    public float HintTime = 10 ;
+    public float HintTime = 10;
 
     private bool coliding = false;
 
@@ -69,7 +65,7 @@ public class CameraMovement : MonoBehaviour
     private Button pistabutton;
     private Sprite spriteOff;
 
-    public void pista(Button button,Sprite off)
+    public void pista(Button button, Sprite off)
     {
         pistabutton = button;
         spriteOff = off;
@@ -79,14 +75,13 @@ public class CameraMovement : MonoBehaviour
         }
         else
         {
-            button.image.sprite = off ;
+            button.image.sprite = off;
         }
-
     }
 
     public bool isPista
     {
-        get { return zoomOutActive;}
+        get { return zoomOutActive; }
     }
 
     private void auxiliarpista()
@@ -117,6 +112,7 @@ public class CameraMovement : MonoBehaviour
     public GameObject[] fades;
     public GameObject turveEfect;
     private bool fadeIn = false, fadeOut = false;
+
     public bool isFadeOut
     {
         get { return fadeOut; }
@@ -126,6 +122,7 @@ public class CameraMovement : MonoBehaviour
     {
         get { return fadeIn; }
     }
+
     public float fadeInterval;
     private float fadeTime = 0;
     private float fade_nextime = 0;
@@ -148,17 +145,16 @@ public class CameraMovement : MonoBehaviour
         fadeInterval = speed;
         fadeTime = 0;
         fade_nextime = fadeTime + fadeInterval;
-
     }
 
     public void startfadeOut(int maxout, float speed)
     {
-        fadeOut = true; 
+        fadeOut = true;
         fadeIn = false;
         fade_maxout = maxout;
 
         fadeInterval = speed;
-        
+
         fadeTime = 0;
         fade_nextime = fadeTime + fadeInterval;
     }
@@ -167,16 +163,13 @@ public class CameraMovement : MonoBehaviour
     {
         if (fadeOut)
         {
-   
             if (fade_atual == fade_maxout && fadeTime >= fade_nextime)
             {
                 fade_atual = fade_maxout;
                 fadeOut = false;
-    
             }
             else if (fade_atual >= fade_maxout && fadeTime >= fade_nextime)
             {
-               
                 fades[fade_atual].SetActive(false);
 
                 fade_atual--;
@@ -184,11 +177,9 @@ public class CameraMovement : MonoBehaviour
                     fades[fade_atual].SetActive(true);
 
                 fade_nextime = fadeTime + fadeInterval;
-
             }
             else
             {
-
                 fadeTime += Time.deltaTime;
             }
         }
@@ -198,7 +189,6 @@ public class CameraMovement : MonoBehaviour
     {
         if (fadeIn)
         {
-
             if (fade_atual == fade_maxin && fadeTime >= fade_nextime)
             {
                 fade_atual = fade_maxin;
@@ -231,14 +221,13 @@ public class CameraMovement : MonoBehaviour
 
     void Update()
     {
-
         auxiliarpista();
 
         //cameraEfects
         if (fade_sin)
         {
             startfadeIn(fade_max, fade_s);
-            fade_sin = false ;
+            fade_sin = false;
         }
 
         if (fadeo_sin)
@@ -266,7 +255,7 @@ public class CameraMovement : MonoBehaviour
         //    AtualzoomSpeed = zoomSpeed/2;
         //    //sppeed when coliding ?
         //}
-        if(!playerMov.isColiding)
+        if (!playerMov.isColiding)
         {
             if (analogic.direction == Vector2.zero && zooming)
             {
@@ -274,11 +263,8 @@ public class CameraMovement : MonoBehaviour
             }
             else
             {
-
                 AtualzoomSpeed = zoomSpeed;
             }
-            
-
         }
 
         Vector3 forward = new Vector3(transform.forward.x, 0, transform.forward.z);
@@ -287,12 +273,13 @@ public class CameraMovement : MonoBehaviour
         Vector3 point = pointAux + (forward.normalized * analogic.deltaY);
         Vector3 velocity = (point - transform.position);
 
-        if (!coliding && !playerMov.isColiding  || ( playerMov.isDizziness && !playerMov.isColiding) )
+        if (!coliding && !playerMov.isColiding || (playerMov.isDizziness && !playerMov.isColiding))
         {
-            if(playerMov.isDizziness && analogic.direction == Vector2.zero)
+            if (playerMov.isDizziness && analogic.direction == Vector2.zero)
                 transform.position = transform.position + (velocity.normalized * Time.deltaTime * playSpeed * 0.25f);
             else
-                transform.position = transform.position + (velocity.normalized * Time.deltaTime * playSpeed * analogic.speed);
+                transform.position = transform.position +
+                                     (velocity.normalized * Time.deltaTime * playSpeed * analogic.speed);
         }
 
         transform.forward = new Vector3(player.position.x, offsetY, player.position.z) - transform.position;
@@ -303,7 +290,7 @@ public class CameraMovement : MonoBehaviour
 
         zoom();
 
-       // if (!coliding)
+        // if (!coliding)
         {
             updateDistanceX(distX, AtualzoomSpeed);
             updateDistanceY(distY, AtualzoomSpeed);
@@ -327,7 +314,7 @@ public class CameraMovement : MonoBehaviour
     {
         if (analogic.deltaX > -0.25 && analogic.deltaX < 0.25 && analogic.deltaY < -0.75 && !rotated)
         {
-            if(time > 0)
+            if (time > 0)
             {
                 time -= Time.deltaTime;
             }
@@ -349,8 +336,9 @@ public class CameraMovement : MonoBehaviour
     {
         if (collision.gameObject.tag == "Wall")
         {
-            Vector3 cameraForward = new Vector3(transform.forward.x, transform.forward.y, transform.forward.z).normalized;
-            transform.position = transform.position + cameraForward * forceBack;            
+            Vector3 cameraForward =
+                new Vector3(transform.forward.x, transform.forward.y, transform.forward.z).normalized;
+            transform.position = transform.position + cameraForward * forceBack;
         }
     }
 
@@ -366,7 +354,6 @@ public class CameraMovement : MonoBehaviour
 
     private void OnCollisionExit(Collision collision)
     {
-
         if (collision.gameObject.tag == "Wall")
         {
             distanceX = minDistanceX;
@@ -377,7 +364,6 @@ public class CameraMovement : MonoBehaviour
 
     public void toPistaView()
     {
-
         distanceX += ZoomOutOffsetX;
         distanceY += ZoomOutOffsetY;
         maxDistanceX = distanceX + margem;
@@ -402,7 +388,7 @@ public class CameraMovement : MonoBehaviour
             maxDistanceX = distanceX + margem;
             zooming = true;
         }
-        else if(!zooming)
+        else if (!zooming)
         {
             zooming = false;
             distanceX = minDistanceX;
@@ -427,6 +413,7 @@ public class CameraMovement : MonoBehaviour
             {
                 transform.position = transform.position + (forward.normalized * speed * Time.deltaTime);
             }
+
             stabelizedX = false;
         }
     }
@@ -452,4 +439,24 @@ public class CameraMovement : MonoBehaviour
         }
     }
 
+    public void loadData(GameData gameData)
+    {
+        this.transform.position = new Vector3(gameData.currentCameraPositionOnLvl[0],
+            gameData.currentCameraPositionOnLvl[1], gameData.currentCameraPositionOnLvl[2]);
+    }
+
+    public void saveData(GameData gameData)
+    {
+        // Deconstructing the Vector3 into an array of 3 floats
+        var cameraPosition = this.transform.position;
+
+        float[] cameraPositionData =
+        {
+            cameraPosition.x,
+            cameraPosition.y,
+            cameraPosition.z,
+        };
+
+        gameData.currentCameraPositionOnLvl = cameraPositionData;
+    }
 }
