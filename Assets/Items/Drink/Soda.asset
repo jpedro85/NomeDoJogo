@@ -16,6 +16,6 @@ MonoBehaviour:
   amount: 1
   icon: {fileID: 21300000, guid: 1e111a22f066ebc46a22678fa894f79d, type: 3}
   itemType: 1
-  itemDescription: this is Soda
   health: -35
   energy: 40
+  itemDescription: An average Soda serving has 11 grams of sugar

@@ -1,11 +1,11 @@
+using DataPersistence;
+using DataPersistence.Data;
 using Inventory;
-using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using static UnityEngine.EventSystems.EventTrigger;
 
-public class PlayUI : MonoBehaviour
+public class PlayUI : MonoBehaviour, IDataPersistence
 {
     public InventoryUI iventoryUi;
     //bar health
@@ -38,8 +38,8 @@ public class PlayUI : MonoBehaviour
         get { return Energy; }
     }
 
-//bar Hapinesss
-public RectTransform Bk_Bar_Hapinesss;
+    //bar Happiness
+    public RectTransform Bk_Bar_Hapinesss;
     public RectTransform Bk_Bar_Hapinesss_Change;
     public RectTransform Bk_Bar_Hapinesss_Atual;
 
@@ -77,28 +77,57 @@ public RectTransform Bk_Bar_Hapinesss;
     public Sprite CrawlingOn;
     public void ClickButtonCrawling()
     {
-
-        if (!player.isJumping)
+        if (!player.isJumping && player.getCanCrawlUp)
         {
-            if (Crouching.isOn && Crawling.isOn)
+
+            if(player.getInCrouchingZone && Crawling.isOn)
             {
-                Crouching.isOn = false;
+
                 Crouching.image.sprite = CrouchingOff;
                 player.setCrouched(false);
+                player.setCrawling(true);
+
+            }
+            else if (player.getInCrouchingZone && !Crawling.isOn)
+            {
+                if (!Crouching.isOn)
+                {
+                    Crouching.isOn = true;
+                }
+
+                Crouching.image.sprite = CrouchingOn;
+                player.setCrouched(true);
+                player.setCrawling(false, true);
+            }
+            else if (!player.getInCrouchingZone)
+            {
+
+                if(Crouching.isOn && Crawling.isOn)
+                {
+                    Crouching.isOn = false;
+                    Crouching.image.sprite = CrouchingOff;
+                    player.setCrouched(false);
+                    player.setCrawling(true);
+
+                }
+
+                player.setCrawling(Crawling.isOn);
             }
 
-            Crawling.image.sprite = (Crawling.isOn) ? CrawlingOn : CrawlingOff;
-            player.setCrawling(Crawling.isOn);
         }
 
+        if (player.getInCrawlingZone)
+            Crawling.isOn = true;
+
+        Crawling.image.sprite = (Crawling.isOn) ? CrawlingOn : CrawlingOff;
     }
 
     public Toggle Crouching;
     public Sprite CrouchingOff;
     public Sprite CrouchingOn;
-    public  void ClickButtonCrounching()
+    public void ClickButtonCrounching()
     {
-        if (!player.isJumping)
+        if (!player.isJumping && player.getCanCrouchUp)
         {
             if (Crawling.isOn && Crouching.isOn)
             {
@@ -107,28 +136,40 @@ public RectTransform Bk_Bar_Hapinesss;
                 player.setCrawling(false);
             }
 
-            Crouching.image.sprite = (Crouching.isOn) ? CrouchingOn : CrouchingOff;
             player.setCrouched(Crouching.isOn);
         }
+
+        if (player.getInCrouchingZone && !player.getAnimator.GetBool("isCrawling"))
+            Crouching.isOn = true;
+        else if(player.getInCrouchingZone)
+            Crouching.isOn = false;
+        else if(player.getInCrawlingZone)
+            Crouching.isOn = false;
+
+
+        Crouching.image.sprite = (Crouching.isOn) ? CrouchingOn : CrouchingOff;
     }
 
     public Button Jumping;
     public void ClickButtonJumping()
     {
-        if (Crawling.isOn)
+        if (!player.isJumping && player.getCanCrouchUp && player.getCanCrawlUp && !player.getInCrawlingZone && !player.getInCrouchingZone)
         {
-            Crawling.isOn = false;
-            Crawling.image.sprite = CrawlingOff;
-            player.setCrawling(false);
-        }
+            if (Crawling.isOn )
+            {
+                Crawling.isOn = false;
+                Crawling.image.sprite = CrawlingOff;
+                player.setCrawling(false);
+            }
 
-        if (Crouching.isOn)
-        {
-            Crouching.isOn = false;
-            Crouching.image.sprite = CrouchingOff;
-            player.setCrouched(false);
+            if (Crouching.isOn )
+            {
+                Crouching.isOn = false;
+                Crouching.image.sprite = CrouchingOff;
+                player.setCrouched(false);
+            }
+            player.setJumping();
         }
-        player.setJumping();
     }
 
     public Button Hint;
@@ -170,11 +211,11 @@ public RectTransform Bk_Bar_Hapinesss;
 
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         Health = 100;
         HealthCharging = 100;
-
+        
         Energy = 100;
         EnergyCharging = 100;
 
@@ -186,8 +227,8 @@ public RectTransform Bk_Bar_Hapinesss;
         Bar_Hapinesss_maxLenght = Bk_Bar_Hapinesss.sizeDelta.x * Bk_Bar_Health_Atual.localScale.x;
 
         resizaBar(Bk_Bar_Health_Atual, Health, Bar_Health_maxLenght);
-        resizaBar(Bk_Bar_Energy_Atual, Health, Bar_Energy_maxLenght);
-        resizaBar(Bk_Bar_Hapinesss_Atual, Health, Bar_Hapinesss_maxLenght);
+        resizaBar(Bk_Bar_Energy_Atual, Energy, Bar_Energy_maxLenght);
+        resizaBar(Bk_Bar_Hapinesss_Atual, Hapiness, Bar_Hapinesss_maxLenght);
 
 
         obj_Inventory.SetActive(false);
@@ -319,5 +360,38 @@ public RectTransform Bk_Bar_Hapinesss;
 
         resizaBar(bar, actual, max);
         return actual;
+    }
+
+    public void loadData(GameData gameData)
+    {
+
+        this.Health = gameData.playerHealth;
+        this.HealthCharging = this.Health;  
+        float deltaHealth = (gameData.playerHealthToRegen > this.Health) ? gameData.playerHealthToRegen - this.Health : 0 ;
+
+        this.Energy = gameData.playerEnergy;
+        this.EnergyCharging = this.Energy;
+
+        float deltaEnergy = (gameData.playerEnergyToRegen > this.Energy) ? gameData.playerEnergyToRegen - this.Energy : 0;
+
+        resizaBar(Bk_Bar_Health_Atual, Health, Bar_Health_maxLenght);
+        resizaBar(Bk_Bar_Energy_Atual, Energy, Bar_Energy_maxLenght);
+
+        if (deltaHealth > 0)
+            addDeltaHealth(deltaHealth);
+
+        if (deltaEnergy > 0)
+            addDeltaEnergy(deltaEnergy);
+    }
+
+    public void saveData(GameData gameData)
+    {
+        
+        gameData.playerHealth = this.Health;
+        gameData.playerHealthToRegen = this.HealthCharging;
+
+        gameData.playerEnergy = this.Energy;
+        gameData.playerEnergyToRegen = this.EnergyCharging;
+        
     }
 }

@@ -16,6 +16,8 @@ MonoBehaviour:
   amount: 1
   icon: {fileID: 21300000, guid: 50fc81026d9ce0040a4667867c011cd0, type: 3}
   itemType: 0
-  itemDescription: this is a carrot
   health: 60
   energy: 18
+  itemDescription: A medium-sized carrot (about 61 grams) typically contains around
+    25 calories, 6 grams of carbohydrates, 1 gram of protein, and is an excellent
+    source of vitamin A and a good source of potassium.

@@ -16,6 +16,8 @@ MonoBehaviour:
   amount: 1
   icon: {fileID: 21300000, guid: 1909c99caeb67aa479c9613f4526ff3e, type: 3}
   itemType: 0
-  itemDescription: this is Peach
   health: 48
   energy: 24
+  itemDescription: Peaches are rich in vitamins A and C, promoting skin health and
+    providing antioxidants. They also contain fiber, supporting digestion and overall
+    well-being.

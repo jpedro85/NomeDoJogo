@@ -88,7 +88,7 @@ namespace DataPersistence
             this.gameData = dataHandler.load();
 
             // start a game if game data is null and we configured to initialize data for debugging purposes
-            if (this.gameData == null && initializeDataIfNull)
+            if (this.gameData == null &&  initializeDataIfNull)
             {
                 newGame();
             }

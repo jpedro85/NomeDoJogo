@@ -2,7 +2,7 @@
 using Scripts.Item;
 using System.Collections.Generic;
 
-namespace CharacterManager
+namespace CharacterManagername
 {
     // This is going to be where you are going to write code relevant to the player actions
     public class CharacterManager : MonoBehaviour
@@ -28,6 +28,11 @@ namespace CharacterManager
         public float crouchingMov = 0.17f;
         public float crawlingMov = 0.05f;
         public float jumping = 0.25f;
+
+        public bool canMov
+        {
+            get { return playUI.AtualEneergy > 0; }
+        }
 
 
         public float updateIntervale;
@@ -116,7 +121,7 @@ namespace CharacterManager
 
         private void dizzinnesEfect()
         {
-            playerMovement.isDizziness = (playUI.AtualHealth < dizzinessLevel && !changedPosition);
+            playerMovement.isDizziness = (playUI.AtualEneergy < dizzinessLevel && !changedPosition);
         }
 
         private bool donein = false, changedPosition = false;

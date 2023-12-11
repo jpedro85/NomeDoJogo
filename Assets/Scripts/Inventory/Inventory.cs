@@ -52,9 +52,8 @@ namespace Inventory
                 OnItemChangedCallBack?.Invoke();
                 return true;
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                Debug.Log(item.itemName);
                 items.Add(item);
                 OnItemChangedCallBack?.Invoke();
                 return true;

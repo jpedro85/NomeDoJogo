@@ -16,6 +16,8 @@ MonoBehaviour:
   amount: 1
   icon: {fileID: 21300000, guid: 73f59b9c62209c24392a4669b77f51aa, type: 3}
   itemType: 0
-  itemDescription: this is HotDog
   health: -45
   energy: 40
+  itemDescription: A standard beef or pork hotdog typically contains around 180 calories,
+    7 grams of protein, 15 grams of fat, and varying amounts of sodium, depending
+    on the brand and size.
