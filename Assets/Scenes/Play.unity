@@ -35826,7 +35826,7 @@ PrefabInstance:
     - target: {fileID: 3410274071158198453, guid: a521299912c208f4fa4b3532b95b3362,
         type: 3}
       propertyPath: useEncryption
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3410274071158198453, guid: a521299912c208f4fa4b3532b95b3362,
         type: 3}
