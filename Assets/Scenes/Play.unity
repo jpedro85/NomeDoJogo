@@ -21363,15 +21363,15 @@ MonoBehaviour:
   Bk_Bar_Health: {fileID: 328194997}
   Bk_Bar_Health_Change: {fileID: 1512516958}
   Bk_Bar_Health_Atual: {fileID: 902168876}
-  HealthRegenerationSpeed: 1
+  HealthRegenerationSpeed: 2
   Bk_Bar_Energy: {fileID: 78472315}
   Bk_Bar_Energy_Change: {fileID: 29532006}
   Bk_Bar_Energy_Atual: {fileID: 952803757}
-  EnergyRegenerationSpeed: 1
+  EnergyRegenerationSpeed: 2
   Bk_Bar_Hapinesss: {fileID: 125290713}
   Bk_Bar_Hapinesss_Change: {fileID: 1632017318}
   Bk_Bar_Hapinesss_Atual: {fileID: 1765212337}
-  HapinessRegenerationSpeed: 1
+  HapinessRegenerationSpeed: 2
   NumeroDePistas: {fileID: 798213213}
   Inventory: {fileID: 172998636}
   InventoryOff: {fileID: 21300000, guid: 698419d48b8b33741bdb3e39ed94338e, type: 3}
@@ -39047,7 +39047,7 @@ MonoBehaviour:
   standUpRunningMov: 0.08
   crouchingMov: 0.04
   crawlingMov: 0.025
-  jumping: 100
+  jumping: 0.05
   updateIntervale: 0
   responPoints:
   - {x: 3.173364, y: -0.04999995, z: -2083.419}

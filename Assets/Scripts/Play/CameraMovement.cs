@@ -277,13 +277,8 @@ public class CameraMovement : MonoBehaviour, IDataPersistence
             else if (zooming)
                 AtualzoomSpeed = zoomOutSpeedPista;
             else
-<<<<<<< HEAD
-            {
+
                 AtualzoomSpeed = zoomSpeed;
-            }
-=======
-                AtualzoomSpeed = zoomSpeed;
->>>>>>> origin/ricardo/PlayAnAlogicoECamera
         }
 
         Vector3 forward = new Vector3(transform.forward.x, 0, transform.forward.z);
@@ -292,11 +287,8 @@ public class CameraMovement : MonoBehaviour, IDataPersistence
         Vector3 point = pointAux + (forward.normalized * analogic.deltaY);
         Vector3 velocity = (point - transform.position);
 
-<<<<<<< HEAD
-        if (!coliding && !playerMov.isColiding || (playerMov.isDizziness && !playerMov.isColiding))
-=======
+
         if (playerMov.canMov && !coliding && !playerMov.isColiding  || ( playerMov.isDizziness && !playerMov.isColiding && playerMov.canMov) )
->>>>>>> origin/ricardo/PlayAnAlogicoECamera
         {
             if (playerMov.isDizziness && analogic.direction == Vector2.zero)
                 transform.position = transform.position + (velocity.normalized * Time.deltaTime * playSpeed * 0.25f);

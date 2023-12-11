@@ -1,10 +1,9 @@
 using DataPersistence;
 using DataPersistence.Data;
 using UnityEngine;
-using UnityEngine;
 using CharacterManagername;
 
-public class PlayerMovement : MonoBehaviour
+public class PlayerMovement : MonoBehaviour , IDataPersistence
 {
     public float maxSpeed = 10;
 

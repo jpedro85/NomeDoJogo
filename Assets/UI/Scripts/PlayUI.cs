@@ -211,7 +211,7 @@ public class PlayUI : MonoBehaviour, IDataPersistence
 
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         Health = 100;
         HealthCharging = 100;
@@ -227,8 +227,8 @@ public class PlayUI : MonoBehaviour, IDataPersistence
         Bar_Hapinesss_maxLenght = Bk_Bar_Hapinesss.sizeDelta.x * Bk_Bar_Health_Atual.localScale.x;
 
         resizaBar(Bk_Bar_Health_Atual, Health, Bar_Health_maxLenght);
-        resizaBar(Bk_Bar_Energy_Atual, Health, Bar_Energy_maxLenght);
-        resizaBar(Bk_Bar_Hapinesss_Atual, Health, Bar_Hapinesss_maxLenght);
+        resizaBar(Bk_Bar_Energy_Atual, Energy, Bar_Energy_maxLenght);
+        resizaBar(Bk_Bar_Hapinesss_Atual, Hapiness, Bar_Hapinesss_maxLenght);
 
 
         obj_Inventory.SetActive(false);
@@ -364,11 +364,24 @@ public class PlayUI : MonoBehaviour, IDataPersistence
 
     public void loadData(GameData gameData)
     {
+
         this.Health = gameData.playerHealth;
-        this.HealthCharging = gameData.playerHealthToRegen;
+        this.HealthCharging = this.Health;  
+        float deltaHealth = (gameData.playerHealthToRegen > this.Health) ? gameData.playerHealthToRegen - this.Health : 0 ;
 
         this.Energy = gameData.playerEnergy;
-        this.EnergyCharging = gameData.playerEnergyToRegen;
+        this.EnergyCharging = this.Energy;
+
+        float deltaEnergy = (gameData.playerEnergyToRegen > this.Energy) ? gameData.playerEnergyToRegen - this.Energy : 0;
+
+        resizaBar(Bk_Bar_Health_Atual, Health, Bar_Health_maxLenght);
+        resizaBar(Bk_Bar_Energy_Atual, Energy, Bar_Energy_maxLenght);
+
+        if (deltaHealth > 0)
+            addDeltaHealth(deltaHealth);
+
+        if (deltaEnergy > 0)
+            addDeltaEnergy(deltaEnergy);
     }
 
     public void saveData(GameData gameData)
@@ -378,7 +391,7 @@ public class PlayUI : MonoBehaviour, IDataPersistence
         gameData.playerHealthToRegen = this.HealthCharging;
 
         gameData.playerEnergy = this.Energy;
-        gameData.playerEnergy = this.EnergyCharging;
+        gameData.playerEnergyToRegen = this.EnergyCharging;
         
     }
 }
