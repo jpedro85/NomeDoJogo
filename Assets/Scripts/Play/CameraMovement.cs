@@ -1,10 +1,5 @@
-using System;
-using System.Data.Common;
-using System.Threading;
-using Unity.Burst.CompilerServices;
+
 using UnityEngine;
-using UnityEngine.Experimental.Rendering.RenderGraphModule;
-using UnityEngine.Rendering.Universal;
 using UnityEngine.UI;
 
 public class CameraMovement : MonoBehaviour
