@@ -52,7 +52,7 @@ namespace Inventory
                 OnItemChangedCallBack?.Invoke();
                 return true;
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 items.Add(item);
                 OnItemChangedCallBack?.Invoke();
