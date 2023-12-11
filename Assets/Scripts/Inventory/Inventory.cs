@@ -54,7 +54,6 @@ namespace Inventory
             }
             catch (Exception)
             {
-                Debug.Log(item.itemName);
                 items.Add(item);
                 OnItemChangedCallBack?.Invoke();
                 return true;

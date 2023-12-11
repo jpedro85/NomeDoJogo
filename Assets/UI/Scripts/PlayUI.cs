@@ -80,8 +80,6 @@ public class PlayUI : MonoBehaviour, IDataPersistence
         if (!player.isJumping && player.getCanCrawlUp)
         {
 
-            Debug.Log("zone:"+player.getInCrouchingZone);
-
             if(player.getInCrouchingZone && Crawling.isOn)
             {
 
@@ -94,11 +92,9 @@ public class PlayUI : MonoBehaviour, IDataPersistence
             {
                 if (!Crouching.isOn)
                 {
-                    Debug.Log("ccc1");
                     Crouching.isOn = true;
                 }
 
-                Debug.Log("ccc2");
                 Crouching.image.sprite = CrouchingOn;
                 player.setCrouched(true);
                 player.setCrawling(false, true);
@@ -108,7 +104,6 @@ public class PlayUI : MonoBehaviour, IDataPersistence
 
                 if(Crouching.isOn && Crawling.isOn)
                 {
-                    Debug.Log("ccc");
                     Crouching.isOn = false;
                     Crouching.image.sprite = CrouchingOff;
                     player.setCrouched(false);

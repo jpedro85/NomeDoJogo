@@ -1,8 +1,10 @@
 using DataPersistence;
 using DataPersistence.Data;
 using UnityEngine;
+using UnityEngine;
+using CharacterManagername;
 
-public class PlayerMovement : MonoBehaviour, IDataPersistence
+public class PlayerMovement : MonoBehaviour
 {
     public float maxSpeed = 10;
 
@@ -21,6 +23,8 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     public float jumpingUpSpeedWaitTime = 2;
     public float jumpDistance = 100;
 
+    private CharacterManager characterManager;
+
 
     public float dizzinessX = (float)0.5;
     public float dizzinessY = (float)0.5;
@@ -29,6 +33,16 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     private float activedizzinessY = 0;
     private float counterSgnalChange = 0;
     private short mult = 1;
+
+    public float getDizzinessfactorX
+    {
+        get{return activedizzinessX;}
+    }
+
+    public float getDizzinessfactorY
+    {
+        get { return activedizzinessY; }
+    }
 
     public Animator getAnimator
     {
@@ -53,7 +67,14 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         Physics.IgnoreCollision(mainCamera.GetComponent<Collider>(), playerColiderCapsule);
         Physics.IgnoreCollision(mainCamera.GetComponent<Collider>(), playerColiderBoxColider);
 
+        characterManager = GetComponent<CharacterManager>();
 
+
+    }
+
+    public bool canMov
+    {
+        get { return characterManager.canMov; }
     }
 
     private float jumpTimer = 0;
@@ -119,32 +140,16 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
             }
         }
 
-<<<<<<< HEAD
-
-=======
-        Debug.Log("Coliding ?:" + coliding);
->>>>>>> ricardo/PlayAnAlogicoECamera
-        if (!coliding)
+        if (!coliding && characterManager.canMov)
         {
             if (isJumping)
             {
-<<<<<<< HEAD
-<<<<<<< HEAD
-                if (Vector3.Distance(jumpingStart, transform.position) < jumpDistance)
-                {
-                    float sp = maxSpeed * analogic.speed;
-                    transform.position = transform.position +
-                                         transform.forward * ((sp) + (jumpingSpeed - sp)) * Time.deltaTime;
-=======
-=======
                 playerColiderBoxColider.enabled = false;
->>>>>>> ricardo/PlayAnAlogicoECamera
 
                 float dist = Vector3.Distance(jumpingStart, transform.position);
 
                 if (dist < jumpDistance)
                 {
-
 
                     if (dist < (jumpDistance / 4) * 3)
                     {
@@ -170,12 +175,9 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
                         isJumping = false;
                         jumpTimer = 0;
                     }
-
->>>>>>> ricardo/PlayAnAlogicoECamera
                 }
                 else
                 {
-
                     if (jumpTimer >= jumpingUpSpeedWaitTime)
                     {
                         playerColiderCapsule.center = new Vector3(0, 1, 0);
@@ -188,18 +190,11 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
                     {
                         jumpTimer += Time.deltaTime;
                     }
-                  
                 }
             }
             else
             {
-<<<<<<< HEAD
-                if (isDizziness && (analogic.direction == Vector2.zero))
-=======
-
-                if (isDizziness && (analogic.direction == Vector2.zero) ) 
->>>>>>> ricardo/PlayAnAlogicoECamera
-                {
+                if (isDizziness && (analogic.direction == Vector2.zero)) {
                     animator.SetBool("isMoving", true);
                     animator.SetBool("isWalking", true);
                     animator.SetBool("isRunning", false);
@@ -211,13 +206,16 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
                                          (transform.forward * Time.deltaTime * maxSpeed * analogic.speed);
                 }
             }
-<<<<<<< HEAD
-=======
 
         }else if (isJumping)
         {
+            if (!characterManager.canMov)
+            {
+                animator.SetBool("isMoving", false);
+                animator.SetBool("isWalking", false);
+                animator.SetBool("isRunning", false);
+            }
             animator.SetBool("isJumping", false);
->>>>>>> ricardo/PlayAnAlogicoECamera
         }
     }
 
@@ -268,10 +266,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
                 playerColiderCapsule.center = new Vector3(0, 1, 0);
                 playerColiderCapsule.radius = 0.30f;
             }
-           
         }
-
-
     }
 
     public bool isJumping = false;
@@ -320,8 +315,6 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
             coliding = true;
             colosionTime = 0;
         }
-<<<<<<< HEAD
-=======
 
         if (collision.gameObject.tag == "WallCrouching" && !animator.GetBool("isCrouched"))
         {
@@ -329,19 +322,14 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
             coliding = true;
             colosionTime = 0;
         }
-
-        Debug.LogWarning("Enter");
-
     }
 
     private float colosionTime = 0f;
 
     private void OnCollisionStay(Collision collision)
     {
-
         if (collision.gameObject.tag == "Wall" || collision.gameObject.tag == "Obj" || collision.gameObject.tag == "WallCrouching")
         {
-            Debug.LogWarning("stay");
             colosionTime += Time.deltaTime;
 
             if (colosionTime > 0.5)
@@ -349,51 +337,21 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
             else
                 coliding = true;
         }
-
-
-        
-<<<<<<< HEAD
->>>>>>> ricardo/PlayAnAlogicoECamera
-=======
-
-
->>>>>>> ricardo/PlayAnAlogicoECamera
     }
 
     private void OnCollisionExit(Collision collision)
     {
-<<<<<<< HEAD
-<<<<<<< HEAD
-        if (collision.gameObject.CompareTag("Wall") || collision.gameObject.CompareTag("Obj"))
-=======
-=======
-        Debug.LogWarning("Exit");
->>>>>>> ricardo/PlayAnAlogicoECamera
-        //if (collision.gameObject.tag == "Wall" || collision.gameObject.tag == "Obj" )
-        //{
-        //    coliding = false;
-        //}
-
-        //{
         coliding = false;
-        //}
-
     }
 
-
     private bool enterTrigger;
-  
+
     public void OnTriggerEnter(Collider colider)
     {
         if (colider.gameObject.tag == "Crouchonly" && !enterTrigger)
-<<<<<<< HEAD
->>>>>>> ricardo/PlayAnAlogicoECamera
-        {
-=======
         { 
             Material material = colider.transform.parent.gameObject.GetComponent<Renderer>().material;
             material.color = new Color(material.color.r, material.color.g, material.color.b, tranparency);
->>>>>>> ricardo/PlayAnAlogicoECamera
 
             if (animator.GetBool("isCrouched"))
             {
@@ -415,7 +373,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
             Material material = colider.transform.parent.gameObject.GetComponent<Renderer>().material;
             material.color = new Color(material.color.r, material.color.g, material.color.b, tranparency);
 
-            if (animator.GetBool("isCrawling"))
+            if (animator.GetBool("isCrawling") && !animator.GetBool("isCrouched"))
             {
                 colider.transform.parent.gameObject.GetComponent<Collider>().enabled = false;
 
@@ -432,24 +390,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         colosionTime = 0;
     }
 
-<<<<<<< HEAD
-    public void loadData(GameData gameData)
-    {
-        this.transform.position = new Vector3(gameData.currentPlayerPositionOnLvl[0],
-            gameData.currentPlayerPositionOnLvl[1], gameData.currentPlayerPositionOnLvl[2]);
-    }
 
-    public void saveData(GameData gameData)
-    {
-        var position = this.transform.position;
-
-        float[] playerPositionData =
-        {
-            position.x,
-            position.y,
-            position.z,
-        };
-=======
     public void OnTriggerStay(Collider colider)
     {
         if (colider.gameObject.tag == "Crouchonly" && !enterTrigger)
@@ -467,7 +408,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         }
         else if (colider.gameObject.tag == "crawlOnly" && !enterTrigger)
         {
-            if (animator.GetBool("isCrawling"))
+            if (animator.GetBool("isCrawling") && !animator.GetBool("isCrouched"))
             {
                 canStandUp = false;
                 canCrouchUp = false;
@@ -519,8 +460,25 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
             inCrawlingZone = false;
         }
     }
->>>>>>> ricardo/PlayAnAlogicoECamera
 
+    public void loadData(GameData gameData)
+    {
+        this.transform.position = new Vector3(gameData.currentPlayerPositionOnLvl[0],
+            gameData.currentPlayerPositionOnLvl[1], gameData.currentPlayerPositionOnLvl[2]);
+    }
+
+    public void saveData(GameData gameData)
+    {
+        var position = this.transform.position;
+
+        float[] playerPositionData =
+        {
+            position.x,
+            position.y,
+            position.z,
+        };
+        
         gameData.currentPlayerPositionOnLvl = playerPositionData;
     }
+
 }
