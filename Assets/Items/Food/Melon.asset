@@ -16,6 +16,8 @@ MonoBehaviour:
   amount: 1
   icon: {fileID: 21300000, guid: e546185d18820964aa26026cbd920f80, type: 3}
   itemType: 0
-  itemDescription: this is Melon
   health: 52
   energy: 20
+  itemDescription: Melons are low in calories and high in water content. They provide
+    essential vitamins like A and C, along with potassium. A typical serving contains
+    about 70 calories, making them a refreshing and nutritious snack.

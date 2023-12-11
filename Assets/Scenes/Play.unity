@@ -37599,15 +37599,109 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   questions:
-  - questions: Azul
-  - questions: Verde
-  - questions: Vermelho
+  - questions: How many mg of caffeine is in a coffee?
+  - questions: What is the base of a Smothiee (3 items)?
+  - questions: What machine is used to make a Smoothie?
+  - questions: How many grams of sugar is in a average serving of soda?
+  - questions: How many servings of soda can you have to reach the maximum recommended
+      sugar intake per day?
+  - questions: How many liter should a man consume of water?
+  - questions: How many liter should a woman consume of water?
+  - questions: what is the main vitamin contained in an Apple?
+  - questions: What is the most important advantage of eating Apples?
+  - questions: Why might incorporating Bananas into your daily snacks be a simple
+      and tasty way to boost your heart health?
+  - questions: What vitamins are contained in Bananas?
+  - questions: Peppers are a good source of?
+  - questions: What diseases Pepper protects from?
+  - questions: What is bread mostly made of?
+  - questions: What can cherries reduce?
+  - questions: What are Cherries rich in?
+  - questions: If you want to go to the gym what do you eat?
+  - questions: In case of chicken what does lean protein source mean?
+  - questions: What is chicken essential for?
+  - questions: How many grams of sugar is in a standard glazed Doughnut?
+  - questions: Is Doughnut good for a healthy diet? (Yes or No)
+  - questions: What is Fish rich in?
+  - questions: What eating fish daily promotes?
+  - questions: How many calories are in a HotDog?
+  - questions: How many grams of protein does a HotDog contain?
+  - questions: How many grams of fat does a HotDog contain?
+  - questions: what is the main vitamin contained in an Lemon?
+  - questions: How many calories are in a Melon typical serving?
+  - questions: What vitamins are contained in Melons?
+  - questions: What are onions rich in?
+  - questions: What are the main reason why we should Onions?
+  - questions: What are the vitamins contained in peaches?
+  - questions: What eating Peaches daily promotes?
+  - questions: What eating Peaches daily supports?
+  - questions: Pears are good source of?
+  - questions: What eating Pear daily supports?
+  - questions: How many calories are in an average slice of pizza?
+  - questions: How many grams of fat are in an average slice of pizza?
+  - questions: How many grams of protein are in an average slice of pizza?
+  - questions: What is the amount of protein contain in a medium sized tomato?
+  - questions: What is the amount of calories contain in a medium sized tomato?
+  - questions: What is the amount of carbohydrates contain in a medium sized tomato?
+  - questions: What is tomato excellent source of?
+  - questions: What are Udon noodles made of?
+  - questions: Watermelon season is from May until which month?
+  - questions: What vitamins are contained in Watermelon?
+  - questions: How many calories are in a average size Carrot
+  - questions: What nutrients are Carrots a good source of?
   answers:
-  - answers: Azul
-  - answers: Verde
-  - answers: Vermelho
+  - answers: 40
+  - answers: juice, milk or yogurt
+  - answers: Blender
+  - answers: 11
+  - answers: 5
+  - answers: 3,7
+  - answers: 2,7
+  - answers: C
+  - answers: Reduces blood pressure
+  - answers: Potassium
+  - answers: C and B6
+  - answers: Vitamin A and fiber
+  - answers: cardiovascular disease
+  - answers: Carbohydrates
+  - answers: inflammation
+  - answers: Antioxidants, fiber, and vitamin C
+  - answers: Chicken
+  - answers: low fat and high protein
+  - answers: muscle health and repair
+  - answers: 15
+  - answers: No
+  - answers: omega-3
+  - answers: heart health, reducing inflammation, and supporting brain function
+  - answers: 180
+  - answers: 7
+  - answers: 15
+  - answers: C
+  - answers: 70
+  - answers: A and C
+  - answers: antioxidants, vitamins, and minerals
+  - answers: boost heart health, support immune function, and have anti-inflammatory
+      properties
+  - answers: A and C
+  - answers: Skin health and providing antioxidants
+  - answers: digestion and overall well-being
+  - answers: fiber, vitamins and antioxidants
+  - answers: digestive health, boost the immune system, and contribute to heart health
+  - answers: 300
+  - answers: 15
+  - answers: 15
+  - answers: 1
+  - answers: 22
+  - answers: 5
+  - answers: Vitamin C and other antioxidants
+  - answers: Wheat Flour
+  - answers: September
+  - answers: A and C
+  - answers: 26
+  - answers: Vitamin A and Potassium
   dialog: {fileID: 939190256}
   TxtErro: {fileID: 1537073297}
+  inputField: {fileID: 1076568230}
   questionText: {fileID: 1823686556}
 --- !u!4 &803200637
 Transform:

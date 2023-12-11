@@ -16,6 +16,8 @@ MonoBehaviour:
   amount: 1
   icon: {fileID: 21300000, guid: f95ad32be11507441bc12a32fe6c5e0d, type: 3}
   itemType: 0
-  itemDescription: this is Fish
   health: 65
   energy: 60
+  itemDescription: Fish is rich in omega-3 and fatty acids, promoting heart health,
+    reducing inflammation, and supporting brain function. Additionally, it's a high-quality
+    protein source with essential vitamins and minerals.

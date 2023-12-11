@@ -18,4 +18,6 @@ MonoBehaviour:
   itemType: 0
   health: -55
   energy: 32
-  itemDescription: this is Bread
+  itemDescription: Bread is a good source of carbohydrates, providing energy for
+    the body. It also contains essential nutrients like fiber, which aids digestion,
+    and various vitamins and minerals.
