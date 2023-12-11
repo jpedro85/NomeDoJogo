@@ -10,11 +10,15 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     private Camera mainCamera;
     public Rigidbody rigidBody;
     private Animator animator;
+    private CapsuleCollider playerColiderCapsule;
+    private BoxCollider playerColiderBoxColider;
     public float forceBack = 5;
     private bool coliding = false;
     private float idleTime = 0;
     private Vector3 jumpingStart;
     public float jumpingSpeed = 250;
+    public float jumpingUpSpeed = 250;
+    public float jumpingUpSpeedWaitTime = 2;
     public float jumpDistance = 100;
 
 
@@ -37,9 +41,15 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         analogic = GameObject.FindWithTag("Analogico").GetComponent<AnalogicManager>();
         mainCamera = GameObject.FindWithTag("MainCamera").GetComponent<Camera>();
         animator = GameObject.Find("Armature").GetComponent<Animator>();
-        Physics.IgnoreCollision(mainCamera.GetComponent<Collider>(), GetComponent<Collider>());
+        playerColiderCapsule = GetComponent<CapsuleCollider>();
+        playerColiderBoxColider = GetComponent<BoxCollider>();
+        Physics.IgnoreCollision(mainCamera.GetComponent<Collider>(), playerColiderCapsule);
+        Physics.IgnoreCollision(mainCamera.GetComponent<Collider>(), playerColiderBoxColider);
+
+
     }
 
+    private float jumpTimer = 0;
     // Update is called once per frame
     void Update()
     {
@@ -107,21 +117,75 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         {
             if (isJumping)
             {
+<<<<<<< HEAD
                 if (Vector3.Distance(jumpingStart, transform.position) < jumpDistance)
                 {
                     float sp = maxSpeed * analogic.speed;
                     transform.position = transform.position +
                                          transform.forward * ((sp) + (jumpingSpeed - sp)) * Time.deltaTime;
+=======
+
+                float dist = Vector3.Distance(jumpingStart, transform.position);
+
+                if (dist < jumpDistance)
+                {
+
+
+                    if (dist < (jumpDistance / 4) * 3)
+                    {
+                        playerColiderCapsule.center = new Vector3(0, playerColiderCapsule.center.y + jumpingUpSpeed * Time.deltaTime, 0);
+                        float sp = maxSpeed * analogic.speed;
+                        transform.position = transform.position + transform.forward * ((sp) + (jumpingSpeed - sp)) * Time.deltaTime;
+                        transform.position = transform.position + Vector3.up * +jumpingUpSpeed * Time.deltaTime;
+
+                    }
+                    else
+                    {
+                        float sp = maxSpeed * analogic.speed;
+                        transform.position = transform.position + transform.forward * ((sp) + (jumpingSpeed - sp)) * Time.deltaTime;
+
+                        jumpTimer += Time.deltaTime;
+                    }
+
+
+                    Debug.Log("a" + dist + ":" + jumpTimer);
+
+                    if (jumpTimer > 0 && Vector3.Distance(jumpingStart, transform.position) == 0)
+                    {
+                        Debug.Log("a" + dist);
+                        animator.SetBool("isJumping", false);
+                        playerColiderCapsule.center = new Vector3(0, 1, 0);
+                        isJumping = false;
+                        jumpTimer = 0;
+                    }
+
+>>>>>>> ricardo/PlayAnAlogicoECamera
                 }
                 else
                 {
-                    isJumping = false;
-                    animator.SetBool("isJumping", false);
+
+                    if (jumpTimer >= jumpingUpSpeedWaitTime)
+                    {
+                        playerColiderCapsule.center = new Vector3(0, 1, 0);
+                        isJumping = false;
+                        animator.SetBool("isJumping", false);
+                        jumpTimer = 0;
+                    }
+                    else
+                    {
+                        jumpTimer += Time.deltaTime;
+                    }
+                  
                 }
             }
             else
             {
+<<<<<<< HEAD
                 if (isDizziness && (analogic.direction == Vector2.zero))
+=======
+
+                if (isDizziness && (analogic.direction == Vector2.zero) ) 
+>>>>>>> ricardo/PlayAnAlogicoECamera
                 {
                     animator.SetBool("isMoving", true);
                     animator.SetBool("isWalking", true);
@@ -134,17 +198,67 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
                                          (transform.forward * Time.deltaTime * maxSpeed * analogic.speed);
                 }
             }
+<<<<<<< HEAD
+=======
+
+        }else if (isJumping)
+        {
+            animator.SetBool("isJumping", false);
+>>>>>>> ricardo/PlayAnAlogicoECamera
         }
     }
 
     public void setCrouched(bool Crouching)
     {
         animator.SetBool("isCrouched", Crouching);
+
+        if (Crouching)
+        {
+            playerColiderCapsule.height = 0.6f;
+            playerColiderCapsule.center = new Vector3( 0, 0.5f, 0.25f);
+            playerColiderCapsule.radius = 0.45f;
+        }
+        else
+        {
+            playerColiderCapsule.height = 2;
+            playerColiderCapsule.center = new Vector3( 0, 1, 0);
+            playerColiderCapsule.radius = 0.30f;
+        }
     }
 
-    public void setCrawling(bool Crawling)
+    public void setCrawling(bool Crawling, bool Crouching = false)
     {
         animator.SetBool("isCrawling", Crawling);
+
+        if (Crawling)
+        {
+
+            playerColiderBoxColider.size = new Vector3(0.8f, 0.60f, 2);
+            playerColiderBoxColider.center = new Vector3(0, 0.3f, 0);
+            playerColiderCapsule.height = 0.05f;
+            playerColiderCapsule.center = new Vector3(0, 0.3f, 0);
+        }
+        else
+        {
+            playerColiderBoxColider.size = new Vector3(0,0.2f, 0);
+            playerColiderBoxColider.center = new Vector3(0, 0.2f, 0);
+
+            if (Crouching)
+            {
+                playerColiderCapsule.height = 0.6f;
+                playerColiderCapsule.center = new Vector3(0, 0.5f, 0.25f);
+                playerColiderCapsule.radius = 0.45f;
+            }
+            else 
+            {
+                playerColiderCapsule.height = 2;
+                playerColiderCapsule.center = new Vector3(0, 1, 0);
+                playerColiderCapsule.radius = 0.30f;
+            }
+           
+        }
+
+
     }
 
     public bool isJumping = false;
@@ -156,22 +270,92 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         jumpingStart = transform.position;
     }
 
+    private bool canStandUp = true;
+    private bool canCrouchUp = true;
+    private bool canCrawlingUp = true;
+    private bool inCrouchingZone = false;
+
+    public bool getInCrouchingZone
+    {
+        get { return inCrouchingZone; }
+    }
+    public bool getcanStandUp
+    {
+        get { return canStandUp; }
+    }
+
+    public bool getCanCrouchUp
+    {
+        get { return canCrouchUp; }
+    }
+
+    public bool getCanCrawlUp
+    {
+        get { return canCrawlingUp; }
+    }
+
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Wall") || collision.gameObject.CompareTag("Obj"))
         {
             coliding = true;
         }
+<<<<<<< HEAD
+=======
+
+        if (collision.gameObject.tag == "WallCrouching" && !animator.GetBool("isCrouched"))
+        {
+
+            coliding = true;
+        }
+
+        
+>>>>>>> ricardo/PlayAnAlogicoECamera
     }
 
     private void OnCollisionExit(Collision collision)
     {
+<<<<<<< HEAD
         if (collision.gameObject.CompareTag("Wall") || collision.gameObject.CompareTag("Obj"))
+=======
+        //if (collision.gameObject.tag == "Wall" || collision.gameObject.tag == "Obj" )
+        //{
+        //    coliding = false;
+        //}
+
+        //if (collision.gameObject.tag == "WallCrouching")
+        //{
+        coliding = false;
+        //}
+
+    }
+
+
+    private bool enterTrigger;
+  
+    public void OnTriggerEnter(Collider colider)
+    {
+        if (colider.gameObject.tag == "Crouchonly" && !enterTrigger)
+>>>>>>> ricardo/PlayAnAlogicoECamera
         {
-            coliding = false;
+
+            if (animator.GetBool("isCrouched"))
+            {
+                canStandUp = false;
+                canCrouchUp = false;
+                canCrawlingUp = true;
+
+                enterTrigger = true;
+
+            }
+
+            inCrouchingZone = true;
+
+
         }
     }
 
+<<<<<<< HEAD
     public void loadData(GameData gameData)
     {
         this.transform.position = new Vector3(gameData.currentPlayerPositionOnLvl[0],
@@ -188,6 +372,46 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
             position.y,
             position.z,
         };
+=======
+    public void OnTriggerStay(Collider colider)
+    {
+        if (colider.gameObject.tag == "Crouchonly" && !enterTrigger)
+        {
+
+            if (animator.GetBool("isCrouched") )
+            {
+                canStandUp = false;
+                canCrouchUp = false;
+                canCrawlingUp = true;
+
+                enterTrigger = true;
+            }
+
+            inCrouchingZone = true;
+        }
+    }
+
+    public void OnTriggerExit(Collider colider)
+    {
+        if (colider.gameObject.tag == "Crouchonly" && enterTrigger)
+        {
+
+            Debug.LogWarning("Coliding Crouchoing exit :");
+            if (animator.GetBool("isCrouched"))
+            {
+                canStandUp = true;
+                canCrouchUp = true;
+                canCrawlingUp = true;
+
+                enterTrigger = false;
+            }
+
+            Debug.LogWarning("zone");
+            inCrouchingZone = false;
+
+        }
+    }
+>>>>>>> ricardo/PlayAnAlogicoECamera
 
         gameData.currentPlayerPositionOnLvl = playerPositionData;
     }
