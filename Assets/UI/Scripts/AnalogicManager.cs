@@ -1,6 +1,4 @@
 using UnityEngine;
-using UnityEngine.InputSystem.Android;
-using static UnityEditor.Experimental.AssetDatabaseExperimental.AssetDatabaseCounters;
 
 public class AnalogicManager : MonoBehaviour
 {

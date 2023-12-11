@@ -78,17 +78,50 @@ public RectTransform Bk_Bar_Hapinesss;
     public void ClickButtonCrawling()
     {
 
-        if (!player.isJumping)
+        if (!player.isJumping && player.getCanCrawlUp)
         {
-            if (Crouching.isOn && Crawling.isOn)
+
+            Debug.Log("zone:"+player.getInCrouchingZone);
+
+            if(player.getInCrouchingZone && Crawling.isOn)
             {
-                Crouching.isOn = false;
+
                 Crouching.image.sprite = CrouchingOff;
                 player.setCrouched(false);
-            }
+                player.setCrawling(true);
 
+            }
+            else if (player.getInCrouchingZone && !Crawling.isOn)
+            {
+                if (!Crouching.isOn)
+                {
+                    Debug.Log("ccc1");
+                    Crouching.isOn = true;
+                }
+
+                Debug.Log("ccc2");
+                Crouching.image.sprite = CrouchingOn;
+                player.setCrouched(true);
+                player.setCrawling(false, true);
+            }
+            else if (!player.getInCrouchingZone)
+            {
+
+                if(Crouching.isOn && Crawling.isOn)
+                {
+                    Debug.Log("ccc");
+                    Crouching.isOn = false;
+                    Crouching.image.sprite = CrouchingOff;
+                    player.setCrouched(false);
+                    player.setCrawling(true);
+
+                }
+
+                player.setCrawling(Crawling.isOn);
+            }
+           
             Crawling.image.sprite = (Crawling.isOn) ? CrawlingOn : CrawlingOff;
-            player.setCrawling(Crawling.isOn);
+
         }
 
     }
@@ -96,9 +129,9 @@ public RectTransform Bk_Bar_Hapinesss;
     public Toggle Crouching;
     public Sprite CrouchingOff;
     public Sprite CrouchingOn;
-    public  void ClickButtonCrounching()
+    public void ClickButtonCrounching()
     {
-        if (!player.isJumping)
+        if (!player.isJumping && player.getCanCrouchUp)
         {
             if (Crawling.isOn && Crouching.isOn)
             {
@@ -115,20 +148,23 @@ public RectTransform Bk_Bar_Hapinesss;
     public Button Jumping;
     public void ClickButtonJumping()
     {
-        if (Crawling.isOn)
+        if (!player.isJumping && player.getCanCrouchUp && player.getCanCrawlUp)
         {
-            Crawling.isOn = false;
-            Crawling.image.sprite = CrawlingOff;
-            player.setCrawling(false);
-        }
+            if (Crawling.isOn )
+            {
+                Crawling.isOn = false;
+                Crawling.image.sprite = CrawlingOff;
+                player.setCrawling(false);
+            }
 
-        if (Crouching.isOn)
-        {
-            Crouching.isOn = false;
-            Crouching.image.sprite = CrouchingOff;
-            player.setCrouched(false);
+            if (Crouching.isOn )
+            {
+                Crouching.isOn = false;
+                Crouching.image.sprite = CrouchingOff;
+                player.setCrouched(false);
+            }
+            player.setJumping();
         }
-        player.setJumping();
     }
 
     public Button Hint;
