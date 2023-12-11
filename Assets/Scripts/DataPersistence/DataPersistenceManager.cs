@@ -65,6 +65,7 @@ namespace DataPersistence
 
         public void onSceneLoaded(Scene scene, LoadSceneMode mode)
         {
+            Debug.LogWarning("A:");
             this.dataPersistenceObjects = findAllDataPersistenceObjects();
             loadGame();
             
@@ -79,11 +80,13 @@ namespace DataPersistence
 
         private void newGame()
         {
+            Debug.LogWarning("C:");
             this.gameData = new GameData();
         }
 
         private void loadGame()
         {
+            Debug.LogWarning("B:");
             // Load any saved data from a file using the data handler
             this.gameData = dataHandler.load();
 
