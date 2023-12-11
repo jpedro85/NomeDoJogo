@@ -16,6 +16,8 @@ TagManager:
   - questionManager
   - Crouchonly
   - WallCrouching
+  - crawlOnly
+  - jumpOnly
   layers:
   - Default
   - TransparentFX

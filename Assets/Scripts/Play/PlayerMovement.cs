@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
@@ -29,6 +30,13 @@ public class PlayerMovement : MonoBehaviour
     private float activedizzinessY = 0;
     private float counterSgnalChange = 0;
     private short mult = 1;
+
+    public Animator getAnimator
+    {
+        get { return animator; }
+    }
+
+    public float tranparency = 0.4f;
 
     public bool isColiding
     {
@@ -112,11 +120,12 @@ public class PlayerMovement : MonoBehaviour
             
         }
 
-        
+        Debug.Log("Coliding ?:" + coliding);
         if (!coliding)
         {
             if (isJumping)
             {
+                playerColiderBoxColider.enabled = false;
 
                 float dist = Vector3.Distance(jumpingStart, transform.position);
 
@@ -140,13 +149,10 @@ public class PlayerMovement : MonoBehaviour
                         jumpTimer += Time.deltaTime;
                     }
 
-
-                    Debug.Log("a" + dist + ":" + jumpTimer);
-
                     if (jumpTimer > 0 && Vector3.Distance(jumpingStart, transform.position) == 0)
                     {
-                        Debug.Log("a" + dist);
                         animator.SetBool("isJumping", false);
+                        playerColiderBoxColider.enabled = true;
                         playerColiderCapsule.center = new Vector3(0, 1, 0);
                         isJumping = false;
                         jumpTimer = 0;
@@ -161,6 +167,7 @@ public class PlayerMovement : MonoBehaviour
                         playerColiderCapsule.center = new Vector3(0, 1, 0);
                         isJumping = false;
                         animator.SetBool("isJumping", false);
+                        playerColiderBoxColider.enabled = true;
                         jumpTimer = 0;
                     }
                     else
@@ -258,6 +265,12 @@ public class PlayerMovement : MonoBehaviour
     private bool canCrouchUp = true;
     private bool canCrawlingUp = true;
     private bool inCrouchingZone = false;
+    private bool inCrawlingZone = false;
+
+    public bool getInCrawlingZone
+    {
+        get { return inCrawlingZone; }
+    }
 
     public bool getInCrouchingZone
     {
@@ -283,24 +296,49 @@ public class PlayerMovement : MonoBehaviour
         if (collision.gameObject.tag == "Wall" || collision.gameObject.tag == "Obj")
         {
             coliding = true;
+            colosionTime = 0;
         }
 
         if (collision.gameObject.tag == "WallCrouching" && !animator.GetBool("isCrouched"))
         {
 
             coliding = true;
+            colosionTime = 0;
         }
 
+        Debug.LogWarning("Enter");
+
+    }
+
+    private float colosionTime = 0f;
+
+    private void OnCollisionStay(Collision collision)
+    {
+
+        if (collision.gameObject.tag == "Wall" || collision.gameObject.tag == "Obj" || collision.gameObject.tag == "WallCrouching")
+        {
+            Debug.LogWarning("stay");
+            colosionTime += Time.deltaTime;
+
+            if (colosionTime > 0.5)
+                coliding = false;
+            else
+                coliding = true;
+        }
+
+
         
+
+
     }
     private void OnCollisionExit(Collision collision)
     {
+        Debug.LogWarning("Exit");
         //if (collision.gameObject.tag == "Wall" || collision.gameObject.tag == "Obj" )
         //{
         //    coliding = false;
         //}
 
-        //if (collision.gameObject.tag == "WallCrouching")
         //{
         coliding = false;
         //}
@@ -313,10 +351,13 @@ public class PlayerMovement : MonoBehaviour
     public void OnTriggerEnter(Collider colider)
     {
         if (colider.gameObject.tag == "Crouchonly" && !enterTrigger)
-        {
+        { 
+            Material material = colider.transform.parent.gameObject.GetComponent<Renderer>().material;
+            material.color = new Color(material.color.r, material.color.g, material.color.b, tranparency);
 
             if (animator.GetBool("isCrouched"))
             {
+                colider.transform.parent.gameObject.GetComponent<Collider>().enabled = false;
                 canStandUp = false;
                 canCrouchUp = false;
                 canCrawlingUp = true;
@@ -329,14 +370,33 @@ public class PlayerMovement : MonoBehaviour
 
 
         }
+        else if (colider.gameObject.tag == "crawlOnly" && !enterTrigger)
+        {
+            Material material = colider.transform.parent.gameObject.GetComponent<Renderer>().material;
+            material.color = new Color(material.color.r, material.color.g, material.color.b, tranparency);
+
+            if (animator.GetBool("isCrawling"))
+            {
+                colider.transform.parent.gameObject.GetComponent<Collider>().enabled = false;
+
+                canStandUp = false;
+                canCrouchUp = false;
+                canCrawlingUp = false;
+
+                enterTrigger = true;
+            }
+
+            inCrawlingZone = true;
+        }
+
+        colosionTime = 0;
     }
 
     public void OnTriggerStay(Collider colider)
     {
         if (colider.gameObject.tag == "Crouchonly" && !enterTrigger)
         {
-
-            if (animator.GetBool("isCrouched") )
+            if (animator.GetBool("isCrouched") || animator.GetBool("isCrawling") )
             {
                 canStandUp = false;
                 canCrouchUp = false;
@@ -347,15 +407,31 @@ public class PlayerMovement : MonoBehaviour
 
             inCrouchingZone = true;
         }
+        else if (colider.gameObject.tag == "crawlOnly" && !enterTrigger)
+        {
+            if (animator.GetBool("isCrawling"))
+            {
+                canStandUp = false;
+                canCrouchUp = false;
+                canCrawlingUp = false;
+
+                enterTrigger = true;
+            }
+
+            inCrawlingZone = true;
+        }
     }
 
     public void OnTriggerExit(Collider colider)
     {
-        if (colider.gameObject.tag == "Crouchonly" && enterTrigger)
+        if (colider.gameObject.tag == "Crouchonly")
         {
 
-            Debug.LogWarning("Coliding Crouchoing exit :");
-            if (animator.GetBool("isCrouched"))
+            Material material = colider.transform.parent.gameObject.GetComponent<Renderer>().material;
+            material.color = new Color(material.color.r, material.color.g, material.color.b, 1);
+            colider.transform.parent.gameObject.GetComponent<Collider>().enabled = true;
+
+            if ( ( animator.GetBool("isCrouched") || animator.GetBool("isCrawling") ) && enterTrigger)
             {
                 canStandUp = true;
                 canCrouchUp = true;
@@ -364,9 +440,25 @@ public class PlayerMovement : MonoBehaviour
                 enterTrigger = false;
             }
 
-            Debug.LogWarning("zone");
             inCrouchingZone = false;
 
+        }
+        else if (colider.gameObject.tag == "crawlOnly")
+        {
+            Material material = colider.transform.parent.gameObject.GetComponent<Renderer>().material;
+            material.color = new Color(material.color.r, material.color.g, material.color.b, 1);
+            colider.transform.parent.gameObject.GetComponent<Collider>().enabled = true;
+
+            if (animator.GetBool("isCrawling") && enterTrigger)
+            {
+                canStandUp = true;
+                canCrouchUp = true;
+                canCrawlingUp = true;
+
+                enterTrigger = false;
+            }
+
+            inCrawlingZone = false;
         }
     }
 
