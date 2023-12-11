@@ -12,9 +12,12 @@ namespace Scriptable_Objects.Items.Scripts
     public class Item : ScriptableObject
     {
         public string itemName;
-        public int amount;
+        public int amount = 1;
         public Sprite icon;
         public ItemType itemType;
+        public float health;
+        public float energy;
+
         [TextArea(15, 20)] public string itemDescription;
 
         public virtual void use()

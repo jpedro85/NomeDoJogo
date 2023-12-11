@@ -20,13 +20,7 @@ namespace Inventory
             slots = itemsParent.GetComponentsInChildren<InventorySlot>();
         }
 
-        private void Update()
-        {
-            updateUI();
-            // implement show inventory with button and close on other button
-        }
-
-        private void updateUI()
+        public void updateUI()
         {
             for (int i = 0; i < slots.Length; i++)
             {

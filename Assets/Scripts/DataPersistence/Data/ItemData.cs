@@ -11,7 +11,9 @@ namespace DataPersistence.Data
         public ItemType itemType;
         public Sprite icon;
         public string itemDescription;
-        
+        public float health;
+        public float energy;
+
 
         public ItemData(Item item)
         {
@@ -20,6 +22,8 @@ namespace DataPersistence.Data
             this.itemType = item.itemType;
             this.icon = Resources.Load<Sprite>($"Items/{item.itemName}");
             this.itemDescription = item.itemDescription;
+            this.health = item.health;
+            this.energy = item.energy;
         }
     }
 }

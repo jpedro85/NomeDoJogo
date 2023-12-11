@@ -3,7 +3,17 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Analogico_BackgoundWalk
+  - AnalogicBlur
+  - Analogico
+  - Analogico_BackgroundRun
+  - AnalogicoConteiner
+  - PlayUICanvas
+  - Wall
+  - PersonageTrigger
+  - Obj
+  - questionManager
   layers:
   - Default
   - TransparentFX

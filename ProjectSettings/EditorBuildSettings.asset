@@ -7,10 +7,16 @@ EditorBuildSettings:
   m_Scenes:
   - enabled: 1
     path: Assets/Scenes/Home.unity
-    guid: 99c9720ab356a0642a771bea13969a05
+    guid: c2b208eba6314f246bd756e8b4dfd6ee
   - enabled: 1
     path: Assets/Scenes/LevelScreen.unity
     guid: 8bb463a7cc312824baaef4939b6b8a06
+  - enabled: 1
+    path: Assets/Scenes/SettingsMenu.unity
+    guid: 4ac20d0777c860545ab6b5317da9368e
+  - enabled: 1
+    path: Assets/Scenes/Play.unity
+    guid: 0c790ddbdf5e08843b4854c800d10c6a
   - enabled: 1
     path: Assets/Scenes/SettingsGame.unity
     guid: 3dece83440e2489468628fb93906f577
