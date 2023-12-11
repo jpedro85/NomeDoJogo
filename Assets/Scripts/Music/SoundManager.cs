@@ -1,9 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
+using DataPersistence;
+using DataPersistence.Data;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class SoundManager : MonoBehaviour
+public class SoundManager : MonoBehaviour, IDataPersistence
 {
     [SerializeField] Image soundOnIcon;
     [SerializeField] Image soundOffIcon;
@@ -46,5 +46,13 @@ public class SoundManager : MonoBehaviour
         PlayerPrefs.SetInt("muted",muted ? 1:0);
     }
 
+    public void loadData(GameData gameData)
+    {
+        this.muted = gameData.isMuted;
+    }
 
+    public void saveData(GameData gameData)
+    {
+        gameData.isMuted = this.muted;
+    }
 }

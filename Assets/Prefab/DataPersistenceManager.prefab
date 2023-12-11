@@ -44,5 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e7daa32cbcac4faeb4140f8a57374783, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  initializeDataIfNull: 0
   fileName: naosei.ricardo
   useEncryption: 1
+  autoSaveTimeSeconds: 5

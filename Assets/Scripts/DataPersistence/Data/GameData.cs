@@ -59,7 +59,7 @@ namespace DataPersistence.Data
 
         public GameData(int stepsTaken, int deathCount, double playerCoins, float playerHealth,
             float playerHealthToRegen, float playerEnergy, float playerEnergyToRegen,
-            float[] currentPlayerPositionOnLvl, float[] currentCameraPositionOnLvl, InventoryData playerInventory)
+            float[] currentPlayerPositionOnLvl, float[] currentCameraPositionOnLvl, InventoryData playerInventory, bool isMuted)
         {
             this.stepsTaken = stepsTaken;
             this.deathCount = deathCount;
