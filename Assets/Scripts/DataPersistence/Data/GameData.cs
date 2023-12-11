@@ -9,6 +9,8 @@ namespace DataPersistence.Data
         public double playerCoins;
         public double currentPlayerPositionOnLvl;
         public InventoryData playerInventory;
+
+        public bool isMuted;
         
         // if you want to add scriptable objects to the game data thats going to be save use the mirrored class
         // [SerializeField] private ExampleOfScriptableObject ExampleOfScriptableObject;
@@ -25,6 +27,7 @@ namespace DataPersistence.Data
             this.playerCoins = 0;
             this.currentPlayerPositionOnLvl = 0;
             this.playerInventory = new InventoryData(new List<ItemData>());
+            this.isMuted=true;
         }
 
         public GameData(int stepsTaken, int deathCount, double playerCoins, double currentPlayerPositionOnLvl, InventoryData playerInventory)
@@ -34,6 +37,8 @@ namespace DataPersistence.Data
             this.playerCoins = playerCoins;
             this.currentPlayerPositionOnLvl = currentPlayerPositionOnLvl;
             this.playerInventory = new InventoryData(playerInventory.items);
+            //TODO ADD TO PARAMETER
+            this.isMuted= true;
         }
         
     }
