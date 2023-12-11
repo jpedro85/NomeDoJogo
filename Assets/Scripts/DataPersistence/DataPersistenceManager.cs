@@ -107,7 +107,7 @@ namespace DataPersistence
             }
         }
 
-        private void saveGame()
+        public void saveGame()
         {
             // if  we don't have any data to save, log a warning
             if (this.gameData == null)
