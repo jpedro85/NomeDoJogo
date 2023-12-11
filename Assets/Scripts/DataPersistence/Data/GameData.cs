@@ -28,7 +28,9 @@ namespace DataPersistence.Data
 
         public InventoryData playerInventory;
 
-        // if you want to add scriptable objects to the game data that's going to be save use the mirrored class
+        public bool isMuted;
+        
+        // if you want to add scriptable objects to the game data thats going to be save use the mirrored class
         // [SerializeField] private ExampleOfScriptableObject ExampleOfScriptableObject;
         // And add to the constructor as well
         // On the object you are using the scriptable object implement the IDataPersistence as you would normally and 
@@ -52,6 +54,7 @@ namespace DataPersistence.Data
             this.currentCameraPositionOnLvl = new[] { 3.39f, 6f, -2079f };
 
             this.playerInventory = new InventoryData(new List<ItemData>());
+            this.isMuted=true;
         }
 
         public GameData(int stepsTaken, int deathCount, double playerCoins, float playerHealth,
@@ -72,6 +75,8 @@ namespace DataPersistence.Data
             this.currentCameraPositionOnLvl = currentCameraPositionOnLvl;
 
             this.playerInventory = new InventoryData(playerInventory.items);
+            //TODO ADD TO PARAMETER
+            this.isMuted= true;
         }
     }
 }
