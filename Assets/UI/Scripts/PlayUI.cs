@@ -78,8 +78,6 @@ public RectTransform Bk_Bar_Hapinesss;
         if (!player.isJumping && player.getCanCrawlUp)
         {
 
-            Debug.Log("zone:"+player.getInCrouchingZone);
-
             if(player.getInCrouchingZone && Crawling.isOn)
             {
 
@@ -92,11 +90,9 @@ public RectTransform Bk_Bar_Hapinesss;
             {
                 if (!Crouching.isOn)
                 {
-                    Debug.Log("ccc1");
                     Crouching.isOn = true;
                 }
 
-                Debug.Log("ccc2");
                 Crouching.image.sprite = CrouchingOn;
                 player.setCrouched(true);
                 player.setCrawling(false, true);
@@ -106,7 +102,6 @@ public RectTransform Bk_Bar_Hapinesss;
 
                 if(Crouching.isOn && Crawling.isOn)
                 {
-                    Debug.Log("ccc");
                     Crouching.isOn = false;
                     Crouching.image.sprite = CrouchingOff;
                     player.setCrouched(false);

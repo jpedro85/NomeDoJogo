@@ -84,6 +84,12 @@ public class questionsUI : MonoBehaviour
         questionText.text = currentQuestion.questions;
     }
 
+    public void skipQuestion()
+    {
+        answer?.Invoke(false);
+        dialog.SetActive(false);
+    }
+
     public void userSelectedGuess()
     {
         guessClicked = true;
@@ -98,7 +104,7 @@ public class questionsUI : MonoBehaviour
     void checkAnswer()
     {
         if (!guessClicked || input == "") return;
-        
+
         if(chances > 0){
 
             if (input.ToLower() == currentAnswer.answers.ToLower())
@@ -107,7 +113,6 @@ public class questionsUI : MonoBehaviour
                 TxtErro.text = "Correct";
                 guessClicked = false;
                 closeDelay = 0.01f;
-                Debug.Log(answer.Target);
                 answer?.Invoke(true);
             }
             else
@@ -120,7 +125,6 @@ public class questionsUI : MonoBehaviour
         }
         else
         {
-            Debug.Log(answer.Target);
             guessClicked = false;
             closeDelay = 0.01f;
             answer?.Invoke(false);

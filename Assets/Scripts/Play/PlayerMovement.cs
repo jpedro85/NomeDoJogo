@@ -1,7 +1,5 @@
-using Unity.VisualScripting;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
-
+using CharacterManagername;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -22,6 +20,8 @@ public class PlayerMovement : MonoBehaviour
     public float jumpingUpSpeedWaitTime = 2;
     public float jumpDistance = 100;
 
+    private CharacterManager characterManager;
+
 
     public float dizzinessX = (float)0.5;
     public float dizzinessY = (float)0.5;
@@ -30,6 +30,16 @@ public class PlayerMovement : MonoBehaviour
     private float activedizzinessY = 0;
     private float counterSgnalChange = 0;
     private short mult = 1;
+
+    public float getDizzinessfactorX
+    {
+        get{return activedizzinessX;}
+    }
+
+    public float getDizzinessfactorY
+    {
+        get { return activedizzinessY; }
+    }
 
     public Animator getAnimator
     {
@@ -53,7 +63,14 @@ public class PlayerMovement : MonoBehaviour
         Physics.IgnoreCollision(mainCamera.GetComponent<Collider>(), playerColiderCapsule);
         Physics.IgnoreCollision(mainCamera.GetComponent<Collider>(), playerColiderBoxColider);
 
+        characterManager = GetComponent<CharacterManager>();
 
+
+    }
+
+    public bool canMov
+    {
+        get { return characterManager.canMov; }
     }
 
     private float jumpTimer = 0;
@@ -61,6 +78,7 @@ public class PlayerMovement : MonoBehaviour
     void Update()
     {
 
+       
 
         if (isDizziness)
         {
@@ -120,8 +138,7 @@ public class PlayerMovement : MonoBehaviour
             
         }
 
-        Debug.Log("Coliding ?:" + coliding);
-        if (!coliding)
+        if (!coliding && characterManager.canMov)
         {
             if (isJumping)
             {
@@ -196,8 +213,17 @@ public class PlayerMovement : MonoBehaviour
 
         }else if (isJumping)
         {
+            if (!characterManager.canMov)
+            {
+                animator.SetBool("isMoving", false);
+                animator.SetBool("isWalking", false);
+                animator.SetBool("isRunning", false);
+            }
             animator.SetBool("isJumping", false);
         }
+
+        
+
 
     }
 
@@ -305,19 +331,14 @@ public class PlayerMovement : MonoBehaviour
             coliding = true;
             colosionTime = 0;
         }
-
-        Debug.LogWarning("Enter");
-
     }
 
     private float colosionTime = 0f;
 
     private void OnCollisionStay(Collision collision)
     {
-
         if (collision.gameObject.tag == "Wall" || collision.gameObject.tag == "Obj" || collision.gameObject.tag == "WallCrouching")
         {
-            Debug.LogWarning("stay");
             colosionTime += Time.deltaTime;
 
             if (colosionTime > 0.5)
@@ -325,24 +346,11 @@ public class PlayerMovement : MonoBehaviour
             else
                 coliding = true;
         }
-
-
-        
-
-
     }
+
     private void OnCollisionExit(Collision collision)
     {
-        Debug.LogWarning("Exit");
-        //if (collision.gameObject.tag == "Wall" || collision.gameObject.tag == "Obj" )
-        //{
-        //    coliding = false;
-        //}
-
-        //{
         coliding = false;
-        //}
-
     }
 
 
@@ -375,7 +383,7 @@ public class PlayerMovement : MonoBehaviour
             Material material = colider.transform.parent.gameObject.GetComponent<Renderer>().material;
             material.color = new Color(material.color.r, material.color.g, material.color.b, tranparency);
 
-            if (animator.GetBool("isCrawling"))
+            if (animator.GetBool("isCrawling") && !animator.GetBool("isCrouched"))
             {
                 colider.transform.parent.gameObject.GetComponent<Collider>().enabled = false;
 
@@ -409,7 +417,7 @@ public class PlayerMovement : MonoBehaviour
         }
         else if (colider.gameObject.tag == "crawlOnly" && !enterTrigger)
         {
-            if (animator.GetBool("isCrawling"))
+            if (animator.GetBool("isCrawling") && !animator.GetBool("isCrouched"))
             {
                 canStandUp = false;
                 canCrouchUp = false;

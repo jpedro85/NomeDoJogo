@@ -47,6 +47,7 @@ public class CameraMovement : MonoBehaviour
     public float margem = 25;
     private float playSpeed;
     public float zoomOutSpeed = 3;
+    public float zoomOutSpeedPista = 9;
     public float zoomSpeed = 1;
     public float AtualzoomSpeed = 1;
 
@@ -94,7 +95,9 @@ public class CameraMovement : MonoBehaviour
         if (zoomOutActive)
         {
             if (!zooming && zoomTime == 0)
+            {
                 toPistaView();
+            }
             else
                 zoomTime += Time.deltaTime;
         }
@@ -268,17 +271,24 @@ public class CameraMovement : MonoBehaviour
         //}
         if(!playerMov.isColiding)
         {
-            if (analogic.direction == Vector2.zero && zooming)
+            if (!zoomOutActive && !zoomInActive)
             {
-                AtualzoomSpeed = zoomOutSpeed;
+
+                if (analogic.direction == Vector2.zero && zooming)
+                {
+                    AtualzoomSpeed = zoomOutSpeed;
+                }
+                else
+                {
+
+                    AtualzoomSpeed = zoomSpeed;
+                }
+
             }
+            else if (zooming)
+                AtualzoomSpeed = zoomOutSpeedPista;
             else
-            {
-
                 AtualzoomSpeed = zoomSpeed;
-            }
-            
-
         }
 
         Vector3 forward = new Vector3(transform.forward.x, 0, transform.forward.z);
@@ -287,26 +297,27 @@ public class CameraMovement : MonoBehaviour
         Vector3 point = pointAux + (forward.normalized * analogic.deltaY);
         Vector3 velocity = (point - transform.position);
 
-        if (!coliding && !playerMov.isColiding  || ( playerMov.isDizziness && !playerMov.isColiding) )
+        if (playerMov.canMov && !coliding && !playerMov.isColiding  || ( playerMov.isDizziness && !playerMov.isColiding && playerMov.canMov) )
         {
             if(playerMov.isDizziness && analogic.direction == Vector2.zero)
                 transform.position = transform.position + (velocity.normalized * Time.deltaTime * playSpeed * 0.25f);
             else
                 transform.position = transform.position + (velocity.normalized * Time.deltaTime * playSpeed * analogic.speed);
         }
-
+       
         transform.forward = new Vector3(player.position.x, offsetY, player.position.z) - transform.position;
 
         checkInvert();
         float distX = calDistance();
         float distY = transform.position.y - offsetY;
 
-        zoom();
+        if(!zoomOutActive && !zoomInActive)
+            zoom();
 
        // if (!coliding)
         {
-            updateDistanceX(distX, AtualzoomSpeed);
             updateDistanceY(distY, AtualzoomSpeed);
+            updateDistanceX(distX, AtualzoomSpeed);
         }
 
 
