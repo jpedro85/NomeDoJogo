@@ -77,7 +77,6 @@ public class PlayUI : MonoBehaviour, IDataPersistence
     public Sprite CrawlingOn;
     public void ClickButtonCrawling()
     {
-
         if (!player.isJumping && player.getCanCrawlUp)
         {
 
@@ -119,11 +118,13 @@ public class PlayUI : MonoBehaviour, IDataPersistence
 
                 player.setCrawling(Crawling.isOn);
             }
-           
-            Crawling.image.sprite = (Crawling.isOn) ? CrawlingOn : CrawlingOff;
 
         }
 
+        if (player.getInCrawlingZone)
+            Crawling.isOn = true;
+
+        Crawling.image.sprite = (Crawling.isOn) ? CrawlingOn : CrawlingOff;
     }
 
     public Toggle Crouching;
@@ -140,15 +141,24 @@ public class PlayUI : MonoBehaviour, IDataPersistence
                 player.setCrawling(false);
             }
 
-            Crouching.image.sprite = (Crouching.isOn) ? CrouchingOn : CrouchingOff;
             player.setCrouched(Crouching.isOn);
         }
+
+        if (player.getInCrouchingZone && !player.getAnimator.GetBool("isCrawling"))
+            Crouching.isOn = true;
+        else if(player.getInCrouchingZone)
+            Crouching.isOn = false;
+        else if(player.getInCrawlingZone)
+            Crouching.isOn = false;
+
+
+        Crouching.image.sprite = (Crouching.isOn) ? CrouchingOn : CrouchingOff;
     }
 
     public Button Jumping;
     public void ClickButtonJumping()
     {
-        if (!player.isJumping && player.getCanCrouchUp && player.getCanCrawlUp)
+        if (!player.isJumping && player.getCanCrouchUp && player.getCanCrawlUp && !player.getInCrawlingZone && !player.getInCrouchingZone)
         {
             if (Crawling.isOn )
             {

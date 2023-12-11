@@ -18,6 +18,6 @@ MonoBehaviour:
   itemType: 0
   health: 58
   energy: 16
-  itemDescription: this is for the item description thats going to talk about the
-    the item and give hints about for the quizzes so stay alert for something alerting
-    ot highlightable llike this sentece that has nothing to do with the item
+  itemDescription: A medium-sized tomato contains around 22 calories, 5 grams of
+    carbohydrates, 1 gram of protein, and is an excellent source of vitamin C and
+    other antioxidants.
