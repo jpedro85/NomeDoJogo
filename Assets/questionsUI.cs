@@ -1,9 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 using TMPro;
-using Unity.VisualScripting;
-using UnityEditor.Rendering;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -21,6 +16,7 @@ public class questionsUI : MonoBehaviour
     private int chances;
     public TextMeshProUGUI TxtErro;
 
+    public TMP_InputField inputField;
 
     public TextMeshProUGUI questionText;
     private float closeDelay;
@@ -64,18 +60,24 @@ public class questionsUI : MonoBehaviour
 
     public void open()
     {
-        guessClicked = false;
         chances = 3;
+        
+        guessClicked = false;
         getRandomQuestion();
+        
         dialog.SetActive(true);
+
         TxtErro.text = " ";
         input = " ";
+        inputField.Select();
+        inputField.text="";
+        
         closeDelay = 0;
     }
 
     void getRandomQuestion()
     {
-        int randomQuestionIndex = Random.Range(0, questions.Length);
+        var randomQuestionIndex = Random.Range(0, questions.Length);
         currentQuestion = questions[randomQuestionIndex];
         currentAnswer = answers[randomQuestionIndex];
 
@@ -95,44 +97,34 @@ public class questionsUI : MonoBehaviour
 
     void checkAnswer()
     {
+        if (!guessClicked || input == "") return;
+        
+        if(chances > 0){
 
-
-        if (guessClicked && input != "" )
-        {
-            if(chances > 0){
-
-                if (input.ToLower() == currentAnswer.answers.ToLower())
-                {
-                    TxtErro.color = Color.green;
-                    TxtErro.text = "Correct";
-                    guessClicked = false;
-                    closeDelay = 0.01f;
-                    Debug.Log(answer.Target);
-                    answer?.Invoke(true);
-                }
-                else
-                {
-                    chances--;
-                    TxtErro.color = Color.red;
-                    TxtErro.text = "Remaining attempts: " + chances.ToString();
-
-                }
+            if (input.ToLower() == currentAnswer.answers.ToLower())
+            {
+                TxtErro.color = Color.green;
+                TxtErro.text = "Correct";
+                guessClicked = false;
+                closeDelay = 0.01f;
+                Debug.Log(answer.Target);
+                answer?.Invoke(true);
             }
             else
             {
-                Debug.Log(answer.Target);
-                guessClicked = false;
-                closeDelay = 0.01f;
-                answer?.Invoke(false);
+                chances--;
+                TxtErro.color = Color.red;
+                TxtErro.text = "Remaining attempts: " + chances.ToString();
+
             }
         }
         else
         {
-            
-
+            Debug.Log(answer.Target);
+            guessClicked = false;
+            closeDelay = 0.01f;
+            answer?.Invoke(false);
         }
-    
-            
     }
 
     public void backFuntion()

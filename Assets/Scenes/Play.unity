@@ -34923,6 +34923,7 @@ MonoBehaviour:
   - answers: Vitamin A and Potassium
   dialog: {fileID: 939190256}
   TxtErro: {fileID: 1537073297}
+  inputField: {fileID: 1076568230}
   questionText: {fileID: 1823686556}
 --- !u!4 &803200637
 Transform:
