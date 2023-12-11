@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class HomeToPlay : MonoBehaviour
+public class SettingsPlayOpen : MonoBehaviour
 {
-    public void GoToPlay()
+    public void SettingsButton()
     {
         DataPersistence.DataPersistenceManager.instance.saveGame();
-        SceneManager.LoadScene(3);
+        SceneManager.LoadScene(4);
     }
 }

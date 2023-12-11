@@ -2,12 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-
-public class LeaveButton : MonoBehaviour
+public class BackButton : MonoBehaviour
 {
-public void LeaveGame()
-    {
-        SceneManager.LoadScene(1);
-    }
+public void Backbtn()
+   {
+      SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex-1);
+   }
 }
+
 
