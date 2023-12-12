@@ -10,12 +10,6 @@
 5. [Pets](#pets)
 6. [Controls](#controls)
 7. [Persuasion Methods](#persuasion-methods)
-   - [Reward and Achievement](**reward-and-achievement**)
-   - [Gamification](**gamification**)
-   - [Negative Consequences](**negative-consequences**)
-   - [Long-term Rewards](**long-term-rewards**)
-   - [Emotions and Personal Connections](**emotions-and-personal-connections**)
-   - [Challenges](**challenges-1**)
 
 # Game Concept: Healthy Lifestyle 3D Mobile Game
 
