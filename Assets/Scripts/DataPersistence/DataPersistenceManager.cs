@@ -60,7 +60,7 @@ namespace DataPersistence
 
         private void OnDisable()
         {
-            SceneManager.sceneLoaded += onSceneLoaded;
+            SceneManager.sceneLoaded -= onSceneLoaded;
         }
 
         public void onSceneLoaded(Scene scene, LoadSceneMode mode)
