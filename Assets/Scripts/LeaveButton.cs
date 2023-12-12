@@ -7,7 +7,7 @@ public class LeaveButton : MonoBehaviour
 {
 public void LeaveGame()
     {
-        SceneManager.LoadScene(0);
+        SceneManager.LoadScene(1);
     }
 }
 

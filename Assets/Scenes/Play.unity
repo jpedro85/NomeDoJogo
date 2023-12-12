@@ -17861,8 +17861,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 424871488}
-        m_TargetAssemblyTypeName: SettingsOpen, Assembly-CSharp
-        m_MethodName: SettingsButton
+        m_TargetAssemblyTypeName: SettingsPlayOpen, Assembly-CSharp
+        m_MethodName: SettingsBtn
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -21418,7 +21418,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 424871482}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b54a2e9add6b25f4bbbbc93145d35839, type: 3}
+  m_Script: {fileID: 11500000, guid: 2d015396386ffe04181c0a7711525d6d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &431215462
