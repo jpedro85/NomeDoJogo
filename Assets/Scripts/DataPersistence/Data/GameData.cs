@@ -26,6 +26,12 @@ namespace DataPersistence.Data
 
         #endregion
 
+        #region Accelerometro
+
+        public double totalDistance;
+
+        #endregion
+
         public InventoryData playerInventory;
 
         public bool isMuted;
@@ -55,11 +61,14 @@ namespace DataPersistence.Data
 
             this.playerInventory = new InventoryData(new List<ItemData>());
             this.isMuted=true;
+
+            this.totalDistance = 0;      
+                
         }
 
         public GameData(int stepsTaken, int deathCount, double playerCoins, float playerHealth,
             float playerHealthToRegen, float playerEnergy, float playerEnergyToRegen,
-            float[] currentPlayerPositionOnLvl, float[] currentCameraPositionOnLvl, InventoryData playerInventory, bool isMuted)
+            float[] currentPlayerPositionOnLvl, float[] currentCameraPositionOnLvl, InventoryData playerInventory, bool isMuted , double totalDistance)
         {
             this.stepsTaken = stepsTaken;
             this.deathCount = deathCount;
@@ -77,6 +86,8 @@ namespace DataPersistence.Data
             this.playerInventory = new InventoryData(playerInventory.items);
             //TODO ADD TO PARAMETER
             this.isMuted= true;
+
+            this.totalDistance = totalDistance;
         }
     }
 }

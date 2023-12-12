@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using Scripts.Item;
 using System.Collections.Generic;
+using GPSLocation.Scripts;
 
 namespace CharacterManagername
 {
@@ -10,12 +11,22 @@ namespace CharacterManagername
 
         private PlayerMovement playerMovement;
         private PlayUI playUI;
+
         private CameraMovement cameraMovement;
         private Animator animator;
         private GameObject player;
         private GameObject camera;
         private Inventory.Inventory inventory;
         private questionsUI questionUi;
+
+        public float convertionFactor = 1;
+        public float convertionAddEnergy = 5;
+        public float convertionTimeInterval = 25;
+        public float convertionTimeCounter = 25;
+
+        private GpsLocation gpsLocation;
+        private CharacterManager characterManager;
+
 
         public float dizzinessLevel = 30;
         public float faintStart = 25;
@@ -59,6 +70,17 @@ namespace CharacterManagername
             questionUi.answer += afterQuestionResult;
             questionUi.backEvent += afterBack;
 
+            gpsLocation = GpsLocation.instance;
+        }
+        private void convertion()
+        {
+
+            if ( playUI.AtualEneergy < 100 && gpsLocation.totalDistance > (convertionAddEnergy * convertionFactor) && convertionTimeCounter >= convertionTimeInterval ) 
+            {
+                playUI.addDeltaEnergy(convertionAddEnergy);
+                gpsLocation.totalDistance -= convertionAddEnergy * convertionFactor;
+                convertionTimeCounter = 0;
+            }
         }
 
         public void Update()
@@ -72,6 +94,7 @@ namespace CharacterManagername
             faintEfect();
             dizzinnesEfect();
             EnergyChange();
+            convertion();
         }
         private void turveVisionEfect()
         {
