@@ -75,12 +75,14 @@ namespace CharacterManagername
         private void convertion()
         {
 
-            if ( playUI.AtualEneergy < 100 && gpsLocation.totalDistance > (convertionAddEnergy * convertionFactor) && convertionTimeCounter >= convertionTimeInterval ) 
+            if (playUI.AtualEneergy < 100 && gpsLocation.totalDistance > (convertionAddEnergy * convertionFactor) && convertionTimeCounter >= convertionTimeInterval)
             {
                 playUI.addDeltaEnergy(convertionAddEnergy);
                 gpsLocation.totalDistance -= convertionAddEnergy * convertionFactor;
                 convertionTimeCounter = 0;
             }
+            else
+                convertionTimeCounter += Time.deltaTime;
         }
 
         public void Update()

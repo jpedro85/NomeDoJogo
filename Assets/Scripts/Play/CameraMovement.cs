@@ -1,5 +1,6 @@
 using DataPersistence;
 using DataPersistence.Data;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,6 +9,8 @@ public class CameraMovement : MonoBehaviour, IDataPersistence
     private AnalogicManager analogic;
     private Transform player;
     private PlayerMovement playerMov;
+    private RectTransform UI_Buttons_RectTransform;
+
 
     public float startMovingDistance = 1400;
     public float minDistanceX = 500;
@@ -46,6 +49,12 @@ public class CameraMovement : MonoBehaviour, IDataPersistence
     public float zoomOutSpeedPista = 9;
     public float zoomSpeed = 1;
     public float AtualzoomSpeed = 1;
+
+    void Awake()
+    {
+        UI_Buttons_RectTransform = GameObject.Find("UI_Buttons").GetComponent<RectTransform>();
+        fadesAndTurveEfectResize();
+    }
 
     void Start()
     {
@@ -115,6 +124,26 @@ public class CameraMovement : MonoBehaviour, IDataPersistence
     public GameObject[] fades;
     public GameObject turveEfect;
     private bool fadeIn = false, fadeOut = false;
+
+    private void fadesAndTurveEfectResize()
+    {
+        float width = UI_Buttons_RectTransform.rect.width;
+        float heigth = UI_Buttons_RectTransform.rect.height;
+
+        RectTransform rectTransformTurve = turveEfect.GetComponent<RectTransform>();
+        rectTransformTurve.localScale = Vector2.one;
+        rectTransformTurve.sizeDelta = new Vector2(width , heigth );
+
+
+        foreach (GameObject gameObject in fades)
+        {
+            RectTransform rectTransform = gameObject.GetComponent<RectTransform>();
+            rectTransform.localScale = Vector2.one;
+            rectTransform.sizeDelta = new Vector2(width , heigth );
+        }
+
+        
+    }
 
     public bool isFadeOut
     {

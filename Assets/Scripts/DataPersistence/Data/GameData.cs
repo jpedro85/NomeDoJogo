@@ -8,6 +8,7 @@ namespace DataPersistence.Data
         public int stepsTaken;
         public int deathCount;
         public double playerCoins;
+        public int numeroPistas;
 
         #region PlayerHealthEnergy
 
@@ -62,13 +63,16 @@ namespace DataPersistence.Data
             this.playerInventory = new InventoryData(new List<ItemData>());
             this.isMuted=true;
 
-            this.totalDistance = 0;      
-                
+            this.totalDistance = 0;
+
+            this.numeroPistas = 10;
+
+
         }
 
         public GameData(int stepsTaken, int deathCount, double playerCoins, float playerHealth,
             float playerHealthToRegen, float playerEnergy, float playerEnergyToRegen,
-            float[] currentPlayerPositionOnLvl, float[] currentCameraPositionOnLvl, InventoryData playerInventory, bool isMuted , double totalDistance)
+            float[] currentPlayerPositionOnLvl, float[] currentCameraPositionOnLvl, InventoryData playerInventory, bool isMuted , double totalDistance, int numeroPistas)
         {
             this.stepsTaken = stepsTaken;
             this.deathCount = deathCount;
@@ -88,6 +92,8 @@ namespace DataPersistence.Data
             this.isMuted= true;
 
             this.totalDistance = totalDistance;
+
+            this.numeroPistas = numeroPistas;
         }
     }
 }

@@ -364,6 +364,8 @@ public class PlayUI : MonoBehaviour, IDataPersistence
 
     public void loadData(GameData gameData)
     {
+        Hints = gameData.numeroPistas;
+        NumeroDePistas.text = Hints.ToString();
 
         this.Health = gameData.playerHealth;
         this.HealthCharging = this.Health;  
@@ -389,6 +391,7 @@ public class PlayUI : MonoBehaviour, IDataPersistence
         
         gameData.playerHealth = this.Health;
         gameData.playerHealthToRegen = this.HealthCharging;
+        gameData.numeroPistas = Hints;
 
         gameData.playerEnergy = this.Energy;
         gameData.playerEnergyToRegen = this.EnergyCharging;
