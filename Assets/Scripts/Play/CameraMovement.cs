@@ -1,6 +1,5 @@
 using DataPersistence;
 using DataPersistence.Data;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,46 +9,7 @@ public class CameraMovement : MonoBehaviour, IDataPersistence
     private Transform player;
     private PlayerMovement playerMov;
     private RectTransform UI_Buttons_RectTransform;
-
-
-    public float startMovingDistance = 1400;
-    public float minDistanceX = 500;
-    public float minDistanceY = 500;
-    private float maxDistanceX;
-    private float distanceX;
-    private float maxDistanceY;
-    private float distanceY;
-
-    public float ZoomOutOffsetX = 100;
-    public float ZoomOutOffsetY = 5000;
-
-    public float offsetY;
-    private bool rotated = false;
-    private Rigidbody rigidBody;
-    public float forceBack = 100;
-
-
-    public bool stabelizedX = false;
-    private bool stabelizedY = false;
-    private bool zooming = false;
-    private bool zoomOutActive = false;
-    private bool zoomInActive = false;
-    private float zoomTime = 0;
-    public float HintTime = 10;
-
-    private bool coliding = false;
-
-    public float timeToInvert = 2;
-    public float timeStopDistanceManager = 2;
-    private float time;
-
-    public float margem = 25;
-    private float playSpeed;
-    public float zoomOutSpeed = 3;
-    public float zoomOutSpeedPista = 9;
-    public float zoomSpeed = 1;
-    public float AtualzoomSpeed = 1;
-
+    
     void Awake()
     {
         UI_Buttons_RectTransform = GameObject.Find("UI_Buttons").GetComponent<RectTransform>();
@@ -61,65 +21,234 @@ public class CameraMovement : MonoBehaviour, IDataPersistence
         analogic = GameObject.FindWithTag("Analogico").GetComponent<AnalogicManager>();
         player = GameObject.FindWithTag("Player").GetComponent<Transform>();
         playerMov = GameObject.FindWithTag("Player").GetComponent<PlayerMovement>();
-        playSpeed = player.GetComponent<PlayerMovement>().maxSpeed;
-
-        maxDistanceX = minDistanceX + margem;
-        maxDistanceY = minDistanceY + margem;
-        distanceX = minDistanceX;
-        distanceY = minDistanceY;
-
         Physics.IgnoreCollision(GetComponent<Collider>(), GameObject.FindWithTag("Player").GetComponent<Collider>());
+
+        AtualAngle = FollowNot_InPistaAngle;
+        AtualDistance = FollowNoMovementDistance;
+    }
+
+    void Update()
+    {
+        auxiliarFadeIn();
+        auxiliarFadeOut();
+
+        //  AfterColision();
+        if(!colided)
+            zoom();
+
+        pista();
+
+
+        followTransform();
+     
+    }
+
+    //New Vars
+    // FollowWhileMovementDistance < FollowNoMovementDistance
+    public float FollowWhileMovementDistance;
+    public float FollowWhileMovementDistance_Speed;
+
+    public float FollowNoMovementDistance;
+    public float FollowNoMovementDistance_Speed;
+
+    public float FollowInPistaDistance;
+    public float FollowInPistaDistance_Speed;
+
+    public float FollowNotInPistaDistance;
+    public float FollowNotInPistaDistance_Speed;
+
+    public float LookAtOffsetY;
+    public float rotateSpeed;
+
+    private float AtualDistance;
+    private void followTransform()
+    {
+
+        Vector3 playerLookPosition = new Vector3(player.position.x, LookAtOffsetY, player.position.z);
+        //Loock At with offSYet
+        transform.forward = (playerLookPosition  - new Vector3(transform.position.x, LookAtOffsetY, transform.position.z) ).normalized;
+
+        //newPoint
+        transform.position = (playerLookPosition - transform.forward * AtualDistance) ;
+
+        //turn Around
+        transform.RotateAround(player.position, player.up , analogic.deltaX * rotateSpeed * Time.deltaTime);
+
+        setAngle(playerLookPosition);
+
+    }
+    
+    private void zoom()
+    {
+        if (!isPista)
+        {
+            if (analogic.direction == Vector2.zero || playerMov.isDizziness)
+            {
+                zoomOut(FollowNoMovementDistance, FollowNoMovementDistance_Speed);
+            }
+            else
+            {
+                zoomIn(FollowWhileMovementDistance, FollowWhileMovementDistance_Speed);
+            }
+        }
+    }
+
+    private bool zoomOut(float maxDist,float speed)
+    {
+        float sp = speed * Time.deltaTime;
+        if (AtualDistance + sp < maxDist)
+        {
+            AtualDistance += sp;
+            return false;
+        }
+        else //if(AtualDistance + sp >= maxDist)
+        {
+            AtualDistance = maxDist;
+            return true;
+        }
+
+    }
+
+    private bool zoomIn(float minDist, float speed)
+    {
+        float sp = speed * Time.deltaTime;
+        if (AtualDistance - sp > minDist)
+        {
+            AtualDistance -= sp;
+            return false;
+        }
+        else //if (AtualDistance - sp  < minDist)
+        {
+            AtualDistance = minDist;
+            return true;
+        }
+    }
+    public float FollowWhilePistaAngle;
+    public float FollowWhilePistaAngle_Speed;
+    public float FollowNot_InPistaAngle;
+    public float FollowNot_InPistaAngle_Speed;
+    private float AtualAngle;
+
+    private bool ToLowerAngle(float minAndle ,float speed)
+    {
+        float sp = speed * Time.deltaTime;
+
+        if (AtualAngle - sp > minAndle)
+        {
+            AtualAngle -= sp;
+            return false;
+        }
+        else 
+        {
+            AtualAngle = minAndle;
+            return true;
+        }
+    }
+
+    private bool TohigherAngle(float maxAndle, float speed)
+    {
+
+        float sp = speed * Time.deltaTime;
+        if (AtualAngle + sp < maxAndle)
+        {
+            AtualAngle += sp;
+            return false;
+        }
+        else 
+        {
+            AtualAngle = maxAndle;
+            return true;
+        }
+    }
+
+    private void setAngle(Vector3 playerLookPosition)
+    {
+
+        float Angle = Vector3.Angle( new Vector3(transform.forward.x , 0 , transform.forward.z) , transform.forward);
+        Debug.Log("Angle:" + Angle + "AtualAngle" + AtualAngle);
+
+        if( Angle > AtualAngle)
+        {
+            transform.RotateAround(playerLookPosition, transform.right, Angle - AtualAngle);
+        }
+        else if(Angle < AtualAngle)
+        {
+            transform.RotateAround(playerLookPosition, transform.right, AtualAngle - Angle);
+        }
+
     }
 
     public int teste = 0;
     private Button pistabutton;
     private Sprite spriteOff;
 
-    public void pista(Button button, Sprite off)
+    private bool isPista = false;
+    public float PistaTime;
+    private float PistaTimeCounter = 0;
+    private bool GoingUp = false;
+    private bool GoingDown = false;
+
+    public bool getIsPista
     {
+        get { return isPista; }
+    }
+
+    public void setActiveIsPista(Button button, Sprite off)   
+    {
+        isPista = true;
+        GoingUp = true;
+        GoingDown = false;
         pistabutton = button;
         spriteOff = off;
-        if (!zoomOutActive)
-        {
-            zoomOutActive = true;
-        }
-        else
-        {
-            button.image.sprite = off;
-        }
+        PistaTimeCounter = 0;
     }
 
-    public bool isPista
+    private void pista()
     {
-        get { return zoomOutActive; }
-    }
-
-    private void auxiliarpista()
-    {
-        if (zoomOutActive)
+        if(isPista)
         {
-            if (!zooming && zoomTime == 0)
+            bool resultA;
+            bool resultB;
+
+            Debug.Log("In Pista");
+            if(GoingUp) {
+
+                resultA = TohigherAngle(FollowWhilePistaAngle, FollowWhilePistaAngle_Speed);
+                resultB = zoomOut(FollowInPistaDistance, FollowInPistaDistance_Speed);
+                if (resultA && resultB)
+                    GoingUp = false;
+
+              
+
+            }
+            else if(!GoingDown)
             {
-                toPistaView();
+                PistaTimeCounter += Time.deltaTime;
+
+                if(PistaTimeCounter >= PistaTime)
+                {
+                    GoingDown = true;
+                    ToLowerAngle(FollowNot_InPistaAngle, FollowNot_InPistaAngle_Speed);
+                    zoomIn(FollowNotInPistaDistance, FollowNotInPistaDistance_Speed);
+
+                }
             }
             else
-                zoomTime += Time.deltaTime;
+            {
+                resultA = ToLowerAngle(FollowNot_InPistaAngle, FollowNot_InPistaAngle_Speed);
+                resultB = zoomIn(FollowNotInPistaDistance, FollowNotInPistaDistance_Speed);
+                if (resultA && resultB)
+                {
+                    GoingDown = false;
+                    isPista = false;
+                    pistabutton.image.sprite = spriteOff;
+                }
+            }
+
         }
 
-        if (zoomTime >= HintTime && !zooming && !zoomInActive)
-        {
-            zoomInActive = true;
-            toNormalView();
-        }
-
-        if (zoomInActive && !zooming)
-        {
-            zoomOutActive = false;
-            zoomInActive = false;
-            pistabutton.image.sprite = spriteOff;
-            zoomTime = 0;
-        }
     }
+    
 
     public GameObject[] fades;
     public GameObject turveEfect;
@@ -159,9 +288,16 @@ public class CameraMovement : MonoBehaviour, IDataPersistence
     private float fadeTime = 0;
     private float fade_nextime = 0;
     private int fade_atual = 1;
-
     private int fade_maxin = 0;
     private int fade_maxout = 0;
+
+    public float fade_s = (float)0.5;
+    public bool fade_sin = false;
+    public int fade_max = 10;
+
+    public float fadeo_s = (float)0.5;
+    public bool fadeo_sin = false;
+    public int fadeo_min = 10;
 
     public void setTurveEfect(bool set)
     {
@@ -243,245 +379,85 @@ public class CameraMovement : MonoBehaviour, IDataPersistence
         }
     }
 
-    public float fade_s = (float)0.5;
-    public bool fade_sin = false;
-    public int fade_max = 10;
+    // private TimeToInverCounter;
 
-    public float fadeo_s = (float)0.5;
-    public bool fadeo_sin = false;
-    public int fadeo_min = 10;
-
-    void Update()
+    //private void checkInvert()
+    //{
+    //    if (analogic.deltaX > -0.25 && analogic.deltaX < 0.25 && analogic.deltaY < -0.75 && !rotated)
+    //    {
+    //        if (time > 0)
+    //        {
+    //            time -= Time.deltaTime;
+    //        }
+    //        else
+    //        {
+    //            transform.RotateAround(player.position, player.transform.up, 180 * Time.deltaTime);
+    //            player.forward = transform.forward;
+    //            rotated = true;
+    //        }
+    //    }
+    //    else
+    //    {
+    //        time = timeToInvert;
+    //        rotated = false;
+    //    }
+    //}
+    public float AfterColisionTime = 2;
+    private float AfterColisionTimeCounter = 0;
+    private bool colided = false;
+    private void AfterColision()
     {
-        auxiliarpista();
-
-        //cameraEfects
-        if (fade_sin)
+        if (isPista)
         {
-            startfadeIn(fade_max, fade_s);
-            fade_sin = false;
+            colided = false;
         }
 
-        if (fadeo_sin)
+        if (colided && AfterColisionTimeCounter < AfterColisionTime)
         {
-            startfadeOut(fadeo_min, fadeo_s);
-            fadeo_sin = false;
-        }
-
-        auxiliarFadeIn();
-        auxiliarFadeOut();
-
-        //if (zoomOutActive && !zooming && teste == 0)
-        //{
-        //    toPistaView();
-        //    teste++;
-        //}
-        //else if (!zoomOutActive && teste > 0)
-        //{
-        //    toNormalView();
-        //    teste = 0;
-        //}
-
-        //if (playerMov.isColiding)
-        //{
-        //    AtualzoomSpeed = zoomSpeed/2;
-        //    //sppeed when coliding ?
-        //}
-        if (!playerMov.isColiding)
-        {
-            if (!zoomOutActive && !zoomInActive)
+            if (playerMov.isDizziness || analogic.direction != Vector2.zero)
             {
-
-                if (analogic.direction == Vector2.zero && zooming)
+                if (AtualDistance > FollowNoMovementDistance)
                 {
-                    AtualzoomSpeed = zoomOutSpeed;
+                    if(zoomIn(FollowNoMovementDistance, FollowNoMovementDistance_Speed))
+                        colided = false;
+
                 }
                 else
                 {
-
-                    AtualzoomSpeed = zoomSpeed;
+                    if(zoomOut(FollowNoMovementDistance, FollowNoMovementDistance_Speed))
+                        colided = false;
                 }
 
             }
-            else if (zooming)
-                AtualzoomSpeed = zoomOutSpeedPista;
-            else
-
-                AtualzoomSpeed = zoomSpeed;
-        }
-
-        Vector3 forward = new Vector3(transform.forward.x, 0, transform.forward.z);
-        Vector3 rigth = new Vector3(transform.right.x, 0, transform.right.z);
-        Vector3 pointAux = transform.position + (-rigth.normalized * analogic.deltaX);
-        Vector3 point = pointAux + (forward.normalized * analogic.deltaY);
-        Vector3 velocity = (point - transform.position);
-
-
-        if (playerMov.canMov && !coliding && !playerMov.isColiding  || ( playerMov.isDizziness && !playerMov.isColiding && playerMov.canMov) )
-        {
-            if (playerMov.isDizziness && analogic.direction == Vector2.zero)
-                transform.position = transform.position + (velocity.normalized * Time.deltaTime * playSpeed * 0.25f);
-            else
-                transform.position = transform.position +
-                                     (velocity.normalized * Time.deltaTime * playSpeed * analogic.speed);
-        }
-       
-        transform.forward = new Vector3(player.position.x, offsetY, player.position.z) - transform.position;
-
-        checkInvert();
-        float distX = calDistance();
-        float distY = transform.position.y - offsetY;
-
-        if(!zoomOutActive && !zoomInActive)
-            zoom();
-
-        // if (!coliding)
-        {
-            updateDistanceY(distY, AtualzoomSpeed);
-            updateDistanceX(distX, AtualzoomSpeed);
-        }
-
-
-        if (stabelizedX && stabelizedY)
-        {
-            zooming = false;
-        }
-    }
-
-    private float calDistance()
-    {
-        Vector2 transformPosition2D = new Vector2(transform.position.x, transform.position.z);
-        Vector2 playerTransformPosition2D = new Vector2(player.transform.position.x, player.transform.position.z);
-        return Vector2.Distance(playerTransformPosition2D, transformPosition2D);
-    }
-
-    private void checkInvert()
-    {
-        if (analogic.deltaX > -0.25 && analogic.deltaX < 0.25 && analogic.deltaY < -0.75 && !rotated)
-        {
-            if (time > 0)
-            {
-                time -= Time.deltaTime;
-            }
             else
             {
-                transform.RotateAround(player.position, player.transform.up, 180 * Time.deltaTime);
-                player.forward = transform.forward;
-                rotated = true;
+                if (AtualDistance > FollowWhileMovementDistance)
+                {
+                    if(zoomIn(FollowWhileMovementDistance, FollowWhileMovementDistance_Speed))
+                        colided = false;
+                }
+                else
+                {
+                    if (zoomOut(FollowWhileMovementDistance, FollowWhileMovementDistance_Speed))
+                        colided = false;
+                }
             }
-        }
-        else
-        {
-            time = timeToInvert;
-            rotated = false;
-        }
-    }
-
-    private void OnCollisionStay(Collision collision)
-    {
-        if (collision.gameObject.tag == "Wall")
-        {
-            Vector3 cameraForward =
-                new Vector3(transform.forward.x, transform.forward.y, transform.forward.z).normalized;
-            transform.position = transform.position + cameraForward * forceBack;
         }
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.tag == "Wall")
-        {
-            coliding = true;
-            distanceX = calDistance();
-            maxDistanceX = distanceX + margem;
-        }
+        colided = true;
+    }
+
+    private void OnCollisionStay(Collision collision)
+    {
+        colided = true;  
     }
 
     private void OnCollisionExit(Collision collision)
     {
-        if (collision.gameObject.tag == "Wall")
-        {
-            distanceX = minDistanceX;
-            maxDistanceX = distanceX + margem;
-            coliding = false;
-        }
-    }
-
-    public void toPistaView()
-    {
-        distanceX += ZoomOutOffsetX;
-        distanceY += ZoomOutOffsetY;
-        maxDistanceX = distanceX + margem;
-        maxDistanceY = distanceY + margem;
-        zooming = true;
-    }
-
-    public void toNormalView()
-    {
-        distanceX = minDistanceX;
-        distanceY = minDistanceY;
-        maxDistanceX = distanceX + margem;
-        maxDistanceY = distanceY + margem;
-        zooming = true;
-    }
-
-    public void zoom()
-    {
-        if (analogic.direction == Vector2.zero && !zooming)
-        {
-            distanceX = startMovingDistance;
-            maxDistanceX = distanceX + margem;
-            zooming = true;
-        }
-        else if (!zooming)
-        {
-            zooming = false;
-            distanceX = minDistanceX;
-            maxDistanceX = distanceX + margem;
-        }
-    }
-
-    private void updateDistanceX(float dist, float speed)
-    {
-        Vector3 forward = new Vector3(transform.forward.x, 0, transform.forward.z);
-        if (dist < maxDistanceX && dist > distanceX)
-        {
-            stabelizedX = true;
-        }
-        else
-        {
-            if (dist < distanceX)
-            {
-                transform.position = transform.position + (forward.normalized * -speed * Time.deltaTime);
-            }
-            else if (dist > maxDistanceX)
-            {
-                transform.position = transform.position + (forward.normalized * speed * Time.deltaTime);
-            }
-
-            stabelizedX = false;
-        }
-    }
-
-    private void updateDistanceY(float dist, float speed)
-    {
-        if (dist < maxDistanceY && dist > distanceY)
-        {
-            stabelizedY = true;
-        }
-        else
-        {
-            if (dist < distanceY)
-            {
-                transform.position = transform.position + Vector3.up * (speed * Time.deltaTime);
-            }
-            else if (dist > maxDistanceY)
-            {
-                transform.position = transform.position + Vector3.up * (-speed * Time.deltaTime);
-            }
-
-            stabelizedY = false;
-        }
+        colided = false;
     }
 
     public void loadData(GameData gameData)

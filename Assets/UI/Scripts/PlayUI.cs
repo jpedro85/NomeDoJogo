@@ -185,10 +185,10 @@ public class PlayUI : MonoBehaviour, IDataPersistence
     public void ClickButtonHint()
     {
 
-        if (Hints > 0 && !mcamera.isPista)
+        if (Hints > 0 && !mcamera.getIsPista)
         {
             Hint.image.sprite = HintOn;
-            mcamera.pista(Hint, HintOff);
+            mcamera.setActiveIsPista(Hint, HintOff);
             Hints--;
             NumeroDePistas.text = Hints.ToString();
         }

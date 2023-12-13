@@ -17,6 +17,10 @@ public class AnalogicManager : MonoBehaviour
     private Vector2 directionVector;
     private float walkLimite;
 
+    public float deadZoneX = 0.2f;
+    public float deadZoneY = 0.2f;
+    private Vector2 deadZoneVector;
+
     public float speed
     {
         get { return (directionVector.magnitude / raio); }
@@ -29,22 +33,30 @@ public class AnalogicManager : MonoBehaviour
 
     public float deltaX
     {
-        get { return (atualPosition.x - initialPosition.x) / raio; }
+        get {
+            float valueClamped = (atualPosition.x - initialPosition.x) / raio;
+            return valueClamped > 0 - deadZoneX && valueClamped <  0 + deadZoneX ? 0 :  valueClamped; 
+        }
     }
 
     public float deltaY
     {
-        get { return (atualPosition.y - initialPosition.y) / raio ; }
+        get {
+            float valueClamped = (atualPosition.y - initialPosition.y) / raio;
+            return valueClamped > 0 - deadZoneY && valueClamped < 0 + deadZoneY ? 0 : valueClamped; 
+        }
     }
 
     public Vector2 direction
     {
-        get { return directionVector; }
+        get { 
+            return (directionVector.magnitude < deadZoneVector.magnitude) ? Vector2.zero :  directionVector; 
+        }
     }
 
     public float angle
     {
-        get { return Vector2.Angle(directionVector, Vector2.up);  }
+        get { return Vector2.Angle(directionVector, Vector2.up); }
     }
 
     public void Start()
@@ -65,6 +77,8 @@ public class AnalogicManager : MonoBehaviour
         analogicoTouch = new Touch { fingerId = -1 };
         AnalogicoBlur.SetActive(false);
         BackgoundRun.SetActive(false);
+
+        deadZoneVector = Vector2.zero - new Vector2(deadZoneX, deadZoneY);
     }
 
     public void Update()

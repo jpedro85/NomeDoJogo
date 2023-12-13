@@ -235,8 +235,8 @@ namespace CharacterManagername
             player.transform.position = responPoints[Random.Range(0, responPoints.Length-1)] ;
             player.transform.forward = Vector3.back;
 
-            camera.transform.position = (player.transform.position - Vector3.back * cameraMovement.minDistanceX) + (Vector3.up * (cameraMovement.minDistanceY+cameraMovement.offsetY) );
-            camera.transform.forward = (player.transform.position + Vector3.up * cameraMovement.offsetY) - camera.transform.position;
+            camera.transform.position = (player.transform.position - Vector3.back * cameraMovement.FollowNoMovementDistance) + (Vector3.up * (cameraMovement.LookAtOffsetY) );
+            camera.transform.forward = (player.transform.position + Vector3.up * cameraMovement.LookAtOffsetY) - camera.transform.position;
 
         }
 
