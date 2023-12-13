@@ -445,20 +445,20 @@ public class CameraMovement : MonoBehaviour, IDataPersistence
         }
     }
 
-    private void OnCollisionEnter(Collision collision)
-    {
-        colided = true;
-    }
+    //private void OnCollisionEnter(Collision collision)
+    //{
+    //    colided = true;
+    //}
 
-    private void OnCollisionStay(Collision collision)
-    {
-        colided = true;  
-    }
+    //private void OnCollisionStay(Collision collision)
+    //{
+    //    colided = true;  
+    //}
 
-    private void OnCollisionExit(Collision collision)
-    {
-        colided = false;
-    }
+    //private void OnCollisionExit(Collision collision)
+    //{
+    //    colided = false;
+    //}
 
     public void loadData(GameData gameData)
     {
