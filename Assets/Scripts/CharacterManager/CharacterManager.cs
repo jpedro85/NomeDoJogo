@@ -74,6 +74,7 @@ namespace CharacterManagername
         }
         private void convertion()
         {
+            playUI.teste.text = gpsLocation.totalDistance.ToString();
 
             if (playUI.AtualEneergy < 100 && gpsLocation.totalDistance > (convertionAddEnergy * convertionFactor) && convertionTimeCounter >= convertionTimeInterval)
             {
@@ -82,7 +83,9 @@ namespace CharacterManagername
                 convertionTimeCounter = 0;
             }
             else
+            {
                 convertionTimeCounter += Time.deltaTime;
+            }
         }
 
         public void Update()

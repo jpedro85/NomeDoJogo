@@ -17,8 +17,7 @@ public class AnalogicManager : MonoBehaviour
     private Vector2 directionVector;
     private float walkLimite;
 
-    public float deadZoneX = 0.2f;
-    public float deadZoneY = 0.2f;
+    public float deadZone = 0.2f;
     private Vector2 deadZoneVector;
 
     public float speed
@@ -34,16 +33,16 @@ public class AnalogicManager : MonoBehaviour
     public float deltaX
     {
         get {
-            float valueClamped = (atualPosition.x - initialPosition.x) / raio;
-            return valueClamped > 0 - deadZoneX && valueClamped <  0 + deadZoneX ? 0 :  valueClamped; 
+ 
+            return ( directionVector.magnitude < deadZone ) ? 0 : (atualPosition.x - initialPosition.x) / raio;  
         }
     }
 
     public float deltaY
     {
         get {
-            float valueClamped = (atualPosition.y - initialPosition.y) / raio;
-            return valueClamped > 0 - deadZoneY && valueClamped < 0 + deadZoneY ? 0 : valueClamped; 
+
+            return ( directionVector.magnitude < deadZone ) ? 0 : (atualPosition.y - initialPosition.y) / raio;
         }
     }
 
@@ -78,7 +77,7 @@ public class AnalogicManager : MonoBehaviour
         AnalogicoBlur.SetActive(false);
         BackgoundRun.SetActive(false);
 
-        deadZoneVector = Vector2.zero - new Vector2(deadZoneX, deadZoneY);
+        deadZoneVector = Vector2.zero - new Vector2(deadZone, deadZone);
     }
 
     public void Update()

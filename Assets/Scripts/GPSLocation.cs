@@ -24,7 +24,9 @@ namespace GPSLocation.Scripts
         double speed = 10.0; 
         public double totalDistance = 0.0;
         public float minAcceleration = 0.4f;
-        public float maxAcceleration = 4;
+        public float maxAcceleration = 5;
+        public float IntervaloDeRecolha = 1;
+        private float IntervaloDeRecolhaCounter = 0;
         Vector3 lastPosition;
 
         void Start()
@@ -43,15 +45,18 @@ namespace GPSLocation.Scripts
                 dir.Normalize();
 
             // Make it move 10 meters per second instead of 10 meters per frame...
-            dir *= Time.deltaTime;
+           // dir *= Time.deltaTime;
             
             transform.Translate (dir * (float)speed);
          
             var distanceTravelled = Vector3.Distance(transform.position, lastPosition);
-            Debug.LogWarning("Dist "+distanceTravelled);
-            if (distanceTravelled > 0.4 && distanceTravelled > 4) // Change as needed
+            //var distanceTravelledTimed = distanceTravelled * Time.deltaTime;
+          //  Debug.LogWarning("Dist "+ distanceTravelled);
+            if (distanceTravelled > minAcceleration && distanceTravelled < maxAcceleration && IntervaloDeRecolhaCounter >= IntervaloDeRecolha) // Change as needed
             {
-                totalDistance += distanceTravelled;
+                Debug.LogWarning("DistAdded: " + distanceTravelled);
+                totalDistance += distanceTravelled ;
+                IntervaloDeRecolhaCounter = 0;
             }
             else
             {
@@ -59,8 +64,9 @@ namespace GPSLocation.Scripts
             }
             
             lastPosition = transform.position;
+            IntervaloDeRecolhaCounter += Time.deltaTime;
 
-            Debug.LogWarning("Total distance travelled: " + totalDistance);
+            //Debug.LogWarning("Total distance travelled: " + totalDistance);
             // pseudDistance.text = " " + totalDistance.ToString("F2");
         }
 

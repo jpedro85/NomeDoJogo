@@ -165,7 +165,7 @@ public class CameraMovement : MonoBehaviour, IDataPersistence
     {
 
         float Angle = Vector3.Angle( new Vector3(transform.forward.x , 0 , transform.forward.z) , transform.forward);
-        Debug.Log("Angle:" + Angle + "AtualAngle" + AtualAngle);
+       // Debug.Log("Angle:" + Angle + "AtualAngle" + AtualAngle);
 
         if( Angle > AtualAngle)
         {

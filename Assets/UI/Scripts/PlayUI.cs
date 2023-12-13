@@ -7,6 +7,9 @@ using UnityEngine.UI;
 
 public class PlayUI : MonoBehaviour, IDataPersistence
 {
+
+    public TextMeshProUGUI teste;
+
     public InventoryUI iventoryUi;
     //bar health
     public RectTransform Bk_Bar_Health;
