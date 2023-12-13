@@ -19097,8 +19097,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 424871488}
-        m_TargetAssemblyTypeName: SettingsOpen, Assembly-CSharp
-        m_MethodName: SettingsButton
+        m_TargetAssemblyTypeName: SettingsPlayOpen, Assembly-CSharp
+        m_MethodName: SettingsBtn
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -22993,7 +22993,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 424871482}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b54a2e9add6b25f4bbbbc93145d35839, type: 3}
+  m_Script: {fileID: 11500000, guid: 2d015396386ffe04181c0a7711525d6d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &429998836
@@ -40083,7 +40083,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   questions:
   - questions: How many mg of caffeine is in a coffee?
-  - questions: What is the base of a Smothiee (3 items)?
   - questions: What machine is used to make a Smoothie?
   - questions: How many grams of sugar is in a average serving of soda?
   - questions: How many servings of soda can you have to reach the maximum recommended
@@ -40106,14 +40105,12 @@ MonoBehaviour:
   - questions: How many grams of sugar is in a standard glazed Doughnut?
   - questions: Is Doughnut good for a healthy diet? (Yes or No)
   - questions: What is Fish rich in?
-  - questions: What eating fish daily promotes?
   - questions: How many calories are in a HotDog?
   - questions: How many grams of protein does a HotDog contain?
   - questions: How many grams of fat does a HotDog contain?
   - questions: what is the main vitamin contained in an Lemon?
   - questions: How many calories are in a Melon typical serving?
   - questions: What vitamins are contained in Melons?
-  - questions: What are onions rich in?
   - questions: What are the main reason why we should Onions?
   - questions: What are the vitamins contained in peaches?
   - questions: What eating Peaches daily promotes?
@@ -40134,54 +40131,50 @@ MonoBehaviour:
   - questions: What nutrients are Carrots a good source of?
   answers:
   - answers: 40
-  - answers: juice, milk or yogurt
   - answers: Blender
   - answers: 11
   - answers: 5
   - answers: 3,7
   - answers: 2,7
-  - answers: C
+  - answers: Vitamin C
   - answers: Reduces blood pressure
   - answers: Potassium
-  - answers: C and B6
-  - answers: Vitamin A and fiber
+  - answers: Vitamin C
+  - answers: Vitamin A
   - answers: cardiovascular disease
   - answers: Carbohydrates
   - answers: inflammation
-  - answers: Antioxidants, fiber, and vitamin C
+  - answers: Vitamin C
   - answers: Chicken
   - answers: low fat and high protein
   - answers: muscle health and repair
   - answers: 15
   - answers: No
   - answers: omega-3
-  - answers: heart health, reducing inflammation, and supporting brain function
   - answers: 180
   - answers: 7
   - answers: 15
   - answers: C
   - answers: 70
-  - answers: A and C
-  - answers: antioxidants, vitamins, and minerals
-  - answers: boost heart health, support immune function, and have anti-inflammatory
-      properties
-  - answers: A and C
-  - answers: Skin health and providing antioxidants
-  - answers: digestion and overall well-being
-  - answers: fiber, vitamins and antioxidants
-  - answers: digestive health, boost the immune system, and contribute to heart health
+  - answers: Vitamin A
+  - answers: boost heart health
+  - answers: Vitamin A
+  - answers: Skin health
+  - answers: digestion
+  - answers: Vitamins
+  - answers: digestive health
   - answers: 300
   - answers: 15
   - answers: 15
   - answers: 1
   - answers: 22
   - answers: 5
-  - answers: Vitamin C and other antioxidants
+  - answers: Vitamin C
   - answers: Wheat Flour
   - answers: September
-  - answers: A and C
+  - answers: Vitamin A
   - answers: 26
-  - answers: Vitamin A and Potassium
+  - answers: Vitamin A
   dialog: {fileID: 939190256}
   TxtErro: {fileID: 1537073297}
   inputField: {fileID: 1076568230}
