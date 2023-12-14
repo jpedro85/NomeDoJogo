@@ -4961,6 +4961,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: AcellerometroConteiner
       objectReference: {fileID: 0}
+    - target: {fileID: 4279964596590389500, guid: bc15b79d2a19bd7408f100de051192f5,
+        type: 3}
+      propertyPath: minAcceleration
+      value: 0.14
+      objectReference: {fileID: 0}
     - target: {fileID: 4942983685307467067, guid: bc15b79d2a19bd7408f100de051192f5,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -41593,10 +41598,10 @@ MonoBehaviour:
   convertionTimeCounter: 25
   dizzinessLevel: 30
   faintStart: 40
-  standUpMov: 0.2
-  standUpRunningMov: 0.4
-  crouchingMov: 0.12
-  crawlingMov: 0.1
+  standUpMov: 0.35
+  standUpRunningMov: 0.6
+  crouchingMov: 0.2
+  crawlingMov: 0.15
   jumping: 0.1
   updateIntervale: 0
   responPoints:

@@ -72,7 +72,7 @@ namespace CharacterManagername
         private void convertion()
         {
             GpsLocation gpsLocation = GpsLocation.instance;
-            playUI.teste.text = gpsLocation.totalDistance.ToString();
+            playUI.teste.text = gpsLocation.totalDistance.ToString("F2");
 
             if (playUI.AtualEneergy < 100 && gpsLocation.totalDistance > (convertionAddEnergy * convertionFactor) && convertionTimeCounter >= convertionTimeInterval)
             {

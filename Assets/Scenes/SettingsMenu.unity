@@ -1819,6 +1819,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: AcellerometroConteiner
       objectReference: {fileID: 0}
+    - target: {fileID: 4279964596590389500, guid: bc15b79d2a19bd7408f100de051192f5,
+        type: 3}
+      propertyPath: minAcceleration
+      value: 0.15
+      objectReference: {fileID: 0}
     - target: {fileID: 4942983685307467067, guid: bc15b79d2a19bd7408f100de051192f5,
         type: 3}
       propertyPath: m_LocalPosition.x
