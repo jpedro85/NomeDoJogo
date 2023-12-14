@@ -44,6 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f785dce0fb9bcea4c8493d8debd5a4ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pseudDistance: {fileID: 0}
+  totalDistance: 0
   minAcceleration: 0.4
-  maxAcceleration: 2
+  maxAcceleration: 3
+  IntervaloDeRecolha: 0.05

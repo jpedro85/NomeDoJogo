@@ -17,7 +17,7 @@ namespace GPSLocation.Scripts
                 instance = this;
             }
             else
-                DontDestroyOnLoad(this.gameObject);
+                Destroy(this.gameObject);
         }
 
        // public TMP_Text pseudDistance;
@@ -45,7 +45,6 @@ namespace GPSLocation.Scripts
             dir.z = Input.acceleration.x;
 
             Debug.LogWarning("dirX:" + dir.x + "dirY:" + dir.y);
-
             
             if (dir.sqrMagnitude > 1)
                 dir.Normalize();
