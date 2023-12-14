@@ -7,6 +7,9 @@ using UnityEngine.UI;
 
 public class PlayUI : MonoBehaviour, IDataPersistence
 {
+
+    public TextMeshProUGUI teste;
+
     public InventoryUI iventoryUi;
     //bar health
     public RectTransform Bk_Bar_Health;
@@ -185,10 +188,10 @@ public class PlayUI : MonoBehaviour, IDataPersistence
     public void ClickButtonHint()
     {
 
-        if (Hints > 0 && !mcamera.isPista)
+        if (Hints > 0 && !mcamera.getIsPista)
         {
             Hint.image.sprite = HintOn;
-            mcamera.pista(Hint, HintOff);
+            mcamera.setActiveIsPista(Hint, HintOff);
             Hints--;
             NumeroDePistas.text = Hints.ToString();
         }
@@ -364,6 +367,8 @@ public class PlayUI : MonoBehaviour, IDataPersistence
 
     public void loadData(GameData gameData)
     {
+        Hints = gameData.numeroPistas;
+        NumeroDePistas.text = Hints.ToString();
 
         this.Health = gameData.playerHealth;
         this.HealthCharging = this.Health;  
@@ -375,7 +380,10 @@ public class PlayUI : MonoBehaviour, IDataPersistence
         float deltaEnergy = (gameData.playerEnergyToRegen > this.Energy) ? gameData.playerEnergyToRegen - this.Energy : 0;
 
         resizaBar(Bk_Bar_Health_Atual, Health, Bar_Health_maxLenght);
+        resizaBar(Bk_Bar_Health_Change, HealthCharging, Bar_Health_maxLenght);
+
         resizaBar(Bk_Bar_Energy_Atual, Energy, Bar_Energy_maxLenght);
+        resizaBar(Bk_Bar_Energy_Change, EnergyCharging, Bar_Energy_maxLenght);
 
         if (deltaHealth > 0)
             addDeltaHealth(deltaHealth);
@@ -389,6 +397,7 @@ public class PlayUI : MonoBehaviour, IDataPersistence
         
         gameData.playerHealth = this.Health;
         gameData.playerHealthToRegen = this.HealthCharging;
+        gameData.numeroPistas = Hints;
 
         gameData.playerEnergy = this.Energy;
         gameData.playerEnergyToRegen = this.EnergyCharging;

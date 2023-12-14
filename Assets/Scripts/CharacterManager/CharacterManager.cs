@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using Scripts.Item;
 using System.Collections.Generic;
+using GPSLocation.Scripts;
 
 namespace CharacterManagername
 {
@@ -10,12 +11,22 @@ namespace CharacterManagername
 
         private PlayerMovement playerMovement;
         private PlayUI playUI;
+
         private CameraMovement cameraMovement;
         private Animator animator;
         private GameObject player;
         private GameObject camera;
         private Inventory.Inventory inventory;
         private questionsUI questionUi;
+
+        public float convertionFactor = 1;
+        public float convertionAddEnergy = 5;
+        public float convertionTimeInterval = 25;
+        public float convertionTimeCounter = 25;
+
+        private GpsLocation gpsLocation;
+        private CharacterManager characterManager;
+
 
         public float dizzinessLevel = 30;
         public float faintStart = 25;
@@ -59,6 +70,22 @@ namespace CharacterManagername
             questionUi.answer += afterQuestionResult;
             questionUi.backEvent += afterBack;
 
+            gpsLocation = GpsLocation.instance;
+        }
+        private void convertion()
+        {
+            playUI.teste.text = gpsLocation.totalDistance.ToString();
+
+            if (playUI.AtualEneergy < 100 && gpsLocation.totalDistance > (convertionAddEnergy * convertionFactor) && convertionTimeCounter >= convertionTimeInterval)
+            {
+                playUI.addDeltaEnergy(convertionAddEnergy);
+                gpsLocation.totalDistance -= convertionAddEnergy * convertionFactor;
+                convertionTimeCounter = 0;
+            }
+            else
+            {
+                convertionTimeCounter += Time.deltaTime;
+            }
         }
 
         public void Update()
@@ -72,6 +99,7 @@ namespace CharacterManagername
             faintEfect();
             dizzinnesEfect();
             EnergyChange();
+            convertion();
         }
         private void turveVisionEfect()
         {
@@ -93,14 +121,8 @@ namespace CharacterManagername
 
                 if (walking && !crouching)
                 {
-                    playUI.addDeltaEnergy(-standUpMov*Time.deltaTime);
-
+                    playUI.addDeltaEnergy(-standUpMov * Time.deltaTime);
                 }
-                else if (running )
-                {
-                    playUI.addDeltaEnergy(-standUpRunningMov * Time.deltaTime);
-                }
-                
                 if (crouching && !crawling )
                 {
                     playUI.addDeltaEnergy(-crouchingMov * Time.deltaTime);
@@ -108,6 +130,10 @@ namespace CharacterManagername
                 else if(crawling)
                 {
                     playUI.addDeltaEnergy(-crawlingMov * Time.deltaTime);
+                }
+                else if (running)
+                {
+                    playUI.addDeltaEnergy(-standUpRunningMov * Time.deltaTime);
                 }
 
             }
@@ -210,8 +236,8 @@ namespace CharacterManagername
             player.transform.position = responPoints[Random.Range(0, responPoints.Length-1)] ;
             player.transform.forward = Vector3.back;
 
-            camera.transform.position = (player.transform.position - Vector3.back * cameraMovement.minDistanceX) + (Vector3.up * (cameraMovement.minDistanceY+cameraMovement.offsetY) );
-            camera.transform.forward = (player.transform.position + Vector3.up * cameraMovement.offsetY) - camera.transform.position;
+            camera.transform.position = (player.transform.position - Vector3.back * cameraMovement.FollowNoMovementDistance) + (Vector3.up * (cameraMovement.LookAtOffsetY) );
+            camera.transform.forward = (player.transform.position + Vector3.up * cameraMovement.LookAtOffsetY) - camera.transform.position;
 
         }
 
