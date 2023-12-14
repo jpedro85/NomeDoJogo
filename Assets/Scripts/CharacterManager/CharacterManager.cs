@@ -121,14 +121,8 @@ namespace CharacterManagername
 
                 if (walking && !crouching)
                 {
-                    playUI.addDeltaEnergy(-standUpMov*Time.deltaTime);
-
+                    playUI.addDeltaEnergy(-standUpMov * Time.deltaTime);
                 }
-                else if (running )
-                {
-                    playUI.addDeltaEnergy(-standUpRunningMov * Time.deltaTime);
-                }
-                
                 if (crouching && !crawling )
                 {
                     playUI.addDeltaEnergy(-crouchingMov * Time.deltaTime);
@@ -136,6 +130,10 @@ namespace CharacterManagername
                 else if(crawling)
                 {
                     playUI.addDeltaEnergy(-crawlingMov * Time.deltaTime);
+                }
+                else if (running)
+                {
+                    playUI.addDeltaEnergy(-standUpRunningMov * Time.deltaTime);
                 }
 
             }

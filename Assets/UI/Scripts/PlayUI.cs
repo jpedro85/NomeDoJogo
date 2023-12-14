@@ -380,7 +380,10 @@ public class PlayUI : MonoBehaviour, IDataPersistence
         float deltaEnergy = (gameData.playerEnergyToRegen > this.Energy) ? gameData.playerEnergyToRegen - this.Energy : 0;
 
         resizaBar(Bk_Bar_Health_Atual, Health, Bar_Health_maxLenght);
+        resizaBar(Bk_Bar_Health_Change, HealthCharging, Bar_Health_maxLenght);
+
         resizaBar(Bk_Bar_Energy_Atual, Energy, Bar_Energy_maxLenght);
+        resizaBar(Bk_Bar_Energy_Change, EnergyCharging, Bar_Energy_maxLenght);
 
         if (deltaHealth > 0)
             addDeltaHealth(deltaHealth);

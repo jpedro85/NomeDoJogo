@@ -30,6 +30,7 @@ namespace DataPersistence.Data
         #region Accelerometro
 
         public double totalDistance;
+        public double TimePlayed;
 
         #endregion
 
@@ -67,12 +68,14 @@ namespace DataPersistence.Data
 
             this.numeroPistas = 10;
 
+            this.TimePlayed = 0;
+
 
         }
 
         public GameData(int stepsTaken, int deathCount, double playerCoins, float playerHealth,
             float playerHealthToRegen, float playerEnergy, float playerEnergyToRegen,
-            float[] currentPlayerPositionOnLvl, float[] currentCameraPositionOnLvl, InventoryData playerInventory, bool isMuted , double totalDistance, int numeroPistas)
+            float[] currentPlayerPositionOnLvl, float[] currentCameraPositionOnLvl, InventoryData playerInventory, bool isMuted , double totalDistance, int numeroPistas ,double TimePlayed)
         {
             this.stepsTaken = stepsTaken;
             this.deathCount = deathCount;
@@ -94,6 +97,8 @@ namespace DataPersistence.Data
             this.totalDistance = totalDistance;
 
             this.numeroPistas = numeroPistas;
+
+            this.TimePlayed = TimePlayed;
         }
     }
 }

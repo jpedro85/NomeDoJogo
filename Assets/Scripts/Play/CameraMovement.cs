@@ -82,7 +82,7 @@ public class CameraMovement : MonoBehaviour, IDataPersistence
     {
         if (!isPista)
         {
-            if (analogic.direction == Vector2.zero || playerMov.isDizziness)
+            if (( playerMov.isDizziness && analogic.direction == Vector2.zero ) || analogic.direction == Vector2.zero )
             {
                 zoomOut(FollowNoMovementDistance, FollowNoMovementDistance_Speed);
             }

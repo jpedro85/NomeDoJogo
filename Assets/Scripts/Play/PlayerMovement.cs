@@ -174,85 +174,46 @@ public class PlayerMovement : MonoBehaviour , IDataPersistence
         setSpeed();
         //Debug.LogWarning("Spedd:" + atualSpeed);
 
-        if (!coliding && characterManager.canMov)
+        if (isJumping) 
         {
-            if (isJumping)
-            {
-                playerColiderBoxColider.enabled = false;
+            playerColiderBoxColider.enabled = false;
                 
 
-                float dist = Vector3.Distance(jumpingStart, transform.position);
+            float dist = Vector3.Distance(jumpingStart, transform.position);
 
-                if (dist < jumpDistance)
+            if (dist < jumpDistance && !coliding)
+            {
+
+                if (dist < (jumpDistance /2) )
                 {
-
-                    if (dist < (jumpDistance /2) )
-                    {
-                        //playerColiderCapsule.center = new Vector3(0, playerColiderCapsule.center.y + jumpingUpSpeed * Time.deltaTime, 0);
-                        float sp = atualSpeed * analogic.speed;
-                        transform.position = transform.position + transform.forward * ((sp) + (jumpingSpeed - sp)) * Time.deltaTime;
-                        transform.position = transform.position + Vector3.up * +jumpingUpSpeed * Time.deltaTime;
+                    //playerColiderCapsule.center = new Vector3(0, playerColiderCapsule.center.y + jumpingUpSpeed * Time.deltaTime, 0);
+                    float sp = atualSpeed * analogic.speed;
+                    transform.position = transform.position + transform.forward * ((sp) + (jumpingSpeed - sp)) * Time.deltaTime;
+                    transform.position = transform.position + Vector3.up * +jumpingUpSpeed * Time.deltaTime;
                         
-                    }                  
-                    else
-                    {
-                        playerColiderCapsule.height = playerColiderCapsule.height * 2;
-                        float sp = atualSpeed * analogic.speed;
-                        transform.position = transform.position + transform.forward * ((sp) + (jumpingSpeed - sp)) * Time.deltaTime;
-
-                        jumpTimer += Time.deltaTime;
-                    }
-
-                    playerColiderCapsule.height = ( dist < (jumpDistance / 6) *5 ) ? 1.2f : 2.005737f;
-                    playerColiderCapsule.center = (dist < (jumpDistance / 6) * 5) ? new Vector3(playerColiderCapsule.center.x ,1.5f, playerColiderCapsule.center.z) : new Vector3(playerColiderCapsule.center.x, 1, playerColiderCapsule.center.z);
-
-                    //if (jumpTimer > 0 && Vector3.Distance(jumpingStart, transform.position) == 0)
-                    //{
-                    //    animator.SetBool("isJumping", false);
-                    //    playerColiderBoxColider.enabled = true;
-                    //    //playerColiderCapsule.center = new Vector3(0, 1, 0);
-                    //    isJumping = false;
-                    //    jumpTimer = 0;
-                    //}
-                }
-                else
+                }                  
+                else 
                 {
-                    isJumping = false;
-                    animator.SetBool("isJumping", false);
-                    playerColiderBoxColider.enabled = true;
+                    playerColiderCapsule.height = playerColiderCapsule.height * 2;
+                    float sp = atualSpeed * analogic.speed;
+                    transform.position = transform.position + transform.forward * ((sp) + (jumpingSpeed - sp)) * Time.deltaTime;
+
+                    jumpTimer += Time.deltaTime;
                 }
-                //else
-                //{
-                //    //if (jumpTimer >= jumpingUpSpeedWaitTime)
-                //    //{
-                //    //    //playerColiderCapsule.center = new Vector3(0, 1, 0);
-                //    //    isJumping = false;
-                //    //    animator.SetBool("isJumping", false);
-                //    //    playerColiderBoxColider.enabled = true;
-                //    //    jumpTimer = 0;
-                //    //}
-                //    //else
-                //    //{
-                //    //    jumpTimer += Time.deltaTime;
-                //    //}
-                //}
+
+                playerColiderCapsule.height = ( dist < (jumpDistance / 6) *5 ) ? 1.2f : 2.005737f;
+                playerColiderCapsule.center = (dist < (jumpDistance / 6) * 5) ? new Vector3(playerColiderCapsule.center.x ,1.5f, playerColiderCapsule.center.z) : new Vector3(playerColiderCapsule.center.x, 1, playerColiderCapsule.center.z);
+
             }
             else
             {
-                if (isDizziness && (analogic.direction == Vector2.zero)) {
-                    animator.SetBool("isMoving", true);
-                    animator.SetBool("isWalking", true);
-                    animator.SetBool("isRunning", false);
-                    transform.position = transform.position + (transform.forward * Time.deltaTime * atualSpeed * 0.25f);
-                }
-                else
-                {
-                    transform.position = transform.position +
-                                         (transform.forward * Time.deltaTime * atualSpeed * analogic.speed);
-                }
+                isJumping = false;
+                animator.SetBool("isJumping", false);
+                playerColiderBoxColider.enabled = true;
             }
-
-        }else if (isJumping)
+            
+        }
+        else
         {
             if (!characterManager.canMov)
             {
@@ -261,7 +222,25 @@ public class PlayerMovement : MonoBehaviour , IDataPersistence
                 animator.SetBool("isRunning", false);
             }
             animator.SetBool("isJumping", false);
+
+            if (characterManager.canMov && !coliding)
+            {
+                if (isDizziness && (analogic.direction == Vector2.zero))
+                {
+                    animator.SetBool("isMoving", true);
+                    animator.SetBool("isWalking", true);
+                    animator.SetBool("isRunning", false);
+                    transform.position = transform.position + (transform.forward * Time.deltaTime * atualSpeed * 0.25f);
+                }
+                else
+                {
+                    transform.position = transform.position +
+                                            (transform.forward * Time.deltaTime * atualSpeed * analogic.speed);
+                }
+            }
         }
+
+
     }
 
     public void setCrouched(bool Crouching)

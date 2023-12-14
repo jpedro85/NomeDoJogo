@@ -27,6 +27,7 @@ namespace GPSLocation.Scripts
         public float maxAcceleration = 5;
         public float IntervaloDeRecolha = 1;
         private float IntervaloDeRecolhaCounter = 0;
+        private double TimePlayed = 0;
         Vector3 lastPosition;
 
         void Start()
@@ -35,23 +36,28 @@ namespace GPSLocation.Scripts
         }
 
         void Update () {
+
+            TimePlayed += Time.deltaTime;
+
             Vector3 dir = Vector3.zero;
             
             dir.x = -Input.acceleration.y;
             dir.z = Input.acceleration.x;
+
+            Debug.LogWarning("dirX:" + dir.x + "dirY:" + dir.y);
 
             
             if (dir.sqrMagnitude > 1)
                 dir.Normalize();
 
             // Make it move 10 meters per second instead of 10 meters per frame...
-           // dir *= Time.deltaTime;
-            
+            dir *= Time.deltaTime;
             transform.Translate (dir * (float)speed);
          
             var distanceTravelled = Vector3.Distance(transform.position, lastPosition);
             //var distanceTravelledTimed = distanceTravelled * Time.deltaTime;
-          //  Debug.LogWarning("Dist "+ distanceTravelled);
+
+            Debug.LogWarning("Dist "+ distanceTravelled);
             if (distanceTravelled > minAcceleration && distanceTravelled < maxAcceleration && IntervaloDeRecolhaCounter >= IntervaloDeRecolha) // Change as needed
             {
                 Debug.LogWarning("DistAdded: " + distanceTravelled);
@@ -73,11 +79,13 @@ namespace GPSLocation.Scripts
         public void loadData(GameData gameData)
         {
             this.totalDistance = gameData.totalDistance;
+            this.TimePlayed = gameData.TimePlayed;
         }
 
         public void saveData(GameData gameData)
         {
             gameData.totalDistance = totalDistance;
+            gameData.TimePlayed = TimePlayed;
         }
 
     }
