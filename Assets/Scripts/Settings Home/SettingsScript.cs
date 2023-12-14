@@ -15,9 +15,9 @@ public class SettingsScript : MonoBehaviour
 
         foreach (GameObject obj_transform in GameObjectToResize)
         {
-            RectTransform rectTransform = gameObject.GetComponent<RectTransform>();
-           // rectTransform.localScale = Vector2.one;
-            Debug.LogWarning(width + "::" + heigth );
+            RectTransform rectTransform = obj_transform.GetComponent<RectTransform>();
+            rectTransform.localScale = Vector2.one;
+            rectTransform.position = Vector2.zero;
             rectTransform.sizeDelta = new Vector2(width, heigth);
         }
 

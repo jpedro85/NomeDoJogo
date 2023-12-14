@@ -1042,9 +1042,9 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 400, y: -865.64}
+  m_AnchoredPosition: {x: 0.000061035156, y: -1731.29}
   m_SizeDelta: {x: 800, y: 1731.3}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_Pivot: {x: 0, y: 0}
 --- !u!114 &765173667
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1806,6 +1806,74 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!1001 &1620034372
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1271693376784424912, guid: bc15b79d2a19bd7408f100de051192f5,
+        type: 3}
+      propertyPath: m_Name
+      value: AcellerometroConteiner
+      objectReference: {fileID: 0}
+    - target: {fileID: 4942983685307467067, guid: bc15b79d2a19bd7408f100de051192f5,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -96.41935
+      objectReference: {fileID: 0}
+    - target: {fileID: 4942983685307467067, guid: bc15b79d2a19bd7408f100de051192f5,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1615.2594
+      objectReference: {fileID: 0}
+    - target: {fileID: 4942983685307467067, guid: bc15b79d2a19bd7408f100de051192f5,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 518.3883
+      objectReference: {fileID: 0}
+    - target: {fileID: 4942983685307467067, guid: bc15b79d2a19bd7408f100de051192f5,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4942983685307467067, guid: bc15b79d2a19bd7408f100de051192f5,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4942983685307467067, guid: bc15b79d2a19bd7408f100de051192f5,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4942983685307467067, guid: bc15b79d2a19bd7408f100de051192f5,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4942983685307467067, guid: bc15b79d2a19bd7408f100de051192f5,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4942983685307467067, guid: bc15b79d2a19bd7408f100de051192f5,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4942983685307467067, guid: bc15b79d2a19bd7408f100de051192f5,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: bc15b79d2a19bd7408f100de051192f5, type: 3}
 --- !u!1 &1809172560
 GameObject:
   m_ObjectHideFlags: 0
@@ -2166,3 +2234,4 @@ SceneRoots:
   - {fileID: 1809172563}
   - {fileID: 738346328}
   - {fileID: 1160636492}
+  - {fileID: 1620034372}

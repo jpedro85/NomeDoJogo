@@ -24,7 +24,6 @@ namespace CharacterManagername
         public float convertionTimeInterval = 25;
         public float convertionTimeCounter = 25;
 
-        private GpsLocation gpsLocation;
         private CharacterManager characterManager;
 
 
@@ -69,11 +68,10 @@ namespace CharacterManagername
             questionUi = GameObject.FindWithTag("questionManager").GetComponent<questionsUI>();
             questionUi.answer += afterQuestionResult;
             questionUi.backEvent += afterBack;
-
-            gpsLocation = GpsLocation.instance;
         }
         private void convertion()
         {
+            GpsLocation gpsLocation = GpsLocation.instance;
             playUI.teste.text = gpsLocation.totalDistance.ToString();
 
             if (playUI.AtualEneergy < 100 && gpsLocation.totalDistance > (convertionAddEnergy * convertionFactor) && convertionTimeCounter >= convertionTimeInterval)
