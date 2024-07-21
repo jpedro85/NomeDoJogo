@@ -11,9 +11,13 @@
 6. [Controls](#controls)
 7. [Persuasion Methods](#persuasion-methods)
 
+## What made us make this Game
+
+This game was developed as part of a project for the course on Persuasive Computation. The primary objective of this project was to design and create a game that leverages persuasive techniques to enhance a player's wellbeing.
+
 # Game Concept: Healthy Lifestyle 3D Mobile Game
 
-## Introduction
+## Introduction 
 
 The initial scope of the game is to improve the player's lifestyle, making it healthier. The game will be developed as a 3D mobile game using the Unity platform. The target audience includes young people, young adults, and adults under 60 years old. A mobile device is required to play.
 
